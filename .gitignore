@@ -1,0 +1,34 @@
+# Agent and local assistant context
+.claude/
+.codex/
+AGENTS.md
+PROJECT_CONTEXT.md
+ITERATION_LOG.md
+WORK_LOG.md
+EXPERIMENT_LOG.md
+
+# Local debug and experiment scratch files
+debug/
+_debug_*
+_analyze_failures.py
+
+# Generated evaluation outputs
+evaluation_results*.csv
+
+# Generated/local explanation pages
+*.html
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# IDE and OS metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
