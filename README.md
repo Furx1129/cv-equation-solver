@@ -100,6 +100,13 @@ python run.py data\samples\handwritten_basic\handwritten_3_001.png --recognizer 
 python run.py data\samples\calculus\calculus_001.png --recognizer calculus --backend symbolic
 ```
 
+注意：`run.py` 当前提供的命令行识别器选项是 `printed`、`handwritten`、`calculus` 和 `auto`。`printed_2d_layout` 的二维结构识别模块已经实现，但没有作为 `run.py --recognizer` 的独立选项暴露；单张二维结构图片建议通过 `auto` 路由运行，或通过评估脚本的 `--category printed_2d_layout` 批量验证。
+
+```powershell
+python run.py data\samples\printed_2d_layout\printed_2d_001.png --recognizer auto
+python tools\evaluate_samples.py --category printed_2d_layout --output evaluation_results_2d.csv
+```
+
 当前分类识别覆盖：
 
 - `printed_basic`：印刷体基础四则运算。
@@ -167,6 +174,14 @@ python tools\evaluate_samples.py --category printed_basic --augment-morphology -
 
 测试目录 `tests/` 覆盖了预处理、分割、模板匹配、二维结构、微积分结构、表达式序列化、求解器和 auto router 等模块。
 
+当前已验证结果：
+
+```text
+python -m unittest discover -s tests
+Ran 57 tests
+OK (skipped=1)
+```
+
 ## 待完善功能：无分类算式/算子识别
 
 项目当前已有 `auto` 路由流程：
@@ -223,6 +238,7 @@ python tools\evaluate_samples.py --category auto --output evaluation_results_aut
 numpy>=1.20.0
 opencv-python>=4.5.0
 sympy>=1.10
+Pillow>=9.0.0
 ```
 
 安装方式：
@@ -230,6 +246,8 @@ sympy>=1.10
 ```powershell
 pip install -r requirements.txt
 ```
+
+其中 `Pillow` 主要用于 `tools/generate_printed_templates.py` 生成印刷体模板图片；核心识别流程主要依赖 OpenCV、NumPy 和 SymPy。
 
 ## 常用命令
 
@@ -269,4 +287,3 @@ python -m unittest discover -s tests
 - 允许使用 OpenCV、NumPy 等传统图像处理工具。
 - 允许在表达式已经识别出来之后，使用本地符号计算库或后续 API 做计算，但需要明确区分“识别”和“计算”的职责。
 - 课程展示重点应放在图片到表达式的转换过程，包括预处理、分割、模板匹配、结构分析和规则判断。
-
