@@ -19,6 +19,7 @@
 - [架构说明](docs/architecture.md)
 - [数据集说明](docs/data.md)
 - [评估与测试](docs/evaluation.md)
+- [未来路线](docs/roadmap.md)
 - [Auto Router 改进设计](docs/superpowers/specs/2026-06-01-auto-router-improvements-design.md)
 
 ## 安装
