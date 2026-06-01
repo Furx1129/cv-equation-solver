@@ -80,34 +80,84 @@ def recognize_unknown(
     candidates.append(primary)
     run_categories.add(primary.category)
 
-    if _candidate_needs_fallback(primary):
+    narrow_margin = analysis.route_confidence <= 0.7
+
+    if narrow_margin and not disable_fallbacks and len(analysis.fallback_categories) >= 1:
+        second_category = analysis.fallback_categories[0]
+        secondary = _run_candidate(
+            category=second_category,
+            image_path=image_path,
+            debug_dir=_candidate_debug_dir(debug_dir, second_category),
+            features=analysis.features,
+            solver_timeout_ms=solver_timeout_ms,
+            disable_fallbacks=disable_fallbacks,
+            role="cross_validation",
+        )
+        candidates.append(secondary)
+        run_categories.add(secondary.category)
+
+        if secondary.result is not None and primary.result is not None:
+            xv = _cross_validate(primary, secondary)
+            primary_xv = RecognitionCandidate(
+                category=primary.category, result=primary.result,
+                score=primary.score + xv,
+                score_breakdown={**primary.score_breakdown, "cross_validate": xv},
+                reject_stage=primary.reject_stage, reject_detail=primary.reject_detail,
+                solver_answer=primary.solver_answer, solver_error=primary.solver_error,
+                role="primary",
+            )
+            secondary_xv = RecognitionCandidate(
+                category=secondary.category, result=secondary.result,
+                score=secondary.score + xv,
+                score_breakdown={**secondary.score_breakdown, "cross_validate": xv},
+                reject_stage=secondary.reject_stage, reject_detail=secondary.reject_detail,
+                solver_answer=secondary.solver_answer, solver_error=secondary.solver_error,
+                role="cross_validation",
+            )
+            candidates = [primary_xv, secondary_xv]
+            run_categories = {primary.category, secondary.category}
+
+            both_low = primary_xv.score < 0.0 and secondary_xv.score < 0.0
+            if both_low:
+                for fallback in analysis.fallback_categories[1:]:
+                    if fallback not in run_categories:
+                        fb = _run_candidate(
+                            category=fallback, image_path=image_path,
+                            debug_dir=_candidate_debug_dir(debug_dir, fallback),
+                            features=analysis.features, solver_timeout_ms=solver_timeout_ms,
+                            disable_fallbacks=disable_fallbacks, role="fallback",
+                        )
+                        candidates.append(fb)
+                        run_categories.add(fb.category)
+                        if fb.result is not None and fb.score >= 0.0:
+                            break
+        else:
+            for fallback in analysis.fallback_categories[1:]:
+                if fallback not in run_categories:
+                    fb = _run_candidate(
+                        category=fallback, image_path=image_path,
+                        debug_dir=_candidate_debug_dir(debug_dir, fallback),
+                        features=analysis.features, solver_timeout_ms=solver_timeout_ms,
+                        disable_fallbacks=disable_fallbacks, role="fallback",
+                    )
+                    candidates.append(fb)
+                    run_categories.add(fb.category)
+                    if fb.result is not None and fb.score >= 0.0:
+                        break
+    elif _candidate_needs_fallback(primary):
         for fallback in analysis.fallback_categories:
+            if fallback in run_categories:
+                continue
             fallback_candidate = _run_candidate(
-                category=fallback,
-                image_path=image_path,
+                category=fallback, image_path=image_path,
                 debug_dir=_candidate_debug_dir(debug_dir, fallback),
-                features=analysis.features,
-                solver_timeout_ms=solver_timeout_ms,
-                disable_fallbacks=disable_fallbacks,
-                role="fallback",
+                features=analysis.features, solver_timeout_ms=solver_timeout_ms,
+                disable_fallbacks=disable_fallbacks, role="fallback",
             )
             candidates.append(fallback_candidate)
             run_categories.add(fallback_candidate.category)
             if not _candidate_needs_fallback(fallback_candidate):
                 break
-    else:
-        for fallback in analysis.fallback_categories:
-            if fallback not in run_categories:
-                candidates.append(
-                    RecognitionCandidate(
-                        category=fallback,
-                        result=None,
-                        score=-999.0,
-                        reject_stage="fallback_not_needed",
-                        reject_detail=f"primary route {analysis.route_hint} passed validation",
-                        role="fallback",
-                    )
-                )
 
     for category in AUTO_CATEGORIES:
         if category not in {candidate.category for candidate in candidates}:
@@ -461,6 +511,30 @@ def _has_unary_minus(text: str) -> bool:
 def _looks_like_numeric_script_artifact(text: str) -> bool:
     compact = text.replace(" ", "")
     return bool(re.search(r"\d_|_\.", compact))
+
+
+def _cross_validate(
+    primary: RecognitionCandidate,
+    secondary: RecognitionCandidate,
+) -> float:
+    agree = 0.0
+    pr = primary.result
+    sr = secondary.result
+    if pr is None or sr is None:
+        return agree
+    p_set = {t.text for t in pr.tokens if t.text != "UNKNOWN"}
+    s_set = {t.text for t in sr.tokens if t.text != "UNKNOWN"}
+    if p_set and s_set:
+        agree += (len(p_set & s_set) / len(p_set | s_set)) * 0.20
+    if pr.layout is not None and sr.layout is not None:
+        if pr.layout.node_type == sr.layout.node_type:
+            agree += 0.05
+    if primary.solver_answer and secondary.solver_answer:
+        if primary.solver_answer == secondary.solver_answer:
+            agree += 0.20
+        else:
+            agree -= 0.50
+    return agree
 
 
 def _router_reason(selected: RecognitionCandidate, analysis: FormulaStructureAnalysis) -> str:

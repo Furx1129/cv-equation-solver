@@ -119,16 +119,24 @@ def _detect_function_call(tokens: list[SymbolToken]) -> LayoutNode | None:
 
 def _classify_function_prefix(prefix: str) -> str | None:
     compact = prefix.replace("UNKNOWN", "?")
-    if compact in {"sin", "3/x", "5/x", "5(1", "51x", "5ix"}:
+    if compact.startswith("5") and any(char in compact for char in {"/", ".", "1", "i"}):
         return "sin"
-    if compact in {"cos", "c05", "c0s"}:
+    if compact in {"sin", "3/x", "5/x", "5(1", "51x", "5ix", "5/n", "s1n", "sln", "51n"}:
+        return "sin"
+    if compact in {"cos", "c05", "c0s", "co5", "c0S"}:
         return "cos"
-    if compact in {"tan", "7an"}:
+    if compact in {"tan", "7an", "t4n", "t@n", "t4N"}:
         return "tan"
-    if compact in {"exp", "6x2", "ex2", "64d"}:
+    if compact in {"exp", "6x2", "ex2", "64d", "e*p", "3xp"}:
         return "exp"
-    if compact in {"ln", "1n"}:
+    if compact in {"ln", "1n", "1N", "lN", "lR"}:
         return "log"
+    if compact in {"arcsin", "arc5in", "arc51n"}:
+        return "arcsin"
+    if compact in {"arccos", "arccos", "arcco5", "arcc05"}:
+        return "arccos"
+    if compact in {"arctan", "arct4n", "arct@n"}:
+        return "arctan"
     return None
 
 

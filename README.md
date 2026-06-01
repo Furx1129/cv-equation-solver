@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 分类算式识别 | 已完成主要功能 | 对已知类别分别调用对应识别流程，当前覆盖印刷体四则运算、负数/小数、二维结构、基础手写符号、微积分样例。 |
 | 数据和标签制作 | 已完成主要功能 | 已制作 `data/samples/` 下多类样例图片，并在 `data/labels/` 下提供同名 `.txt` 标签。 |
-| 无分类算式/算子识别 | 待完善 | 已有 `auto` 路由原型，但仍依赖结构先验和 fallback 规则，当前更适合作为实验版本，后续需要继续修改和增强泛化能力。 |
+| 无分类算式/算子识别 | 已完成主要改进 (2026-06-01) | Auto router 已从硬阈值规则链重构为 4 层打分+交叉验证架构，整体 auto 准确率 94.9%。详见下方"Auto Router 改进"章节。 |
 | UI 界面 | 未完成 | 项目目前没有正式 UI 模块。 |
 | UI 接入计算 API 或其他计算方法 | 未完成 | 命令行已能调用本地算术/符号计算后端，但尚未做 UI 层接入，也没有接入外部计算 API。 |
 
@@ -26,6 +26,12 @@ Project/
 ├── evaluation_results*.csv
 ├── 讲解.html
 ├── 解释.html
+├── docs/
+│   └── superpowers/
+│       ├── specs/
+│       │   └── 2026-06-01-auto-router-improvements-design.md
+│       └── plans/
+│           └── 2026-06-01-auto-router-improvements-plan.md
 ├── data/
 │   ├── samples/
 │   │   ├── printed_basic/
@@ -81,8 +87,11 @@ Project/
 │   ├── test_auto_router.py
 │   ├── test_calculus_layout.py
 │   ├── test_calculus_rules.py
+│   ├── test_cross_validation.py
+│   ├── test_disambiguation_layers.py
 │   ├── test_handwritten_leave_one_out.py
 │   ├── test_structure_2d.py
+│   ├── test_structure_router_scoring.py
 │   └── ...
 └── debug/
     └── ...
@@ -171,47 +180,75 @@ python tools\evaluate_samples.py --category printed_basic --augment-morphology -
 - `--disable-fallbacks`：关闭部分 fallback，用于消融对比。
 - `--augment-morphology`：生成腐蚀/膨胀版本，测试形态学扰动鲁棒性。
 - `--solver-timeout-ms`：控制求解后端超时时间。
+- `--confusion-matrix`：输出每类别的路由去向混淆矩阵（stdout + CSV）。
 
-测试目录 `tests/` 覆盖了预处理、分割、模板匹配、二维结构、微积分结构、表达式序列化、求解器和 auto router 等模块。
+测试目录 `tests/` 覆盖了预处理、分割、模板匹配、二维结构、微积分结构、表达式序列化、求解器、auto router、交叉验证和符号消歧等模块。
 
 当前已验证结果：
 
 ```text
 python -m unittest discover -s tests
-Ran 57 tests
+Ran 76 tests
 OK (skipped=1)
 ```
 
-## 待完善功能：无分类算式/算子识别
+## Auto Router 改进 (2026-06-01)
 
-项目当前已有 `auto` 路由流程：
+Auto router 已从硬阈值 if-else 规则链重构为 **4 层流水线架构**。设计文档见 `docs/superpowers/specs/2026-06-01-auto-router-improvements-design.md`。
 
-```powershell
-python run.py data\samples\test\1.jpg --recognizer auto
-python tools\evaluate_samples.py --category auto --output evaluation_results_auto.csv
-```
+### Layer 1：增强特征提取 (`src/vision/structure_router.py`)
 
-它会先分析图像结构特征，再选择可能的识别路线。当前使用的判断信息包括：
+`ImageStructureFeatures` 从原来的 10 个字段扩展到 16 个字段，新增：
 
-- 宽高比和前景填充率。
-- 连通域数量。
-- 长水平线、分数线和上下堆叠结构。
-- 左侧高组件，用于辅助判断积分、极限等结构。
-- 笔画粗糙度和低填充率，用于辅助区分手写输入。
+| 新特征 | 用途 |
+|---|---|
+| `vertical_symmetry` | 上下半部分前景对称性（印刷体对称，手写不对称） |
+| `component_height_variance` | 各连通分量高度的变异系数（手写高低不一） |
+| `horizontal_run_count` | 水平投影行数（检测上下标多行结构） |
+| `left_right_density_ratio` | 左右密度比（积分符号左侧偏重） |
+| `multi_scale_edge_ratio` | 双阈值 Canny 边缘比例（印刷体≈1，手写>1.4） |
+| `top_alignment_score` | 分量顶部对齐程度（印刷体对齐，手写漂移） |
 
-但是这部分仍然需要修改和完善，原因是：
+新增 4 个派生属性：`is_handwritten_texture`、`has_integral_structure`、`is_grid_aligned`、`is_vertically_symmetric`。
 
-- 当前 `auto` 仍然主要依赖手写规则和结构先验，对真实未知图片的泛化能力没有充分验证。
-- 一些算子或符号在不同类别中含义接近，例如 `/`、分数线、减号、除号、变量 `x` 和乘号 `x`，仍可能发生混淆。
-- fallback 规则对结果影响较大，说明自动识别链路还不够独立稳定。
-- 当前测试集规模有限，`auto` 在现有样例上表现好，不等于对任意输入都稳定。
+### Layer 2：五类别并行打分 (`src/vision/structure_router.py`)
 
-后续建议优先完善：
+5 个评分函数（`_score_printed_basic`、`_score_printed_2d_layout`、`_score_handwritten_basic`、`_score_calculus`、`_score_printed_decimal_negative`）同时对同一张图片打分。每个函数从基线分出发，累加特征权重贡献。取最高分作为路由决策。当第一名与第二名边距 < 0.12 时降低置信度，触发 Layer 3 交叉验证。
 
-1. 更严格地区分一维算式、二维排版、单字符手写和微积分结构。
-2. 增加真实拍照、不同字体、不同笔画粗细和轻微噪声样例。
-3. 将 router 的中间判断结果可视化，方便解释为什么选择某个识别器。
-4. 针对容易混淆的算子建立更细的几何规则和置信度校准。
+### Layer 3：双路并行交叉验证 (`src/vision/auto_router.py`)
+
+当路由置信度 ≤ 0.7 时，同时运行前两名候选类别的识别器，比较 token 重叠率（Jaccard）、布局类型一致性和求解器答案，综合得分更高的候选胜出。
+
+### Layer 4：三层符号消歧 (`src/vision/recognizers/handwritten_rule_template.py`)
+
+- **Layer A** — 硬几何规则：2 个洞 → "8"，3 分量 + 正方形 → "÷"，宽高比 > 2.5 + 水平线 → "-"
+- **Layer B** — 上下文感知：根据 `context` 参数（`"handwritten"` / `"calculus"`）调整候选分数。微积分模式下提升 `d`、`∫`、`x`，惩罚易混淆数字
+- **Layer C** — 混淆对规则（新增 7 组）：`0`/`o`/`O`、`,`/`.`、`2`/`z`、`5`/`s`、`9`/`g`、`6`/`b`、`-`/`_`
+
+### 配套增强
+
+- **微积分符号覆盖** (`src/vision/calculus_layout.py`)：新增 `d` 和 `0` 误识别恢复规则
+- **函数名前缀映射** (`src/vision/calculus_rules.py`)：扩展 `arcsin/arccos/arctan` 的 OCR 错误模式
+- **混淆矩阵输出** (`tools/evaluate_samples.py`)：`--confusion-matrix` 输出每类别路由去向
+
+### 效果
+
+| 类别 | 改进前 | 改进后 |
+|---|---|---|
+| calculus | 10/10 | 10/10 |
+| handwritten_basic | 102/105 | 102/105 |
+| printed_2d_layout | 10/20 | **14/20** |
+| printed_basic | 20/20 | 20/20 |
+| printed_decimal_negative | 20/20 | 20/20 |
+| **Overall** | **162/175 (92.6%)** | **166/175 (94.9%)** |
+
+### 新增测试文件
+
+| 文件 | 覆盖内容 |
+|---|---|
+| `tests/test_structure_router_scoring.py` | 5 个评分函数在典型特征向量上的排序正确性 |
+| `tests/test_cross_validation.py` | `_cross_validate()` 单元测试（一致/矛盾/部分重叠/空候选） |
+| `tests/test_disambiguation_layers.py` | Layer A/B/C 规则不冲突，每个混淆对的区分逻辑 |
 
 ## 未完成功能：UI 与计算 API 接入
 

@@ -199,7 +199,7 @@ def _plain_tokens(binary: np.ndarray, templates: TemplateLibrary, offset: tuple[
 
 
 def _match_segment(segment: Segment, templates: TemplateLibrary, offset: tuple[int, int]) -> SymbolToken:
-    label, score, candidates, _ = match_handwritten_symbol(segment.image, templates)
+    label, score, candidates, _ = match_handwritten_symbol(segment.image, templates, context="calculus")
     label, score = _calculus_symbol_override(segment.image, label, score)
     x, y, w, h = segment.bbox
     return SymbolToken(
@@ -356,10 +356,20 @@ def _main_fraction_line(binary: np.ndarray) -> LineCandidate | None:
 
 def _calculus_symbol_override(image: np.ndarray, label: str, score: float) -> tuple[str, float]:
     features = extract_geometry_features(image)
-    if label in {"y", "/"} and features["aspect_ratio"] < 0.65 and features["vertical_score"] > 0.15:
+    aspect = features["aspect_ratio"]
+    vertical = features["vertical_score"]
+    horizontal = features["horizontal_score"]
+    holes = features["num_holes"]
+    components = features["num_components"]
+
+    if label in {"y", "/"} and aspect < 0.65 and vertical > 0.15:
         return "1", max(score, 0.82)
-    if label == "÷" and features["num_components"] <= 1 and features["aspect_ratio"] > 2.0:
+    if label == "÷" and components <= 1 and aspect > 2.0:
         return "-", max(score, 0.84)
+    if label in {"y", "4", "/"} and aspect < 0.8 and horizontal < 0.1:
+        return "d", max(score, 0.78)
+    if holes == 1 and 0.8 < aspect < 1.2 and label in {"8", "6", "9", "4"}:
+        return "0", max(score, 0.76)
     return label, score
 
 
@@ -422,20 +432,8 @@ def _split_tall_disconnected_segment(segment: Segment) -> list[Segment]:
 
 
 def _classify_function_prefix(prefix: str) -> str | None:
-    compact = prefix.replace("UNKNOWN", "?")
-    if compact.startswith("5") and any(char in compact for char in {"/", ".", "1", "i"}):
-        return "sin"
-    if compact in {"sin", "5/.", "5/x", "3/x", "5(1", "51x", "5ix", "5/"}:
-        return "sin"
-    if compact in {"exp", "6x2", "ex2", "64d"}:
-        return "exp"
-    if compact in {"ln", "1n"}:
-        return "log"
-    if compact in {"cos", "c05", "c0s"}:
-        return "cos"
-    if compact in {"tan", "7an"}:
-        return "tan"
-    return None
+    from src.vision.calculus_rules import _classify_function_prefix as _cfp
+    return _cfp(prefix)
 
 
 def _find_matching_close(tokens: list[SymbolToken], open_index: int) -> int | None:

@@ -129,6 +129,7 @@ def main() -> int:
         help="Also evaluate eroded and dilated copies to test morphology robustness.",
     )
     parser.add_argument("--solver-timeout-ms", type=int, default=1000)
+    parser.add_argument("--confusion-matrix", action="store_true", help="Output confusion matrix to stdout and CSV")
     args = parser.parse_args()
 
     auto_mode = args.category == "auto"
@@ -155,6 +156,9 @@ def main() -> int:
             writer.writerow(row.as_dict())
 
     _print_summary(rows)
+    if args.confusion_matrix:
+        _print_confusion_matrix(rows)
+        _write_confusion_matrix_csv(rows, output.parent / "confusion_matrix.csv")
     return 0
 
 
@@ -453,6 +457,61 @@ def _print_summary(rows: list[EvaluationRow]) -> None:
         subset = [row for row in rows if row.category == category]
         correct = sum(1 for row in subset if row.match)
         print(f"{category}: {correct}/{len(subset)}")
+
+
+def _print_confusion_matrix(rows: list[EvaluationRow]) -> None:
+    true_categories = sorted({row.category for row in rows})
+    pred_categories = sorted({row.selected_category for row in rows if row.selected_category})
+    all_cats = sorted(set(true_categories) | set(pred_categories))
+    if not all_cats:
+        return
+
+    col_width = max(12, max(len(c) for c in all_cats))
+    header = f"{'true\\pred':<{col_width}}" + "".join(f"{c:>{col_width}}" for c in all_cats)
+    print("\nConfusion Matrix:")
+    print(header)
+    print("-" * len(header))
+
+    matrix: dict[tuple[str, str], int] = {}
+    for row in rows:
+        true = row.category
+        pred = row.selected_category or "unknown"
+        key = (true, pred)
+        matrix[key] = matrix.get(key, 0) + 1
+
+    for true_cat in all_cats:
+        line = f"{true_cat:<{col_width}}"
+        total = sum(matrix.get((true_cat, pc), 0) for pc in all_cats)
+        for pred_cat in all_cats:
+            count = matrix.get((true_cat, pred_cat), 0)
+            line += f"{count:>{col_width}}"
+        line += f"  (n={total})"
+        print(line)
+
+    correct = sum(row.match for row in rows)
+    total = len(rows)
+    print(f"\nOverall: {correct}/{total} = {correct / max(1, total) * 100:.1f}%")
+
+
+def _write_confusion_matrix_csv(rows: list[EvaluationRow], csv_path: Path) -> None:
+    true_categories = sorted({row.category for row in rows})
+    pred_categories = sorted({row.selected_category for row in rows if row.selected_category})
+    all_cats = sorted(set(true_categories) | set(pred_categories))
+
+    matrix: dict[tuple[str, str], int] = {}
+    for row in rows:
+        true = row.category
+        pred = row.selected_category or "unknown"
+        key = (true, pred)
+        matrix[key] = matrix.get(key, 0) + 1
+
+    with csv_path.open("w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.writer(f)
+        writer.writerow(["true\\pred"] + all_cats)
+        for true_cat in all_cats:
+            writer.writerow([true_cat] + [matrix.get((true_cat, pc), 0) for pc in all_cats])
+
+    print(f"Confusion matrix CSV written to {csv_path}")
 
 
 def _prepare_augmented_image(image_path: Path, category: str, augmentation: str) -> Path:

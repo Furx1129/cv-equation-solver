@@ -32,6 +32,12 @@ class ImageStructureFeatures:
     stacked_component_pairs: int
     edge_roughness: float
     foreground_fill_ratio: float
+    vertical_symmetry: float = 0.0
+    component_height_variance: float = 0.0
+    horizontal_run_count: int = 0
+    left_right_density_ratio: float = 1.0
+    multi_scale_edge_ratio: float = 1.0
+    top_alignment_score: float = 0.0
 
     @property
     def is_extremely_flat_row(self) -> bool:
@@ -51,6 +57,24 @@ class ImageStructureFeatures:
             and self.long_horizontal_lines <= 1
         )
 
+    @property
+    def is_vertically_symmetric(self) -> bool:
+        return self.vertical_symmetry > 0.7
+
+    @property
+    def is_handwritten_texture(self) -> bool:
+        return self.edge_roughness > 0.22 or (
+            self.multi_scale_edge_ratio > 1.4 and self.component_height_variance > 0.12
+        )
+
+    @property
+    def has_integral_structure(self) -> bool:
+        return self.left_right_density_ratio > 1.5 and self.left_tall_components > 0
+
+    @property
+    def is_grid_aligned(self) -> bool:
+        return self.top_alignment_score > 0.3
+
     def as_dict(self) -> dict[str, float | int]:
         return {
             "width": self.width,
@@ -63,6 +87,12 @@ class ImageStructureFeatures:
             "stacked_component_pairs": self.stacked_component_pairs,
             "edge_roughness": round(self.edge_roughness, 4),
             "foreground_fill_ratio": round(self.foreground_fill_ratio, 4),
+            "vertical_symmetry": round(self.vertical_symmetry, 4),
+            "component_height_variance": round(self.component_height_variance, 4),
+            "horizontal_run_count": self.horizontal_run_count,
+            "left_right_density_ratio": round(self.left_right_density_ratio, 4),
+            "multi_scale_edge_ratio": round(self.multi_scale_edge_ratio, 4),
+            "top_alignment_score": round(self.top_alignment_score, 4),
         }
 
 
@@ -112,8 +142,49 @@ def extract_structure_features(binary: np.ndarray) -> ImageStructureFeatures:
     lines = _line_candidates(binary)
     long_lines = [line for line in lines if line.bbox[2] >= max(28, width * 0.12)]
     fraction_lines = [line for line in lines if _is_fraction_line(binary, line)]
-    edges = cv2.Canny(binary, 50, 150)
-    edge_roughness = float((edges > 0).sum() / max(1, fg_count))
+    edges_low = cv2.Canny(binary, 30, 90)
+    edges_high = cv2.Canny(binary, 50, 150)
+    edge_roughness = float((edges_high > 0).sum() / max(1, fg_count))
+    low_edge_count = int((edges_low > 0).sum())
+    high_edge_count = int((edges_high > 0).sum())
+
+    top_half_fg = int(foreground[: height // 2, :].sum()) if height >= 2 else 0
+    bottom_half_fg = int(foreground[height // 2 :, :].sum()) if height >= 2 else 0
+    vertical_symmetry = 1.0 - abs(top_half_fg - bottom_half_fg) / max(1, top_half_fg + bottom_half_fg)
+
+    heights = [h for _, _, _, h in component_boxes]
+    if len(heights) >= 2:
+        mean_h = sum(heights) / len(heights)
+        std_h = (sum((h - mean_h) ** 2 for h in heights) / len(heights)) ** 0.5
+        height_variance = std_h / max(1, mean_h)
+    else:
+        height_variance = 0.0
+
+    horizontal_proj = foreground.sum(axis=1).astype(np.float32)
+    noise_floor = float(np.mean(horizontal_proj)) * 0.3 if horizontal_proj.size > 0 else 0.0
+    in_run = False
+    run_count = 0
+    for val in horizontal_proj:
+        if val > noise_floor and not in_run:
+            run_count += 1
+            in_run = True
+        elif val <= noise_floor:
+            in_run = False
+    horizontal_run_count = run_count
+
+    left_fg = int(foreground[:, : width // 2].sum()) if width >= 2 else 0
+    right_fg = int(foreground[:, width // 2 :].sum()) if width >= 2 else 0
+    left_right_density_ratio = left_fg / max(1, right_fg)
+
+    multi_scale_edge_ratio = low_edge_count / max(1, high_edge_count)
+
+    top_ys = [y for y, _, _, _ in component_boxes]
+    if len(top_ys) >= 2:
+        mean_top = sum(top_ys) / len(top_ys)
+        std_top = (sum((y - mean_top) ** 2 for y in top_ys) / len(top_ys)) ** 0.5
+        top_alignment = 1.0 / (1.0 + std_top)
+    else:
+        top_alignment = 0.0
 
     return ImageStructureFeatures(
         width=width,
@@ -126,106 +197,121 @@ def extract_structure_features(binary: np.ndarray) -> ImageStructureFeatures:
         stacked_component_pairs=_count_stacked_pairs(component_boxes),
         edge_roughness=edge_roughness,
         foreground_fill_ratio=fill,
+        vertical_symmetry=vertical_symmetry,
+        component_height_variance=height_variance,
+        horizontal_run_count=horizontal_run_count,
+        left_right_density_ratio=left_right_density_ratio,
+        multi_scale_edge_ratio=multi_scale_edge_ratio,
+        top_alignment_score=top_alignment,
     )
+
+
+def _score_printed_basic(features: ImageStructureFeatures) -> float:
+    s = 0.50
+    if features.is_grid_aligned:
+        s += 0.20
+    if features.edge_roughness < 0.15:
+        s += 0.15
+    if features.fraction_like_lines == 0:
+        s += 0.10
+    if features.component_height_variance < 0.15:
+        s += 0.10
+    if features.stacked_component_pairs <= 1:
+        s += 0.05
+    if features.is_extremely_flat_row:
+        s += 0.05
+    if features.fraction_like_lines > 0:
+        s -= 0.15
+    return max(0.0, s)
+
+
+def _score_printed_decimal_negative(features: ImageStructureFeatures) -> float:
+    return _score_printed_basic(features)
+
+
+def _score_printed_2d_layout(features: ImageStructureFeatures) -> float:
+    s = 0.40
+    if features.fraction_like_lines > 0:
+        s += 0.25
+    if features.stacked_component_pairs > 1:
+        s += 0.15
+    if features.long_horizontal_lines > 0:
+        s += 0.15
+    if features.horizontal_run_count >= 3:
+        s += 0.10
+    if features.aspect_ratio < 3.8:
+        s += 0.05
+    if features.left_tall_components > 0:
+        s += 0.05
+    if features.is_extremely_flat_row:
+        s -= 0.30
+    if features.is_handwritten_texture:
+        s -= 0.25
+    return max(0.0, s)
+
+
+def _score_handwritten_basic(features: ImageStructureFeatures) -> float:
+    s = 0.42
+    if features.is_single_symbol_like:
+        s += 0.30
+    if features.is_handwritten_texture:
+        s += 0.25
+    if features.edge_roughness > 0.25:
+        s += 0.12
+    if features.foreground_components <= 5:
+        s += 0.15
+    if features.foreground_fill_ratio < 0.15:
+        s += 0.10
+    if not features.is_grid_aligned:
+        s += 0.10
+    if features.fraction_like_lines > 0:
+        s -= 0.25
+    if features.stacked_component_pairs > 1:
+        s -= 0.15
+    return max(0.0, s)
+def _score_calculus(features: ImageStructureFeatures) -> float:
+    s = 0.35
+    if features.has_integral_structure:
+        s += 0.30
+    if features.fraction_like_lines > 0:
+        s += 0.20
+    if features.stacked_component_pairs >= 2:
+        s += 0.10
+    if features.stacked_component_pairs >= 8:
+        s += 0.08
+    if features.edge_roughness > 0.20:
+        s += 0.10
+    if features.left_tall_components > 0:
+        s += 0.10
+    if 1.5 < features.aspect_ratio < 4.0:
+        s += 0.05
+    if features.is_single_symbol_like:
+        s -= 0.30
+    if features.is_extremely_flat_row:
+        s -= 0.25
+    return max(0.0, s)
+
+
+_SCORING_FUNCTIONS = {
+    "printed_basic": _score_printed_basic,
+    "printed_decimal_negative": _score_printed_decimal_negative,
+    "printed_2d_layout": _score_printed_2d_layout,
+    "handwritten_basic": _score_handwritten_basic,
+    "calculus": _score_calculus,
+}
 
 
 def choose_route(features: ImageStructureFeatures) -> tuple[str, float, str, tuple[str, ...]]:
-    if features.foreground_components <= 1 and features.aspect_ratio < 2.2:
-        return (
-            "handwritten_basic",
-            0.90,
-            "single connected foreground component, treated as a single handwritten symbol",
-            ("printed_basic", "printed_decimal_negative", "printed_2d_layout"),
-        )
-
-    if _looks_like_handwritten_expression(features):
-        return (
-            "handwritten_basic",
-            0.78,
-            "rough low-fill foreground with a few handwritten symbol components",
-            ("printed_basic", "printed_decimal_negative", "printed_2d_layout"),
-        )
-
-    if _looks_like_calculus(features):
-        return (
-            "calculus",
-            0.86,
-            "calculus-like structure: tall left marker, fraction lines, or rough multi-part layout",
-            ("printed_2d_layout", "printed_basic", "printed_decimal_negative"),
-        )
-
-    if _looks_like_2d_layout(features):
-        return (
-            "printed_2d_layout",
-            0.84,
-            "two-dimensional structure detected from horizontal lines or stacked components",
-            ("calculus", "printed_basic", "printed_decimal_negative"),
-        )
-
-    if features.is_single_symbol_like:
-        return (
-            "handwritten_basic",
-            0.82,
-            "compact foreground with no strong two-dimensional layout markers",
-            ("printed_2d_layout", "printed_basic", "printed_decimal_negative"),
-        )
-
-    return (
-        "printed_basic",
-        0.76 if features.is_extremely_flat_row else 0.68,
-        "flat or mostly linear expression without strong two-dimensional markers",
-        ("printed_decimal_negative", "printed_2d_layout", "handwritten_basic"),
-    )
-
-
-def _looks_like_calculus(features: ImageStructureFeatures) -> bool:
-    if features.is_single_symbol_like:
-        return False
-    if (
-        features.left_tall_components > 0
-        and 0.20 < features.edge_roughness < 0.38
-        and features.foreground_fill_ratio < 0.20
-    ):
-        return True
-    if (
-        0.24 < features.edge_roughness < 0.38
-        and features.foreground_fill_ratio < 0.18
-        and features.foreground_components >= 5
-        and (features.fraction_like_lines > 0 or features.stacked_component_pairs >= 3)
-    ):
-        return True
-    if (
-        features.fraction_like_lines > 0
-        and features.aspect_ratio < 3.4
-        and features.left_tall_components > 0
-        and features.stacked_component_pairs >= 2
-    ):
-        return True
-    return False
-
-
-def _looks_like_handwritten_expression(features: ImageStructureFeatures) -> bool:
-    return (
-        features.foreground_components <= 5
-        and features.edge_roughness >= 0.38
-        and features.foreground_fill_ratio < 0.12
-        and features.stacked_component_pairs <= 1
-    )
-
-
-def _looks_like_2d_layout(features: ImageStructureFeatures) -> bool:
-    if features.is_extremely_flat_row:
-        return False
-    if (
-        features.aspect_ratio >= 3.6
-        and features.fraction_like_lines == 0
-        and features.long_horizontal_lines <= 1
-        and features.stacked_component_pairs <= 1
-    ):
-        return False
-    if features.fraction_like_lines > 0 or features.long_horizontal_lines > 0:
-        return True
-    return features.stacked_component_pairs > 1 and features.aspect_ratio < 3.8
+    scores = {cat: fn(features) for cat, fn in _SCORING_FUNCTIONS.items()}
+    ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    top_category, top_score = ranked[0]
+    second_category, second_score = ranked[1]
+    margin = top_score - second_score
+    fallbacks = tuple(cat for cat, _ in ranked[1:])
+    if margin >= 0.12:
+        return top_category, top_score, f"clear margin {margin:.2f} over {second_category}", fallbacks
+    else:
+        return top_category, top_score * 0.7, f"narrow margin {margin:.2f} vs {second_category}", fallbacks
 
 
 def _component_boxes(binary: np.ndarray) -> list[tuple[int, int, int, int]]:

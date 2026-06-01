@@ -144,6 +144,7 @@ def _extract_features_at_native_resolution(roi: np.ndarray) -> dict[str, float]:
 def _disambiguate(
     query_features: dict[str, float],
     candidates: dict[str, float],
+    context: str = "handwritten",
 ) -> tuple[dict[str, float], str]:
     """Adjust template scores using deterministic handwriting geometry."""
     adjusted = dict(candidates)
@@ -179,15 +180,15 @@ def _disambiguate(
     diag_neg = query_features["diag_neg_score"]
     diagonal_balance = min(diag_pos, diag_neg) / max(max(diag_pos, diag_neg), 1e-6)
 
-    stable_symbols = ("(", ")", "+", ".")
-    if original_best in stable_symbols and candidates[original_best] >= 0.55:
-        return adjusted, reason
-
     if components >= 3 and 0.75 <= aspect <= 1.3:
         force("÷", "geometry:three_components")
         return adjusted, reason
     if holes >= 2:
         force("8", "geometry:two_holes")
+        return adjusted, reason
+
+    stable_symbols = ("(", ")", "+", ".")
+    if original_best in stable_symbols and candidates[original_best] >= 0.55:
         return adjusted, reason
 
     if aspect > 2.5 and horizontal > 0.2 and max(diag_pos, diag_neg) < 0.25:
@@ -196,6 +197,12 @@ def _disambiguate(
     if aspect > 1.45 and horizontal > 0.35 and max(diag_pos, diag_neg) < 0.25:
         force("=", "geometry:parallel_horizontal")
         return adjusted, reason
+
+    # ---- Layer B: context-aware adjustments ----
+    if context == "calculus":
+        boost("d", 0.10)
+        boost("x", 0.05)
+        penalize(("4", "6"), 0.75)
 
     digit_score = max((candidates.get(label, 0.0) for label in "0123456789"), default=0.0)
     nondigit_score = max(
@@ -211,7 +218,14 @@ def _disambiguate(
         elif left_right > 1.1 and centroid_y >= 0.49 and digit_context:
             force("6", "geometry:lower_left_loop")
         elif 0.85 <= top_bottom <= 1.15 and 0.85 <= left_right <= 1.25 and digit_context:
-            force("0", "geometry:centered_loop")
+            if 0.60 < aspect < 0.85:
+                force("0", "geometry:tall_zero")
+            elif 0.85 <= aspect <= 1.05:
+                force("o", "geometry:round_oh")
+            elif 1.0 < aspect <= 1.25:
+                force("O", "geometry:wide_oh_capital")
+            else:
+                force("0", "geometry:centered_loop")
         elif left_right < 0.75 and digit_context:
             force("4", "geometry:right_heavy_open_four")
         return adjusted, reason
@@ -291,6 +305,49 @@ def _disambiguate(
     if query_features["density_bottom"] > 0.2:
         boost("y", 0.04)
 
+    # ---- new confusion pair rules ----
+    # , vs .
+    if candidates.get(",", 0.0) > 0.30 and candidates.get(".", 0.0) > 0.30:
+        if centroid_y > 0.60 and query_features["fill_ratio"] < 0.10:
+            force(",", "geometry:low_comma")
+        elif query_features["fill_ratio"] < 0.08 and centroid_y < 0.55:
+            force(".", "geometry:small_dot")
+
+    # 2 vs z
+    if candidates.get("2", 0.0) > 0.30 and candidates.get("z", 0.0) > 0.30:
+        if top_bottom < 0.85:
+            force("2", "geometry:curved_top_two")
+        elif top_bottom > 0.95:
+            force("z", "geometry:flat_top_z")
+
+    # 5 vs s
+    if candidates.get("5", 0.0) > 0.30 and candidates.get("s", 0.0) > 0.30:
+        if query_features["density_top"] > 0.15:
+            force("5", "geometry:top_bar_five")
+        else:
+            force("s", "geometry:no_top_bar_s")
+
+    # 9 vs g
+    if candidates.get("9", 0.0) > 0.30 and candidates.get("g", 0.0) > 0.30:
+        if query_features["density_bottom"] < 0.40:
+            force("9", "geometry:closed_bottom_nine")
+        elif query_features["density_bottom"] > 0.50:
+            force("g", "geometry:descender_g")
+
+    # 6 vs b
+    if candidates.get("6", 0.0) > 0.30 and candidates.get("b", 0.0) > 0.30:
+        if left_right > 1.05:
+            force("6", "geometry:left_loop_six")
+        elif left_right < 0.95:
+            force("b", "geometry:right_loop_b")
+
+    # - vs _
+    if candidates.get("-", 0.0) > 0.30 and candidates.get("_", 0.0) > 0.30:
+        if centroid_y > 0.65:
+            force("_", "geometry:low_underscore")
+        elif 0.40 < centroid_y < 0.58:
+            force("-", "geometry:mid_minus")
+
     if reason == "template_only" and any(abs(candidates[k] - adjusted[k]) > 0.001 for k in adjusted):
         reason = "geometry_adjusted"
     return adjusted, reason
@@ -361,6 +418,7 @@ def match_handwritten_symbol(
     roi: np.ndarray,
     templates: TemplateLibrary,
     size: int = 64,
+    context: str = "handwritten",
 ) -> tuple[str, float, dict[str, float], str]:
     """Match a handwritten symbol ROI against a template library.
 
@@ -384,7 +442,7 @@ def match_handwritten_symbol(
         candidates[label] = max(scores)
 
     original_candidates = dict(candidates)
-    adjusted, decision_type = _disambiguate(query_features, candidates)
+    adjusted, decision_type = _disambiguate(query_features, candidates, context=context)
 
     original_best = max(original_candidates, key=lambda k: original_candidates[k])
     adjusted_best = max(adjusted, key=lambda k: adjusted[k])
