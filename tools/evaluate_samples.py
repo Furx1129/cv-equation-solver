@@ -37,6 +37,7 @@ from src.vision.structure_2d import recognize_2d_layout
 
 SAMPLE_ROOT = PROJECT_ROOT / "data" / "samples"
 LABEL_ROOT = PROJECT_ROOT / "data" / "labels"
+REPORT_ROOT = PROJECT_ROOT / "reports" / "evaluation"
 DEFAULT_CATEGORIES = (
     "printed_basic",
     "printed_decimal_negative",
@@ -120,7 +121,7 @@ class EvaluationRow:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate sample recognition against data/labels.")
     parser.add_argument("--category", default="all", choices=["all", "auto", *DEFAULT_CATEGORIES])
-    parser.add_argument("--output", default="evaluation_results.csv")
+    parser.add_argument("--output", default=str(REPORT_ROOT / "evaluation_results.csv"))
     parser.add_argument("--debug-failures", action="store_true")
     parser.add_argument("--disable-fallbacks", action="store_true")
     parser.add_argument(
@@ -149,6 +150,7 @@ def main() -> int:
         )
 
     output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
@@ -158,7 +160,7 @@ def main() -> int:
     _print_summary(rows)
     if args.confusion_matrix:
         _print_confusion_matrix(rows)
-        _write_confusion_matrix_csv(rows, output.parent / "confusion_matrix.csv")
+        _write_confusion_matrix_csv(rows, output.with_name(f"{output.stem}.confusion_matrix.csv"))
     return 0
 
 
@@ -461,13 +463,14 @@ def _print_summary(rows: list[EvaluationRow]) -> None:
 
 def _print_confusion_matrix(rows: list[EvaluationRow]) -> None:
     true_categories = sorted({row.category for row in rows})
-    pred_categories = sorted({row.selected_category for row in rows if row.selected_category})
-    all_cats = sorted(set(true_categories) | set(pred_categories))
-    if not all_cats:
+    pred_categories = sorted({row.selected_category or "unknown" for row in rows})
+    columns = sorted(set(true_categories) | set(pred_categories))
+    if not columns:
         return
 
-    col_width = max(12, max(len(c) for c in all_cats))
-    header = f"{'true\\pred':<{col_width}}" + "".join(f"{c:>{col_width}}" for c in all_cats)
+    col_width = max(12, max(len(c) for c in columns))
+    header_label = "true\\pred"
+    header = f"{header_label:<{col_width}}" + "".join(f"{c:>{col_width}}" for c in columns)
     print("\nConfusion Matrix:")
     print(header)
     print("-" * len(header))
@@ -479,10 +482,10 @@ def _print_confusion_matrix(rows: list[EvaluationRow]) -> None:
         key = (true, pred)
         matrix[key] = matrix.get(key, 0) + 1
 
-    for true_cat in all_cats:
+    for true_cat in true_categories:
         line = f"{true_cat:<{col_width}}"
-        total = sum(matrix.get((true_cat, pc), 0) for pc in all_cats)
-        for pred_cat in all_cats:
+        total = sum(matrix.get((true_cat, pc), 0) for pc in columns)
+        for pred_cat in columns:
             count = matrix.get((true_cat, pred_cat), 0)
             line += f"{count:>{col_width}}"
         line += f"  (n={total})"
@@ -495,8 +498,8 @@ def _print_confusion_matrix(rows: list[EvaluationRow]) -> None:
 
 def _write_confusion_matrix_csv(rows: list[EvaluationRow], csv_path: Path) -> None:
     true_categories = sorted({row.category for row in rows})
-    pred_categories = sorted({row.selected_category for row in rows if row.selected_category})
-    all_cats = sorted(set(true_categories) | set(pred_categories))
+    pred_categories = sorted({row.selected_category or "unknown" for row in rows})
+    columns = sorted(set(true_categories) | set(pred_categories))
 
     matrix: dict[tuple[str, str], int] = {}
     for row in rows:
@@ -507,9 +510,9 @@ def _write_confusion_matrix_csv(rows: list[EvaluationRow], csv_path: Path) -> No
 
     with csv_path.open("w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["true\\pred"] + all_cats)
-        for true_cat in all_cats:
-            writer.writerow([true_cat] + [matrix.get((true_cat, pc), 0) for pc in all_cats])
+        writer.writerow(["true\\pred"] + columns)
+        for true_cat in true_categories:
+            writer.writerow([true_cat] + [matrix.get((true_cat, pc), 0) for pc in columns])
 
     print(f"Confusion matrix CSV written to {csv_path}")
 
