@@ -9,8 +9,8 @@
 | 分类算式识别 | 已完成主要功能 | 对已知类别分别调用对应识别流程，当前覆盖印刷体四则运算、负数/小数、二维结构、基础手写符号、微积分样例。 |
 | 数据和标签制作 | 已完成主要功能 | 已制作 `data/samples/` 下多类样例图片，并在 `data/labels/` 下提供同名 `.txt` 标签。 |
 | 无分类算式/算子识别 | 已完成主要改进 (2026-06-01) | Auto router 已从硬阈值规则链重构为 4 层打分+交叉验证架构，整体 auto 准确率 94.9%。详见下方"Auto Router 改进"章节。 |
-| UI 界面 | 未完成 | 项目目前没有正式 UI 模块。 |
-| UI 接入计算 API 或其他计算方法 | 未完成 | 命令行已能调用本地算术/符号计算后端，但尚未做 UI 层接入，也没有接入外部计算 API。 |
+| UI 界面 | 已完成基本功能 (2026-06-01) | Gradio Web UI：拖拽上传、模式切换、结果/Token 展示、处理过程可视化。见下方"Web UI"章节。 |
+| UI 接入计算 API 或其他计算方法 | 部分完成 | 本地 ArithmeticSolver / SymbolicSolver 已接入 UI。远程 API、批量处理、WebSocket 尚未实现。 |
 
 ## 项目树
 
@@ -82,6 +82,9 @@ Project/
 ├── tools/
 │   ├── evaluate_samples.py
 │   └── generate_printed_templates.py
+├── ui/
+│   ├── __init__.py
+│   └── app.py
 ├── tests/
 │   ├── test_arithmetic_solver.py
 │   ├── test_auto_router.py
@@ -250,22 +253,51 @@ Auto router 已从硬阈值 if-else 规则链重构为 **4 层流水线架构**�
 | `tests/test_cross_validation.py` | `_cross_validate()` 单元测试（一致/矛盾/部分重叠/空候选） |
 | `tests/test_disambiguation_layers.py` | Layer A/B/C 规则不冲突，每个混淆对的区分逻辑 |
 
-## 未完成功能：UI 与计算 API 接入
+## Web UI
 
-目前项目没有正式 UI。也就是说，还没有实现下面这些功能：
+项目已接入 Gradio 构建的 Web 界面，提供图形化操作和实时识别。
 
-- 图形界面选择或拖拽图片。
-- 在界面中显示原图、二值化结果、分割结果和识别 token。
-- 在界面中显示识别出的表达式、计算结果和错误提示。
-- 在 UI 中切换 `printed`、`handwritten`、`calculus`、`auto` 等识别模式。
-- 在 UI 中接入计算 API、远程计算服务或其他计算后端。
+### 启动方式
 
-当前已有的是命令行层面的本地计算：
+```powershell
+python ui\app.py
+```
+
+启动后访问 `http://127.0.0.1:7861`。
+
+### 界面功能
+
+| 功能 | 说明 |
+|---|---|
+| 图片上传 | 支持拖拽或点击上传算式图片，也支持剪贴板粘贴 |
+| 识别模式切换 | Radio 按钮选择 `printed` / `handwritten` / `calculus` / `auto` |
+| 计算后端切换 | `auto`（自动选择）/ `arithmetic`（四则运算）/ `symbolic`（符号计算） |
+| 结果展示 | 显示识别表达式、计算结果和错误信息 |
+| Token 列表 | 表格展示每个 token 的符号、类型、置信度和边界框 |
+| 处理过程可视化 | 展示二值化结果和字符分割框 |
+| 结构分析 | Auto 模式下显示路由决策理由、候选分数和图像特征详情 |
+| 警告信息 | 显示低置信度 token 和未知符号警告 |
+
+### API 访问
+
+Gradio 界面自动提供 REST API 端点，可通过编程方式调用：
+
+```powershell
+curl http://127.0.0.1:7861/api/
+```
+
+## 待完成功能：远程计算 API 接入
+
+当前已有本地计算：
 
 - `ArithmeticSolver`：处理普通四则运算。
 - `SymbolicSolver`：基于本地 `sympy` 处理部分符号计算。
 
-因此，后续 UI/API 工作可以把现有 `run.py` 和 `src/vision/pipeline.py` 作为后端入口，但需要新增界面层和 API 调用层。
+尚未实现：
+
+- 接入远程计算 API（如 Wolfram Alpha、Mathpix 等）
+- 批量图片处理 API endpoint
+- WebSocket 实时识别流
 
 ## 安装依赖
 
@@ -276,6 +308,7 @@ numpy>=1.20.0
 opencv-python>=4.5.0
 sympy>=1.10
 Pillow>=9.0.0
+gradio>=4.0.0
 ```
 
 安装方式：
@@ -284,7 +317,7 @@ Pillow>=9.0.0
 pip install -r requirements.txt
 ```
 
-其中 `Pillow` 主要用于 `tools/generate_printed_templates.py` 生成印刷体模板图片；核心识别流程主要依赖 OpenCV、NumPy 和 SymPy。
+其中 `Pillow` 主要用于 `tools/generate_printed_templates.py` 生成印刷体模板图片；`gradio` 用于 Web UI；核心识别流程主要依赖 OpenCV、NumPy 和 SymPy。
 
 ## 常用命令
 
@@ -316,6 +349,12 @@ python tools\evaluate_samples.py --category all --output evaluation_results.csv
 
 ```powershell
 python -m unittest discover -s tests
+```
+
+启动 Web UI：
+
+```powershell
+python ui\app.py
 ```
 
 ## 项目约束
