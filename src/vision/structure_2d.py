@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -31,6 +32,92 @@ class LineCandidate:
     source: str = "component"
 
 
+@dataclass(frozen=True)
+class Structure2DEngine:
+    token_source: str
+    match_segments: Callable[[list[Segment], tuple[int, int]], list[SymbolToken]]
+    split_tall_segments: bool = True
+
+
+def create_printed_engine(templates: dict[str, list[np.ndarray]]) -> Structure2DEngine:
+    def match_segments(segments: list[Segment], offset: tuple[int, int]) -> list[SymbolToken]:
+        tokens: list[SymbolToken] = []
+        for segment in segments:
+            match = match_symbol(segment.image, templates)
+            x, y, w, h = segment.bbox
+            label = _geometry_override(segment.image, match.label, match.score)
+            score = 0.86 if label != match.label else match.score
+            tokens.append(
+                SymbolToken(
+                    text=label,
+                    kind=_kind_for_label(label),
+                    bbox=(offset[0] + x, offset[1] + y, w, h),
+                    confidence=score,
+                    source="structure_2d_template",
+                    candidates=dict(sorted(match.candidates.items())),
+                )
+            )
+        return tokens
+
+    return Structure2DEngine(token_source="structure_2d_template", match_segments=match_segments)
+
+
+def create_handwritten_engine(templates) -> Structure2DEngine:
+    from src.vision.recognizers.handwritten_rule_template import (
+        kind_for_label,
+        match_handwritten_symbol,
+        prepare_equation_segments,
+    )
+
+    def match_segments(segments: list[Segment], offset: tuple[int, int]) -> list[SymbolToken]:
+        if not segments:
+            return []
+        prepared = prepare_equation_segments(segments)
+        tokens: list[SymbolToken] = []
+        for segment, roi in zip(segments, prepared):
+            label, score, candidates, _ = match_handwritten_symbol(roi, templates, context="handwritten_2d")
+            x, y, w, h = segment.bbox
+            tokens.append(
+                SymbolToken(
+                    text=label,
+                    kind=kind_for_label(label),
+                    bbox=(offset[0] + x, offset[1] + y, w, h),
+                    confidence=score,
+                    source="handwritten_2d_structure",
+                    candidates=candidates,
+                )
+            )
+        return tokens
+
+    return Structure2DEngine(token_source="handwritten_2d_structure", match_segments=match_segments, split_tall_segments=False)
+
+
+def looks_like_handwritten_2d_structure(binary: np.ndarray) -> bool:
+    """Handwritten gate: only enter structure_2d for clear full fractions.
+
+    Single symbols, superscripts, and subscripts stay on the flat handwritten
+    pipeline (column segmentation + analyze_layout) to avoid over-splitting strokes.
+    """
+    cropped = _crop_binary(binary)
+    if _is_empty(cropped):
+        return False
+    return _detect_full_fraction(cropped) is not None
+
+
+def looks_like_2d_structure(binary: np.ndarray) -> bool:
+    cropped = _crop_binary(binary)
+    if _is_empty(cropped):
+        return False
+    if _detect_full_fraction(cropped) is not None:
+        return True
+    boxes = _meaningful_component_boxes(cropped)
+    if _has_script_layout(boxes):
+        return True
+    if _count_stacked_pairs(boxes) > 1:
+        return True
+    return False
+
+
 def recognize_2d_layout(image_path: str | Path, debug_dir: str | Path | None = None) -> RecognitionResult:
     image = read_image(image_path)
     normalized = normalize_formula_image(image)
@@ -44,15 +131,24 @@ def recognize_2d_layout(image_path: str | Path, debug_dir: str | Path | None = N
         include_labels=STRUCTURE_TEMPLATE_LABELS,
         exclude_filenames=frozenset({"tem_mul_x.png"}),
     )
+    engine = create_printed_engine(templates)
+    return recognize_2d_from_binary(binary, engine, debug_dir=debug_dir, debug_key="binary_2d")
 
+
+def recognize_2d_from_binary(
+    binary: np.ndarray,
+    engine: Structure2DEngine,
+    debug_dir: str | Path | None = None,
+    debug_key: str = "binary_2d",
+) -> RecognitionResult:
     debug_artifacts: dict[str, Path] = {}
     if debug_dir is not None:
         debug_base = Path(debug_dir)
         debug_base.mkdir(parents=True, exist_ok=True)
-        debug_artifacts["binary_2d"] = save_debug_image(debug_base / "binary_2d.png", binary)
+        debug_artifacts[debug_key] = save_debug_image(debug_base / f"{debug_key}.png", binary)
 
     tokens: list[SymbolToken] = []
-    layout = _parse_region(binary, templates, tokens=tokens, offset=(0, 0))
+    layout = _parse_region(binary, engine, tokens=tokens, offset=(0, 0))
     expression_text = serialize_layout(layout, target="plain")
     return RecognitionResult(
         tokens=tokens,
@@ -66,7 +162,7 @@ def recognize_2d_layout(image_path: str | Path, debug_dir: str | Path | None = N
 
 def _parse_region(
     binary: np.ndarray,
-    templates: dict[str, list[np.ndarray]],
+    engine: Structure2DEngine,
     tokens: list[SymbolToken],
     offset: tuple[int, int],
 ) -> LayoutNode:
@@ -78,28 +174,28 @@ def _parse_region(
 
     full_fraction = _detect_full_fraction(binary)
     if full_fraction is not None:
-        return _fraction_node(binary, full_fraction, templates, tokens, offset)
+        return _fraction_node(binary, full_fraction, engine, tokens, offset)
 
-    atoms = _detect_structure_atoms(binary, templates, tokens, offset)
+    atoms = _detect_structure_atoms(binary, engine, tokens, offset)
     children: list[LayoutNode] = []
     cursor = 0
     for atom in atoms:
         x, _, w, _ = atom.bbox
         if x > cursor:
-            children.extend(_plain_children(binary[:, cursor:x], templates, tokens, (offset[0] + cursor, offset[1])))
+            children.extend(_plain_children(binary[:, cursor:x], engine, tokens, (offset[0] + cursor, offset[1])))
         children.append(atom.node)
         cursor = max(cursor, x + w)
     if cursor < binary.shape[1]:
-        children.extend(_plain_children(binary[:, cursor:], templates, tokens, (offset[0] + cursor, offset[1])))
+        children.extend(_plain_children(binary[:, cursor:], engine, tokens, (offset[0] + cursor, offset[1])))
 
     if not children:
-        children = _plain_children(binary, templates, tokens, offset)
+        children = _plain_children(binary, engine, tokens, offset)
     return LayoutNode.row(children=children, bbox=_bbox_from_binary(binary, offset))
 
 
 def _detect_structure_atoms(
     binary: np.ndarray,
-    templates: dict[str, list[np.ndarray]],
+    engine: Structure2DEngine,
     tokens: list[SymbolToken],
     offset: tuple[int, int],
 ) -> list[StructureAtom]:
@@ -109,7 +205,7 @@ def _detect_structure_atoms(
         if _overlaps_any(line.bbox, occupied):
             continue
         if _is_fraction_line(binary, line):
-            node = _fraction_node(binary, line, templates, tokens, offset)
+            node = _fraction_node(binary, line, engine, tokens, offset)
             bbox = node.bbox or line.bbox
             local_bbox = (bbox[0] - offset[0], bbox[1] - offset[1], bbox[2], bbox[3])
             atoms.append(StructureAtom(local_bbox, node))
@@ -117,7 +213,7 @@ def _detect_structure_atoms(
             continue
         sqrt_line = _as_sqrt_line(binary, line)
         if sqrt_line is not None:
-            node = _sqrt_node(binary, sqrt_line, templates, tokens, offset)
+            node = _sqrt_node(binary, sqrt_line, engine, tokens, offset)
             bbox = node.bbox or sqrt_line.bbox
             local_bbox = (bbox[0] - offset[0], bbox[1] - offset[1], bbox[2], bbox[3])
             atoms.append(StructureAtom(local_bbox, node))
@@ -128,7 +224,7 @@ def _detect_structure_atoms(
 def _fraction_node(
     binary: np.ndarray,
     line: LineCandidate,
-    templates: dict[str, list[np.ndarray]],
+    engine: Structure2DEngine,
     tokens: list[SymbolToken],
     offset: tuple[int, int],
 ) -> LayoutNode:
@@ -139,8 +235,8 @@ def _fraction_node(
     below_y0 = min(binary.shape[0], y + h + gap)
     above = binary[:above_y1, x0:x1]
     below = binary[below_y0:, x0:x1]
-    numerator = _parse_region(above, templates, tokens, (offset[0] + x0, offset[1]))
-    denominator = _parse_region(below, templates, tokens, (offset[0] + x0, offset[1] + below_y0))
+    numerator = _parse_region(above, engine, tokens, (offset[0] + x0, offset[1]))
+    denominator = _parse_region(below, engine, tokens, (offset[0] + x0, offset[1] + below_y0))
     bbox = _union_bbox([numerator.bbox, denominator.bbox, (offset[0] + x, offset[1] + y, w, h)])
     return LayoutNode(node_type="fraction", children=[numerator, denominator], bbox=bbox)
 
@@ -148,7 +244,7 @@ def _fraction_node(
 def _sqrt_node(
     binary: np.ndarray,
     line: LineCandidate,
-    templates: dict[str, list[np.ndarray]],
+    engine: Structure2DEngine,
     tokens: list[SymbolToken],
     offset: tuple[int, int],
 ) -> LayoutNode:
@@ -158,14 +254,14 @@ def _sqrt_node(
     inner_x1 = min(binary.shape[1], x + w + 4)
     inner_y0 = min(binary.shape[0], y + h + 3)
     inner = binary[inner_y0:, inner_x0:inner_x1]
-    child = _parse_region(inner, templates, tokens, (offset[0] + inner_x0, offset[1] + inner_y0))
+    child = _parse_region(inner, engine, tokens, (offset[0] + inner_x0, offset[1] + inner_y0))
     bbox = _union_bbox([child.bbox, (offset[0] + left, offset[1], inner_x1 - left, binary.shape[0])])
     return LayoutNode(node_type="sqrt", children=[child], bbox=bbox)
 
 
 def _plain_children(
     binary: np.ndarray,
-    templates: dict[str, list[np.ndarray]],
+    engine: Structure2DEngine,
     tokens: list[SymbolToken],
     offset: tuple[int, int],
 ) -> list[LayoutNode]:
@@ -175,14 +271,15 @@ def _plain_children(
     local_offset = _foreground_offset(binary)
     cropped = _crop_binary(binary)
     segments = segment_characters(cropped, min_width=1, min_height=1, min_gap=1, pad=2)
-    local_tokens: list[SymbolToken] = []
-    expanded_segments: list[Segment] = []
-    for segment in segments:
-        expanded_segments.extend(_split_tall_disconnected_segment(segment))
-    for segment in expanded_segments:
-        token = _match_segment(segment, templates, (offset[0] + local_offset[0], offset[1] + local_offset[1]))
-        local_tokens.append(token)
-        tokens.append(token)
+    if engine.split_tall_segments:
+        expanded_segments: list[Segment] = []
+        for segment in segments:
+            expanded_segments.extend(_split_tall_disconnected_segment(segment))
+    else:
+        expanded_segments = segments
+    segment_offset = (offset[0] + local_offset[0], offset[1] + local_offset[1])
+    local_tokens = engine.match_segments(expanded_segments, segment_offset)
+    tokens.extend(local_tokens)
     return _tokens_to_script_nodes(local_tokens)
 
 
@@ -206,25 +303,6 @@ def _split_tall_disconnected_segment(segment: Segment) -> list[Segment]:
     if len(pieces) <= 1:
         return [segment]
     return sorted(pieces, key=lambda item: (item.bbox[0], item.bbox[1]))
-
-
-def _match_segment(
-    segment: Segment,
-    templates: dict[str, list[np.ndarray]],
-    offset: tuple[int, int],
-) -> SymbolToken:
-    match = match_symbol(segment.image, templates)
-    x, y, w, h = segment.bbox
-    label = _geometry_override(segment.image, match.label, match.score)
-    score = 0.86 if label != match.label else match.score
-    return SymbolToken(
-        text=label,
-        kind=_kind_for_label(label),
-        bbox=(offset[0] + x, offset[1] + y, w, h),
-        confidence=score,
-        source="structure_2d_template",
-        candidates=dict(sorted(match.candidates.items())),
-    )
 
 
 def _tokens_to_script_nodes(tokens: list[SymbolToken]) -> list[LayoutNode]:
@@ -384,16 +462,6 @@ def _is_fraction_line(binary: np.ndarray, line: LineCandidate) -> bool:
     return above > 12 and below > 12 and w >= 28
 
 
-def _has_vertical_gap_around_line(binary: np.ndarray, line: LineCandidate) -> bool:
-    x, y, w, h = line.bbox
-    foreground = binary < 255
-    above_y0 = max(0, y - 3)
-    above = foreground[above_y0:y, x:x + w].sum()
-    below_y1 = min(binary.shape[0], y + h + 3)
-    below = foreground[y + h:below_y1, x:x + w].sum()
-    return above <= max(2, w * 0.18) and below <= max(2, w * 0.18)
-
-
 def _as_sqrt_line(binary: np.ndarray, line: LineCandidate) -> LineCandidate | None:
     x, y, w, h = line.bbox
     if line.source != "projection" or w < 45:
@@ -427,6 +495,65 @@ def _content_x_range_near_line(binary: np.ndarray, line: LineCandidate) -> tuple
     if cols.size == 0:
         return x0, x1
     return x0 + int(cols[0]), x0 + int(cols[-1]) + 1
+
+
+def _component_boxes(binary: np.ndarray) -> list[tuple[int, int, int, int]]:
+    foreground = (binary < 255).astype(np.uint8)
+    count, _, stats, _ = cv2.connectedComponentsWithStats(foreground, connectivity=8)
+    boxes: list[tuple[int, int, int, int]] = []
+    min_area = max(5, int(binary.shape[0] * binary.shape[1] * 0.0002))
+    for label in range(1, count):
+        x, y, w, h, area = [int(value) for value in stats[label]]
+        if area >= min_area and w >= 2 and h >= 2:
+            boxes.append((x, y, w, h))
+    return boxes
+
+
+def _meaningful_component_boxes(binary: np.ndarray) -> list[tuple[int, int, int, int]]:
+    height, width = binary.shape[:2]
+    max_area = int(height * width * 0.45)
+    return [
+        box
+        for box in _component_boxes(binary)
+        if box[2] * box[3] <= max_area and box[2] <= width * 0.75 and box[3] <= height * 0.75
+    ]
+
+
+def _has_script_layout(boxes: list[tuple[int, int, int, int]]) -> bool:
+    for index, base in enumerate(boxes):
+        bx, by, bw, bh = base
+        if bh < 6 or bw < 3:
+            continue
+        for candidate_index, candidate in enumerate(boxes):
+            if index == candidate_index:
+                continue
+            cx, cy, cw, ch = candidate
+            if ch < 3 or cw < 2:
+                continue
+            if cx < bx + bw * 0.45:
+                continue
+            if cx > bx + bw + max(bh, bw) * 0.35:
+                continue
+            if ch < bh * 0.88 and cy + ch < by + bh * 0.55:
+                return True
+            if ch < bh * 0.88 and cy > by + bh * 0.45:
+                return True
+    return False
+
+
+def _count_stacked_pairs(boxes: list[tuple[int, int, int, int]]) -> int:
+    count = 0
+    for index, first in enumerate(boxes):
+        fx, fy, fw, fh = first
+        for second in boxes[index + 1 :]:
+            sx, sy, sw, sh = second
+            vertical_gap = max(sy - (fy + fh), fy - (sy + sh), 0)
+            if vertical_gap <= 2:
+                continue
+            overlap = max(0, min(fx + fw, sx + sw) - max(fx, sx))
+            if overlap / max(1, min(fw, sw)) >= 0.25:
+                count += 1
+    return count
 
 
 def _geometry_override(image: np.ndarray, label: str, score: float) -> str:

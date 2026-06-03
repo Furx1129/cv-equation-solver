@@ -55,9 +55,14 @@ def _pil_to_cv2(pil_image) -> np.ndarray:
     return arr
 
 
-def _draw_segment_boxes(image: np.ndarray, binary: np.ndarray) -> np.ndarray:
-    segments = segment_characters(binary)
+def _draw_segment_boxes(image: np.ndarray, binary: np.ndarray, tokens=None) -> np.ndarray:
     vis = image.copy()
+    if tokens:
+        for token in tokens:
+            x, y, w, h = token.bbox
+            cv2.rectangle(vis, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        return vis
+    segments = segment_characters(binary)
     for seg in segments:
         x, y, w, h = seg.bbox
         cv2.rectangle(vis, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -104,7 +109,7 @@ def _token_overlay_base_image(image_path: Path, recognition) -> np.ndarray:
         )
         return preprocessed.binary
 
-    if sources & {"structure_2d_template", "calculus_2d_handwritten", "calculus_2d_layout"}:
+    if sources & {"structure_2d_template", "handwritten_2d_structure", "calculus_2d_handwritten", "calculus_2d_layout"}:
         preprocessed = preprocess_image(
             normalized.image,
             options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
@@ -188,8 +193,15 @@ def process(
         except Exception as exc:
             return "", "", "", [], None, None, None, "", [], None, f"识别异常：{exc}"
 
-        expression = normalize_tokens(recognition.tokens)
         expression_text = recognition.expression_text
+        if recognition.layout is not None:
+            expression = ExpressionResult(
+                text=recognition.expression_text,
+                tokens=recognition.tokens,
+                layout=recognition.layout,
+            )
+        else:
+            expression = normalize_tokens(recognition.tokens)
 
         if solver_mode == "auto":
             if mode == "calculus" or _needs_symbolic(expression_text):
@@ -202,7 +214,13 @@ def process(
             solve_result = solver.solve(expression)
         elif solver_mode == "symbolic" and recognition.sympy_text:
             solver = SymbolicSolver()
-            solve_result = solver.solve(ExpressionResult(text=recognition.sympy_text, tokens=recognition.tokens, layout=recognition.layout))
+            solve_result = solver.solve(
+                ExpressionResult(
+                    text=recognition.sympy_text,
+                    tokens=recognition.tokens,
+                    layout=recognition.layout,
+                )
+            )
         elif solver_mode == "symbolic":
             solver = SymbolicSolver()
             solve_result = solver.solve(expression)
@@ -228,12 +246,18 @@ def process(
         try:
             raw = read_image(tmp_path)
             normalized = normalize_formula_image(raw)
-            preprocessed = preprocess_image(
-                normalized.image,
-                options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
-            )
+            if mode == "handwritten":
+                preprocessed = preprocess_image(
+                    normalized.image,
+                    options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3, morph_close=2),
+                )
+            else:
+                preprocessed = preprocess_image(
+                    normalized.image,
+                    options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
+                )
             binary_display = cv2.cvtColor(preprocessed.binary, cv2.COLOR_GRAY2BGR)
-            segments_vis = _draw_segment_boxes(normalized.image, preprocessed.binary)
+            segments_vis = _draw_segment_boxes(normalized.image, preprocessed.binary, tokens=recognition.tokens)
             overlay_base = _token_overlay_base_image(tmp_path, recognition)
             token_overlay = _draw_token_overlay(overlay_base, recognition.tokens)
         except Exception:

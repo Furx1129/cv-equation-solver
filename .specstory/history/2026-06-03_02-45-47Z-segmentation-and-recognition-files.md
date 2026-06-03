@@ -17,93 +17,6 @@ _**Agent (composer-2.5)**_
 
 _**Agent (composer-2.5)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
-<summary>Tool use: **glob_file_search** • Searched codebase "" • **68** results in **1** directory</summary>
-
-Directory: **d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver** (68 files)
-
-| File |
-|------|
-| `../tests/test_display_normalizer.py` |
-| `../tests/test_calculus_rules.py` |
-| `../tests/test_line_segmentation.py` |
-| `../.specstory/history/2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md` |
-| `../.specstory/history/2026-06-02_08-04-23Z-file-path-issue-explanation.md` |
-| `../tests/test_preprocess.py` |
-| `../src/vision/structure_router.py` |
-| `../tools/evaluate_samples.py` |
-| `../src/vision/auto_router.py` |
-| `../tests/test_calculus_layout.py` |
-| `../src/__init__.py` |
-| `../README.md` |
-| `../run.py` |
-| `../.specstory\history\2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md` |
-| `../src/solver/symbolic.py` |
-| `../docs/superpowers/specs/2026-06-01-auto-router-improvements-design.md` |
-| `../src/vision/normalization.py` |
-| `../src/vision/preprocess.py` |
-| `../src/solver/__init__.py` |
-| `../src/vision/types.py` |
-| `../src/expression/normalizer.py` |
-| `../src/vision/recognizers/printed_template.py` |
-| `../src/expression/types.py` |
-| `../src/vision/line_segmentation.py` |
-| `../docs/evaluation.md` |
-| `../src/vision/recognizers/handwritten_rule_template.py` |
-| `../src/vision/structure_2d.py` |
-| `../tests/test_generated_sample_images.py` |
-| `../src/expression/__init__.py` |
-| `../src/vision/deskew.py` |
-| `../src/vision/layout_analysis.py` |
-| `../tests/test_arithmetic_solver.py` |
-| `../src/vision/calculus_layout.py` |
-| `../tests/test_symbol_segmentation.py` |
-| `../tests/test_structure_router_scoring.py` |
-| `../tests/test_cross_validation.py` |
-| `../docs/roadmap.md` |
-| `../tests/test_pipeline_resources.py` |
-| `../docs/data.md` |
-| `../docs/superpowers/plans/2026-06-01-auto-router-improvements-plan.md` |
-| `../docs/architecture.md` |
-| `../src/vision/segmentation.py` |
-| `../tests/test_auto_router.py` |
-| `../src/vision/__init__.py` |
-| `../tests/test_symbolic_solver.py` |
-| `../tests/test_disambiguation_layers.py` |
-| `../src/vision/calculus_rules.py` |
-| `../tools/generate_sample_images.py` |
-| `../tests/test_no_ml_dependencies.py` |
-| `../tests/test_layout_analysis.py` |
-| `../src/expression/display_normalizer.py` |
-| `../src/vision/template_matcher.py` |
-| `../src/vision/recognizers/__init__.py` |
-| `../.specstory\history\2026-06-02_08-04-23Z-file-path-issue-explanation.md` |
-| `../src/solver/arithmetic.py` |
-| `../src/expression/calculus.py` |
-| `../src/vision/symbol_segmentation.py` |
-| `../src/solver/base.py` |
-| `../tests/test_deskew.py` |
-| `../src/vision/pipeline.py` |
-| `../tests/test_end_to_end_samples.py` |
-| `../tests/test_normalization.py` |
-| `../tests/test_handwritten_leave_one_out.py` |
-| `../tools/generate_printed_templates.py` |
-| `../tests/test_serializer.py` |
-| `../tests/test_structure_2d.py` |
-| `../src/expression/serializer.py` |
-| `../ui/app.py` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
-</details></tool-use>
-
-_**Agent (composer-2.5)**_
-
 <tool-use data-tool-type="unknown" data-tool-name="semantic_search_full">
 <details>
 <summary>Tool use: **semantic_search_full**</summary>
@@ -4342,6 +4255,93 @@ Status: **completed**
 
 <tool-use data-tool-type="unknown" data-tool-name="semantic_search_full"><details>
 <summary>Tool use: **semantic_search_full**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **68** results in **1** directory</summary>
+
+Directory: **d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver** (68 files)
+
+| File |
+|------|
+| `../tests/test_display_normalizer.py` |
+| `../tests/test_calculus_rules.py` |
+| `../tests/test_line_segmentation.py` |
+| `../.specstory/history/2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md` |
+| `../.specstory/history/2026-06-02_08-04-23Z-file-path-issue-explanation.md` |
+| `../tests/test_preprocess.py` |
+| `../src/vision/structure_router.py` |
+| `../tools/evaluate_samples.py` |
+| `../src/vision/auto_router.py` |
+| `../tests/test_calculus_layout.py` |
+| `../src/__init__.py` |
+| `../README.md` |
+| `../run.py` |
+| `../.specstory\history\2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md` |
+| `../src/solver/symbolic.py` |
+| `../docs/superpowers/specs/2026-06-01-auto-router-improvements-design.md` |
+| `../src/vision/normalization.py` |
+| `../src/vision/preprocess.py` |
+| `../src/solver/__init__.py` |
+| `../src/vision/types.py` |
+| `../src/expression/normalizer.py` |
+| `../src/vision/recognizers/printed_template.py` |
+| `../src/expression/types.py` |
+| `../src/vision/line_segmentation.py` |
+| `../docs/evaluation.md` |
+| `../src/vision/recognizers/handwritten_rule_template.py` |
+| `../src/vision/structure_2d.py` |
+| `../tests/test_generated_sample_images.py` |
+| `../src/expression/__init__.py` |
+| `../src/vision/deskew.py` |
+| `../src/vision/layout_analysis.py` |
+| `../tests/test_arithmetic_solver.py` |
+| `../src/vision/calculus_layout.py` |
+| `../tests/test_symbol_segmentation.py` |
+| `../tests/test_structure_router_scoring.py` |
+| `../tests/test_cross_validation.py` |
+| `../docs/roadmap.md` |
+| `../tests/test_pipeline_resources.py` |
+| `../docs/data.md` |
+| `../docs/superpowers/plans/2026-06-01-auto-router-improvements-plan.md` |
+| `../docs/architecture.md` |
+| `../src/vision/segmentation.py` |
+| `../tests/test_auto_router.py` |
+| `../src/vision/__init__.py` |
+| `../tests/test_symbolic_solver.py` |
+| `../tests/test_disambiguation_layers.py` |
+| `../src/vision/calculus_rules.py` |
+| `../tools/generate_sample_images.py` |
+| `../tests/test_no_ml_dependencies.py` |
+| `../tests/test_layout_analysis.py` |
+| `../src/expression/display_normalizer.py` |
+| `../src/vision/template_matcher.py` |
+| `../src/vision/recognizers/__init__.py` |
+| `../.specstory\history\2026-06-02_08-04-23Z-file-path-issue-explanation.md` |
+| `../src/solver/arithmetic.py` |
+| `../src/expression/calculus.py` |
+| `../src/vision/symbol_segmentation.py` |
+| `../src/solver/base.py` |
+| `../tests/test_deskew.py` |
+| `../src/vision/pipeline.py` |
+| `../tests/test_end_to_end_samples.py` |
+| `../tests/test_normalization.py` |
+| `../tests/test_handwritten_leave_one_out.py` |
+| `../tools/generate_printed_templates.py` |
+| `../tests/test_serializer.py` |
+| `../tests/test_structure_2d.py` |
+| `../src/expression/serializer.py` |
+| `../ui/app.py` |
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
 
 </details></tool-use>
 
@@ -8783,6 +8783,32 @@ Status: **completed**
 
 _**Agent (composer-2.5)**_
 
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\printed_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\handwritten_rule_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
@@ -8836,32 +8862,6 @@ Status: **completed**
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
-</details></tool-use>
-
-_**Agent (composer-2.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\printed_template.py</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (composer-2.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\handwritten_rule_template.py</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
 
 </details></tool-use>
 
@@ -9071,7 +9071,57 @@ Parameters:
   "pattern": "stroke|canvas|Sketchpad|ImageEditor|brush"
 }
 ```
-Status: **loading**
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver",
+  "pattern": "stroke|canvas|Sketchpad|ImageEditor|brush",
+  "topFiles": [
+    {
+      "matchCount": 8,
+      "uri": ".\\src\\vision\\recognizers\\handwritten_rule_template.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": ".\\tests\\test_handwritten_segment_prep.py"
+    },
+    {
+      "matchCount": 36,
+      "uri": ".\\.specstory\\history\\2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md"
+    },
+    {
+      "matchCount": 3,
+      "uri": ".\\.specstory\\history\\2026-06-03_02-45-47Z-segmentation-and-recognition-files.md"
+    },
+    {
+      "matchCount": 2,
+      "uri": ".\\ui\\app.py"
+    },
+    {
+      "matchCount": 10,
+      "uri": ".\\tools\\generate_sample_images.py"
+    },
+    {
+      "matchCount": 11,
+      "uri": ".\\tools\\generate_printed_templates.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": ".\\src\\vision\\template_matcher.py"
+    },
+    {
+      "matchCount": 3,
+      "uri": ".\\src\\vision\\normalization.py"
+    }
+  ],
+  "totalFiles": 9,
+  "totalMatches": 83
+}
+```
+Status: **completed**
 
 
 </details>
@@ -9079,5 +9129,2804 @@ Status: **loading**
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
+
+Directory: **d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver** (0 files)
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -c "import gradio as gr; import inspect; print('gradio', gr.__version__); sig = inspect.signature(gr.Sketchpad.__init__); print(sig)"</summary>
+
+```bash
+python -c "import gradio as gr; import inspect; print('gradio', gr.__version__); sig = inspect.signature(gr.Sketchpad.__init__); print(sig)"
+```
+
+```
+gradio 6.15.2
+(self, value: 'str | PIL.Image.Image | np.ndarray | None' = None, *, height: 'int | str | None' = None, width: 'int | str | None' = None, image_mode: "Literal['1', 'L', 'P', 'RGB', 'RGBA', 'CMYK', 'YCbCr', 'LAB', 'HSV', 'I', 'F']" = 'RGBA', sources: "Iterable[Literal['upload', 'webcam', 'clipboard']]" = (), type: "Literal['numpy', 'pil', 'filepath']" = 'numpy', label: 'str | I18nData | None' = None, every: 'Timer | float | None' = None, inputs: 'components.Component | Sequence[components.Component] | set[components.Component] | None' = None, show_label: 'bool | None' = None, buttons: "list[Literal['download', 'share', 'fullscreen']] | None" = None, container: 'bool' = True, scale: 'int | None' = None, min_width: 'int' = 160, interactive: 'bool | None' = None, visible: "bool | Literal['hidden']" = True, elem_id: 'str | None' = None, elem_classes: 'list[str] | str | None' = None, render: 'bool' = True, key: 'int | str | tuple[int | str, ...] | None' = None, preserved_by_key: 'list[str] | str | None' = 'value', placeholder: 'str | None' = None, webcam_options: 'WebcamOptions | None' = None, _selectable: 'bool' = False, transforms: "Iterable[Literal['crop']]" = ('crop',), eraser: 'Eraser | None' = None, brush: 'Brush | None' = None, format: 'str' = 'webp', canvas_size: 'tuple[int, int]' = (800, 800), fixed_canvas: 'bool' = False, layers: 'LayerOptions | bool' = True)
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Path does not exist: C:\Users\86135\AppData\Local\Programs\Python\Python312\Lib\site-packages\gradio
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -c "import gradio as gr; import inspect; print('Brush:', inspect.signature(gr.Brush)); print('Eraser:', inspect.signature(gr.Eraser)); print('LayerOptions:', inspect.signature(gr.LayerOptions) if hasattr(gr, 'LayerOptions') else 'N/A')"</summary>
+
+```bash
+python -c "import gradio as gr; import inspect; print('Brush:', inspect.signature(gr.Brush)); print('Eraser:', inspect.signature(gr.Eraser)); print('LayerOptions:', inspect.signature(gr.LayerOptions) if hasattr(gr, 'LayerOptions') else 'N/A')"
+```
+
+```
+Brush: (default_size: "int | Literal['auto']" = 'auto', colors: 'list[str | tuple[str, float]] | str | tuple[str, float] | None' = None, default_color: 'str | tuple[str, float] | None' = None, color_mode: "Literal['fixed', 'defaults']" = 'defaults') -&gt; None
+Eraser: (default_size: "int | Literal['auto']" = 'auto') -&gt; None
+LayerOptions: (allow_additional_layers: 'bool' = True, layers: 'list[str] | None' = None, disabled: 'bool' = False) -&gt; None
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -c "import gradio; from pathlib import Path; print(Path(gradio.__file__).parent)"</summary>
+
+```bash
+python -c "import gradio; from pathlib import Path; print(Path(gradio.__file__).parent)"
+```
+
+```
+D:\Anaconda\Lib\site-packages\gradio
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.{py,js,svelte,ts}",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "Sketchpad|default_tool|brush.*size|layers"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "Sketchpad|default_tool|brush.*size|layers",
+  "topFiles": [
+    {
+      "matchCount": 3,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\node\\build\\server\\chunks\\Video2-BN5I0jvO.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\node\\build\\server\\chunks\\Index4-BXKkNuiz.js"
+    },
+    {
+      "matchCount": 3,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\webgpuEngine-BnqMYD2g.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\shadowGeneratorSceneComponent-qlCwNfHi.js"
+    },
+    {
+      "matchCount": 4,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\index-BYqCYF8m.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\iblCdfGenerator-CW9pDQa3.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\embed-C0bvMD9o.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\cytoscape.esm-5J0xJHOV.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\assetContainer-CBnKiY5d.js"
+    },
+    {
+      "matchCount": 3,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\Video-D7gQqrEE.js"
+    },
+    {
+      "matchCount": 14,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\PlotlyPlot-DR3Vr3Pi.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\KHR_interactivity-ooStew8G.js"
+    },
+    {
+      "matchCount": 2,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\Index-lYDcQhD0.js"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\Index-DW5lIveL.js"
+    },
+    {
+      "matchCount": 2,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\AltairPlot-GBjRH72-.js"
+    },
+    {
+      "matchCount": 41,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\components\\image_editor.py"
+    }
+  ],
+  "totalFiles": 16,
+  "totalMatches": 94
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **1** result in **1** directory</summary>
+
+Directory: **D:\Anaconda\Lib\site-packages\gradio** (1 file)
+
+| File |
+|------|
+| `../..\..\..\..\..\Anaconda\Lib\site-packages\gradio\cli\commands\sketch.py` |
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.py",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "class Sketchpad|class Brush"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "class Sketchpad|class Brush",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\components\\image_editor.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates.py"
+    }
+  ],
+  "totalFiles": 2,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: D:\Anaconda\Lib\site-packages\gradio\templates.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: D:\Anaconda\Lib\site-packages\gradio\components\image_editor.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Glob pattern "**/*" matches every file and is not allowed. Use a more specific glob or no glob.
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: D:\Anaconda\Lib\site-packages\gradio\components\image_editor.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/ImageEditor/**",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "selected_tool|default_tool|brush_size|tool.*brush"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "selected_tool|default_tool|brush_size|tool.*brush",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
+
+Directory: **D:\Anaconda\Lib\site-packages\gradio** (0 files)
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*ImageEditor*",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "brush|eraser|layer"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "brush|eraser|layer",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Glob pattern "**/*" matches every file and is not allowed. Use a more specific glob or no glob.
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: D:\Anaconda\Lib\site-packages\gradio\components\image_editor.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -c "
+import gradio as gr
+from gradio.components.image_editor import Brush, LayerOptions
+sk = gr.Sketchpad(label='test', brush=Brush(default_size=3, colors=['#000000'], color_mode='fixed'), layers=LayerOptions(allow_additional_layers=False, layers=['笔画']))
+print('ok')
+"</summary>
+
+```bash
+python -c "
+import gradio as gr
+from gradio.components.image_editor import Brush, LayerOptions
+sk = gr.Sketchpad(label='test', brush=Brush(default_size=3, colors=['#000000'], color_mode='fixed'), layers=LayerOptions(allow_additional_layers=False, layers=['笔画']))
+print('ok')
+"
+```
+
+```
+ok
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在确认用户提到的"笔画"在 Gradio 手写板中具体指哪个工具。
+
+正在排查用户每次都需要重新选择笔画工具的原因。可能涉及默认工具设置、切换标签页后的状态重置，或需要先添加图层才能开始绘制。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.svelte",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "brush|selected_tool|active_tool"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio",
+  "pattern": "brush|selected_tool|active_tool",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -c "
+import gradio.components.image_editor as ie
+import inspect
+src = inspect.getsourcefile(ie.ImageEditor)
+print(src)
+# get api_info or preprocess config
+from gradio.components.image_editor import ImageEditor
+import json
+ed = ImageEditor(brush=ie.Brush(default_size=4))
+# look at get_config
+if hasattr(ed, 'get_config'):
+    cfg = ed.get_config()
+    for k in ['brush','eraser','layers','canvas_size']:
+        print(k, cfg.get(k))
+"</summary>
+
+```bash
+python -c "
+import gradio.components.image_editor as ie
+import inspect
+src = inspect.getsourcefile(ie.ImageEditor)
+print(src)
+# get api_info or preprocess config
+from gradio.components.image_editor import ImageEditor
+import json
+ed = ImageEditor(brush=ie.Brush(default_size=4))
+# look at get_config
+if hasattr(ed, 'get_config'):
+    cfg = ed.get_config()
+    for k in ['brush','eraser','layers','canvas_size']:
+        print(k, cfg.get(k))
+"
+```
+
+```
+D:\Anaconda\Lib\site-packages\gradio\components\image_editor.py
+brush {'default_size': 4, 'colors': ['rgb(204, 50, 50)', 'rgb(173, 204, 50)', 'rgb(50, 204, 112)', 'rgb(50, 112, 204)', 'rgb(173, 50, 204)'], 'default_color': 'rgb(204, 50, 50)', 'color_mode': 'defaults'}
+eraser {'default_size': 'auto'}
+layers {'allow_additional_layers': True, 'layers': ['Layer 1'], 'disabled': False}
+canvas_size [800, 800]
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.js",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets",
+  "pattern": "Layer 1|default_size|allow_additional_layers"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets",
+  "pattern": "Layer 1|default_size|allow_additional_layers",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\Index-lYDcQhD0.js"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\.specstory\history\2026-06-02_07-28-10Z-project-status-review-and-improvement-needs.md</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "Index-lYDcQhD0.js",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets",
+  "pattern": "brush|eraser|selectedTool|activeLayer|draw"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "D:\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets",
+  "pattern": "brush|eraser|selectedTool|activeLayer|draw",
+  "topFiles": [
+    {
+      "matchCount": 5,
+      "uri": "..\\..\\..\\..\\..\\Anaconda\\Lib\\site-packages\\gradio\\templates\\frontend\\assets\\Index-lYDcQhD0.js"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 5
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在查阅 Gradio 文档，确认 ImageEditor 的默认工具配置。</details></think>
+
+_**Agent (composer-2.5)**_
+
+Glob pattern "**/*" matches every file and is not allowed. Use a more specific glob or no glob.
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search">
+<details>
+<summary>Tool use: **web_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "searchTerm": "gradio Sketchpad ImageEditor default brush tool selected layers 2024"
+}
+```
+Result:
+
+```json
+{
+  "isFinal": true,
+  "references": [
+    {
+      "chunk": "Links:\n1. [How to use tool=\"sketch\" in gradio 4.x? · Issue #8492 · gradio-app/gradio](https://github.com/gradio-app/gradio/issues/8492)\n2. [ImageEditor cannot work as a mask editor as v3 Image · Issue #9265 · gradio-app/gradio](https://github.com/gradio-app/gradio/issues/9265)\n3. [Gradio  Docs](https://www.gradio.app/4.44.1/docs/gradio/imageeditor)\n4. [Gradio  Docs](https://www.gradio.app/docs/gradio/imageeditor)\n5. [refresh the &#96;ImageEditor&#96; UI (#8042) · 92139f3 · gradio-app/gradio](https://github.com/gradio-app/gradio/commit/92139f3d7d6b832b649ff1f6c10c87e6fb522cde)\n\nSynthesis:\nIn Gradio 2024, the ImageEditor component replaces the legacy sketch tool [1][2]. The brush tool is configured using the brush parameter, which accepts a gr.Brush instance [3][4]. If no specific configuration is provided, the editor defaults to its standard internal settings [3][4]. To customize the brush, you can define properties like colors, default_color, and default_size [4]. If you need to restrict the editor to act as a simple mask tool, you can disable additional layers by setting layers=False [2].\n\nHighlights:\n\u003cresult id=\"1\"\u003e\n\u003ctitle\u003eHow to use tool=\"sketch\" in gradio 4.x? · Issue #8492 · gradio-app/gradio\u003c/title\u003e\n\u003curl\u003ehttps://github.com/gradio-app/gradio/issues/8492\u003c/url\u003e\n\u003ccontent\u003ebase = gr.Image(label=\"Background\", source=\"upload\", tool=\"sketch\", type=\"pil\", height=512, brush_color='#FFFFFF', mask_opacity=0.5, brush_radius = 100)\n[...]\n\u003e The &#96;Image&#96; component was split into &#96;Image&#96; and &#96;ImageEditor&#96; in 4.0. You can achieve the same result with:\n\u003e \n\u003e &#96;&#96;&#96;py\n\u003e gr.ImageEditor(\n\u003e sources=['upload'], \n\u003e type= 'pil'\n\u003e )\n\u003e &#96;&#96;&#96;\n\u003e \n\u003e Brush (both size and color) now has its own options that you can experiment with. Unfortunately this is not present on the docs but the brush kwarg take a class that looks like this:\n\u003e \n\u003e &#96;&#96;&#96;py\n\u003e gr.Brush(\n\u003e default_size = \"auto\",\n\u003e colors = [\n\u003e \"rgb(204, 50, 50)\",\n\u003e \"rgb(173, 204, 50)\",\n\u003e \"rgb(50, 204, 112)\",\n\u003e \"rgb(50, 112, 204)\",\n\u003e \"rgb(173, 50, 204)\",\n\u003e ],\n\u003e default_color = \"auto\"\n\u003e color_mode = \"defaults\"\n\u003e )\n\u003e &#96;&#96;&#96;\n\u003e \n\u003e There are also a series of [shorthand presets](https://www.gradio.app/docs/gradio/imageeditor#shortcuts).\n[...]\n\u003e We will update the docs.\n[...]\ntrack that: https://github\n[...]\napp/gradio\n[...]\nissues/5644\u003c/content\u003e\n\u003c/result\u003e\n\n\u003cresult id=\"2\"\u003e\n\u003ctitle\u003eImageEditor cannot work as a mask editor as v3 Image · Issue #9265 · gradio-app/gradio\u003c/title\u003e\n\u003curl\u003ehttps://github.com/gradio-app/gradio/issues/9265\u003c/url\u003e\n\u003ccontent\u003e## ImageEditor cannot work as a mask editor as v3 Image\n[...]\nin v4, tool is replaces with ImageEditor\n[...]\n&#96;&#96;&#96;python\nImageEditor(brush=...)\n&#96;&#96;&#96;\n[...]\nThe value of ImageEditor only contains\n[...]\n- background - the original image (after crop)\n- layers - default only 1 layer\n- composite: the background with brush on it\n[...]\nno mask (brush only) can be get.\n[...]\ncheck changed pixel value is not working, because the color of pixels maybe same as brush.\n[...]\nA awful solution:\nuser can create another layer, and draw mask into it.\nThis solution is cumbersome and error-prone: the number of layer must exact 2; user must put image into layer#1 and draw brush into layer#2\n[...]\nI think add a \"brushed\" item to ImageEditor's value dict, which only contains the effect of all brush drawing, can solve this problem.\n[...]\n\u003e \u003e A awful solution:\n\u003e \u003e user can create another layer, and draw mask into it.\n\u003e \u003e This solution is cumbersome and error-prone: the number of layer must exact 2; user must put image into layer#1 and draw brush into layer#2\n\u003e \n\u003e The layers menu can be disabled with &#96;layers=False&#96;, so users can't make new layers.\n\u003e \n\u003e &#96;&#96;&#96;python\n\u003e import gradio as gr\n\u003e \n\u003e demo = gr.Interface(\n\u003e fn=lambda img: img[\"layers\"][0],\n\u003e inputs=[gr.ImageEditor(layers=False)],\n\u003e outputs=[gr.Image()],\n\u003e )\n\u003e \n\u003e demo.launch()\n\u003e &#96;&#96;&#96;\n[...]\n\u003e I don't think we need to add anything here.\n\u003e \n\u003e Setting &#96;layers=False&#96; means the user can upload an image and draw a mask. The. You can use the background key for the bg image and the single layer as the mask layer.\n\u003e \n\u003e Maybe we need to update the &#96;gr.ImageMask&#96; template to match this.\n[...]\n**freddyaboulton** mentioned this in PR [#10370: Clear Image Editor Value\n[...]\n/pull/10370\n[...]\n15,\n[...]\n10:48\u003c/content\u003e\n\u003c/result\u003e\n\n\u003cresult id=\"3\"\u003e\n\u003ctitle\u003eGradio  Docs\u003c/title\u003e\n\u003curl\u003ehttps://www.gradio.app/4.44.1/docs/gradio/imageeditor\u003c/url\u003e\n\u003ccontent\u003e## Creates an image component that, as an input, can be used to upload and edit images using simple editing tools such as brushes, strokes, cropping, and layers. Or, as an output, this component can be used to display images.\n[...]\n## As input component: Passes the uploaded images as an instance of EditorValue, which is just a dict with keys: 'background', 'layers', and 'composite'. The values corresponding to 'background' and 'composite' are images, while 'layers' is a list of images. The images are of type PIL.Image, np.array, or str filepath, depending on the type parameter.\n[...]\n', 'layers', and '\n[...]\n'. The values corresponding to '\n[...]\nNone, while layers\n[...]\nbe a list of images. Images can be of type PIL.Image, np.array, or\n[...]\n&#96;&#96;&#96;python\nbrush: Brush | None | Literal[False]\n[...]\nThe options for the brush tool in the image editor. Should be an instance of the &#96;gr.Brush&#96; class, or None to use the default settings. Can also be False to hide the brush tool, which will also hide the eraser tool. See &#96;gr.Brush&#96; docs.\n[...]\n&#96;&#96;&#96;python\nlayers: bool\n[...]\nIf True, will allow users to add layers to the image. If False, the layers option will be hidden.\n[...]\n&#96;&#96;&#96;\ngradio.Sketchpad\n[...]\nInitialization Uses sources=(), brush=Brush(colors=[\"#000000\"], color_mode=\"fixed\")\n[...]\nImageEditor.select(fn, ···)\n[...]\nEvent listener for when the user selects or deselects the ImageEditor. Uses event data gradio.SelectData to carry&#96;value&#96; referring to the label of the ImageEditor, and&#96;selected&#96; to refer to state of the ImageEditor. See EventData documentation on how to use this event data\n[...]\n## A dataclass for specifying options for the brush tool in the ImageEditor component. An instance of this class can be passed to the brush parameter of gr.ImageEditor.\n[...]\nThe default radius, in pixels, of the brush tool. Defaults to \"auto\" in which case the radius is automatically determined based on the size of the image (generally 1/50th of smaller dimension).\u003c/content\u003e\n\u003c/result\u003e\n\n\u003cresult id=\"4\"\u003e\n\u003ctitle\u003eGradio  Docs\u003c/title\u003e\n\u003curl\u003ehttps://www.gradio.app/docs/gradio/imageeditor\u003c/url\u003e\n\u003ccontent\u003ebrush\u003c!--[--\u003e: \u003c!----\u003eBrush | None | Literal[False]\u003c!----\u003e\u003c!--]--\u003e\n&#96;&#96;&#96;\n\n \n\ndefault&#96;= None &#96;\n\n \n\n The options for the brush tool in the image editor. Should be an instance of the &#96;gr.Brush&#96; class, or None to use the default settings. Can also be False to hide the brush tool, which will also hide the eraser tool. See &#96;gr.Brush&#96; docs. \n\n 🔗 \n\n&#96;&#96;&#96;python\n[...]\nlayers\u003c!--[--\u003e: \u003c!----\u003ebool | LayerOptions\u003c!----\u003e\u003c!--]--\u003e\n&#96;&#96;&#96;\n\n \n\ndefault&#96;= True &#96;\n\n \n\n The options for the layer tool in the image editor. Can be a boolean or an instance of the &#96;gr.LayerOptions&#96; class. If True, will allow users to add layers to the image. If False, the layers option will be hidden. If an instance of &#96;gr.LayerOptions&#96;, it will be used to configure the layer tool. See &#96;gr.LayerOptions&#96; docs. \n\n 🔗 \n\n&#96;&#96;&#96;\n[...]\ngradio.Select\n[...]\nto carry&#96;\n[...]\n.app/main/docs\n[...]\ndata for more details.\n[...]\n## A dataclass for specifying options for the brush tool in the ImageEditor component. An instance of this class can be passed to the brush parameter of gr.ImageEditor. \n\n#### Initialization\n\n Parameters ▼\n\n \n\n 🔗 \n\n&#96;&#96;&#96;python\n[...]\n&#96;= \"\n[...]\n&#96;\n[...]\n\" in which\n[...]\nth of smaller dimension\n[...]\nof 5\n[...]\n## A dataclass for specifying options for the layer tool in the ImageEditor component. An instance of this class can be passed to the layers parameter of gr.ImageEditor. \n\n#### Initialization\n\n Parameters ▼\n\n \n\n 🔗 \n\n&#96;&#96;&#96;python\n[...]\nallow_additional_layers\u003c!--[--\u003e: \u003c!----\u003ebool\u003c!----\u003e\u003c!--]--\u003e\n&#96;&#96;&#96;\n\n \n\ndefault&#96;= True &#96;\n\n \n\n If True, users can add additional layers to the image. If False, the add layer button will not be shown. \n\n 🔗 \n\n&#96;&#96;&#96;python\nlayers\u003c!--[--\u003e: \u003c!----\u003elist[str] | None\u003c!----\u003e\u003c!--]--\u003e\n&#96;&#96;&#96;\n\n \n\ndefault&#96;= None &#96;\n\n \n\n A list of layers to make available to the user when using the layer tool. One layer must be provided, if the length of the list is 0 then a layer will be generated automatically. \n\n 🔗 \n\n&#96;&#96;&#96;python\u003c/content\u003e\n\u003c/result\u003e\n\n\u003cresult id=\"5\"\u003e\n\u003ctitle\u003erefresh the &#96;ImageEditor&#96; UI (#8042) · 92139f3 · gradio-app/gradio\u003c/title\u003e\n\u003curl\u003ehttps://github.com/gradio-app/gradio/commit/92139f3d7d6b832b649ff1f6c10c87e6fb522cde\u003c/url\u003e\n\u003ccontent\u003e+8 | -0 |\n[...]\nmodified | +1 | -1 |\n[...]\nmodified | +1 | -0 |\n[...]\n| js/atoms/\n[...]\n| modified | +13 | -18 |\n[...]\n| js/atoms/src/\n[...]\n| modified | +1 | -2 |\n[...]\n| js/icons/src/BrushSize.svelte | modified | +1 | -1 |\n| js/icons/src/ImagePaste.svelte | modified | +2 | -6 |\n| js/icons/src/Layers.svelte | added | +19 | -0 |\n| js/icons/src/index.ts | modified | +1 | -0 |\n| js/imageeditor/ImageEditor.stories.svelte | modified | +1 | -1 |\n| js/imageeditor/shared/Controls.svelte | modified | +2 | -2 |\n| js/imageeditor/shared/ImageEditor.svelte | modified | +22 | -3 |\n| js/imageeditor/shared/InteractiveImageEditor.svelte | modified | +8 | -7 |\n| js/imageeditor/shared/layers/Layers.svelte | modified | +62 | -33 |\n| js/imageeditor/shared/tools/Brush.svelte | modified | +42 | -51 |\n| js/imageeditor/shared/tools/BrushColor.svelte → js/imageeditor/shared/tools/BrushOptions.svelte | renamed | +73 | -32 |\n| js/imageeditor/shared/tools/BrushSize.svelte | modified | +13 | -20 |\n| js/imageeditor/shared/tools/ColorSwatch.svelte | modified | +66 | -34 |\n| js/imageeditor/shared/tools/Crop.svelte | modified | +1 | -9 |\n| js/imageeditor/shared/tools/Cropper.svelte | modified | +2 | -0 |\n| js/imageeditor/shared/tools/Handle.svelte | modified | +1 | -1 |\n| js/imageeditor/shared/tools/Sources.svelte | modified | +71 | -45 |\n| js/imageeditor/shared/tools/Tools.svelte | modified | +42 | -58 |\n| js/imageeditor/shared/utils/events.ts | modified | +2 | -0 |\n[...]\n### js/imageeditor/shared/layers/Layers.svelte\n[...]\nbackground-color\n[...]\nvar(--background-fill-secondary);\n+\n[...]\n+\n+\t.layer-wrap button:hover .icon {\n+\t\tcolor: var(--color-accent);\n \t}\n \n \t.selected_layer {\n-\t\tbackground-color: var(--color-accent) !important;\n-\t\tcolor: white;\n+\t\tbackground-color: var(--block-background-fill);\n \t\tfont-weight: bold;\n \t}\n[...]\n@@ -260,23 +2\n[...]\n1,23 @@\n[...]\n}\n+\n[...]\nheight}\n+\t\t\tparent\n[...]\n}\n+\t\t\ttoolbar\n[...]\n/\u003e\u003c/content\u003e\n\u003c/result\u003e",
+      "title": "Web search results"
+    },
+    {
+      "chunk": "Full page text written to file: C:\\Users\\86135\\.cursor\\projects\\d-proj-cv-equation-solver\\agent-tools\\f7c8fc93-01c5-4c41-ac3c-90b2879a4f55.txt\nSize: 26.3 KB, 1387 lines\nUse shell / grep / read_file on this path to inspect the page; no follow-up fetch is needed.",
+      "title": "Gradio  Docs",
+      "url": "https://www.gradio.app/docs/gradio/imageeditor"
+    },
+    {
+      "chunk": "Full page text written to file: C:\\Users\\86135\\.cursor\\projects\\d-proj-cv-equation-solver\\agent-tools\\a8fdfd3d-d582-489f-baef-b6d25ebfe261.txt\nSize: 43.6 KB, 1594 lines\nUse shell / grep / read_file on this path to inspect the page; no follow-up fetch is needed.",
+      "title": "refresh the &#96;ImageEditor&#96; UI (#8042) · 92139f3 · gradio-app/gradio",
+      "url": "https://github.com/gradio-app/gradio/commit/92139f3d7d6b832b649ff1f6c10c87e6fb522cde"
+    }
+  ],
+  "rejected": false
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search"><details>
+<summary>Tool use: **web_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+研究发现将 `layers=False` 设为默认可以简化界面，用户无需管理图层，绘制会直接落在单一图层上。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: D:\Anaconda\Lib\site-packages\gradio\templates.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.txt",
+  "path": "C:\\Users\\86135\\.cursor\\projects\\d-proj-cv-equation-solver\\agent-tools\\f7c8fc93-01c5-4c41-ac3c-90b2879a4f55.txt",
+  "pattern": "transforms|default|Sketchpad|layers"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "C:\\Users\\86135\\.cursor\\projects\\d-proj-cv-equation-solver\\agent-tools\\f7c8fc93-01c5-4c41-ac3c-90b2879a4f55.txt",
+  "pattern": "transforms|default|Sketchpad|layers",
+  "topFiles": [
+    {
+      "matchCount": 40,
+      "uri": "C:\\Users\\86135\\.cursor\\projects\\d-proj-cv-equation-solver\\agent-tools\\f7c8fc93-01c5-4c41-ac3c-90b2879a4f55.txt"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 97
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在检查 Sketchpad 的默认配置，发现 `transforms` 参数包含 `("crop",)`，这可能会导致裁剪工具默认可用。
+
+计划将 `layers` 设为 False 来隐藏图层面板，使笔画成为默认工具。同时将 `transforms` 置空以隐藏裁剪工具，并把笔刷默认大小设为 3 或 4、颜色固定为黑色，让初始笔画更细更黑。已确认关闭图层后 `process_sketch_input` 仍能正常读取合成数据。
+
+已确认关闭图层后 `process_sketch_input` 仍能正常读取合成数据。高度 500 像素的画布上，自动笔刷约 10 像素，因此显式设置 `default_size=3` 可让笔画明显更细。接下来会直接导入 `gr.Brush` 并在 `ui/app.py` 中完成这些参数调整。
+
+还补充了擦除器的默认尺寸。用户切换到手写标签页时，无需再点击画布即可直接开始作画，因为取消图层后“笔画”会成为默认工具，不再需要额外选择图层或切换工具。</details></think>
+
+_**Agent (composer-2.5)**_
+
+定位到问题：`gr.Sketchpad` 默认启用裁剪工具且图层管理较复杂，用户需先切换到画笔。正在优化配置。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\ui\app.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\ui\\app.py"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\ui\\app.py"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -m py_compile ui/app.py && python -c "
+import gradio as gr
+from ui.app import process_sketch_input
+import numpy as np
+
+# simulate layers=False composite output
+rgba = np.zeros((100, 100, 4), dtype=np.uint8)
+rgba[40:60, 40:60, :3] = 0
+rgba[40:60, 40:60, 3] = 255
+out = process_sketch_input({'composite': rgba, 'layers': [], 'background': None})
+assert out is not None and out.shape == (100, 100, 3)
+print('process_sketch_input ok')
+"</summary>
+
+```bash
+python -m py_compile ui/app.py && python -c "
+import gradio as gr
+from ui.app import process_sketch_input
+import numpy as np
+
+# simulate layers=False composite output
+rgba = np.zeros((100, 100, 4), dtype=np.uint8)
+rgba[40:60, 40:60, :3] = 0
+rgba[40:60, 40:60, 3] = 255
+out = process_sketch_input({'composite': rgba, 'layers': [], 'background': None})
+assert out is not None and out.shape == (100, 100, 3)
+print('process_sketch_input ok')
+"
+```
+
+```
+����λ�� C:\Users\86135\AppData\Local\Temp\ps-script-e3a34bec-9172-458f-9d1a-40edd2117cc0.ps1:108 �ַ�: 32
++ python -m py_compile ui/app.py &amp;&amp; python -c "
++                                ~~
+��ǡ�&amp;&amp;�����Ǵ˰汾�е���Ч���ָ�����
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : InvalidEndOfLine
+ 
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: python -m py_compile ui/app.py; python -c "from ui.app import process_sketch_input; import numpy as np; rgba = np.zeros((100, 100, 4), dtype=np.uint8); rgba[40:60, 40:60, :3] = 0; rgba[40:60, 40:60, 3] = 255; out = process_sketch_input({'composite': rgba, 'layers': [], 'background': None}); assert out is not None; print('ok')"</summary>
+
+```bash
+python -m py_compile ui/app.py; python -c "from ui.app import process_sketch_input; import numpy as np; rgba = np.zeros((100, 100, 4), dtype=np.uint8); rgba[40:60, 40:60, :3] = 0; rgba[40:60, 40:60, 3] = 255; out = process_sketch_input({'composite': rgba, 'layers': [], 'background': None}); assert out is not None; print('ok')"
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="await">
+<details>
+<summary>Tool use: **await**</summary>
+
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="await"><details>
+<summary>Tool use: **await**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\86135\.cursor\projects\d-proj-cv-equation-solver\terminals\437240.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+已优化手写板配置，主要改动了 `ui/app.py` 中的 `gr.Sketchpad` 参数：
+
+### 改动说明
+
+1. **`transforms=()`** — 关闭裁剪工具  
+   Sketchpad 默认带裁剪，打开后往往先落在裁剪模式，需要再点一次「笔画/画笔」。去掉裁剪后，进入手写 Tab 即可直接画。
+
+2. **`layers=False`** — 关闭图层面板  
+   不再要求先选中或新建图层，画布默认可写，减少多余点击。
+
+3. **`brush=gr.Brush(default_size=3, ...)`** — 初始笔画更细  
+   默认 `auto` 约为画布短边的 1/50（500px 高度时约 10px），现改为固定 **3px** 黑色画笔，更接近手写细笔效果。
+
+刷新页面（`http://127.0.0.1:7861`）后生效。若服务未在跑，执行 `python ui/app.py` 重启即可。
+
+如果还觉得偏粗或偏细，可以把 `default_size=3` 改成 `2` 或 `4`。
+
+---
+
+_**User**_
+
+目前对平方、开根这些嵌套式的算式的分割识别仍然存在问题，目前针对这些算符的逻辑是什么
+
+---
+
+_**Agent (composer-2.5)**_
+
+正在梳理平方、开根等嵌套算式的分割与识别逻辑。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\layout_analysis.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_2d.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\docs\architecture.md</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Glob pattern "**/*" matches every file and is not allowed. Use a more specific glob or no glob.
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\expression\serializer.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\printed_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\tests\test_structure_2d.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\tests\test_layout_analysis.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.{py,md}",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver",
+  "pattern": "sqrt|superscript|2d_layout|structure_2d"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver",
+  "pattern": "sqrt|superscript|2d_layout|structure_2d",
+  "topFiles": [
+    {
+      "matchCount": 83,
+      "uri": ".specstory/history/2026-06-02_08-04-23Z-file-path-issue-explanation.md"
+    },
+    {
+      "matchCount": 4,
+      "uri": "tests/test_layout_analysis.py"
+    },
+    {
+      "matchCount": 9,
+      "uri": "tests/test_structure_2d.py"
+    },
+    {
+      "matchCount": 9,
+      "uri": "src/vision/layout_analysis.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "tools/generate_printed_templates.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/expression/normalizer.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/template_matcher.py"
+    },
+    {
+      "matchCount": 19,
+      "uri": "docs/superpowers/plans/2026-06-01-auto-router-improvements-plan.md"
+    },
+    {
+      "matchCount": 3,
+      "uri": "docs/architecture.md"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src\\vision\\recognizers\\handwritten_rule_template.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "tests/test_serializer.py"
+    },
+    {
+      "matchCount": 3,
+      "uri": "src/expression/serializer.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "docs/data.md"
+    },
+    {
+      "matchCount": 1,
+      "uri": "docs/roadmap.md"
+    },
+    {
+      "matchCount": 4,
+      "uri": "tools/evaluate_samples.py"
+    },
+    {
+      "matchCount": 15,
+      "uri": "src/vision/structure_2d.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/vision/structure_router.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "tests/test_display_normalizer.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "run.py"
+    },
+    {
+      "matchCount": 27,
+      "uri": "tools/generate_sample_images.py"
+    }
+  ],
+  "totalFiles": 39,
+  "totalMatches": 556
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+已理清整体逻辑。接下来将查看 auto_router 的路由机制、segmentation.py 的扁平字符分割，以及 normalizer 中表达式文本与布局的构建关系。
+
+structure_2d.py 负责 2D 布局识别。它在扁平分割前递归解析结构。分数通过水平线检测。平方根通过水平线加左侧根号检测。普通区域使用列投影分割和模板匹配。上下标通过几何 bbox 关系提取。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\auto_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\segmentation.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **40** results in **1** directory</summary>
+
+Directory: **d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\data\labels\printed_2d_layout** (40 files)
+
+| File |
+|------|
+| `../data/labels/printed_2d_layout/printed_2d_016.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_014.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_024.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_011.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_012.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_017.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_026.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_020.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_037.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_015.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_023.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_007.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_027.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_032.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_036.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_002.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_025.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_038.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_040.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_021.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_035.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_013.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_004.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_018.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_005.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_006.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_030.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_039.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_001.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_019.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_010.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_029.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_009.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_028.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_003.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_008.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_031.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_034.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_022.txt` |
+| `../data/labels/printed_2d_layout/printed_2d_033.txt` |
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\auto_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\data\labels\printed_2d_layout\printed_2d_005.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\data\labels\printed_2d_layout\printed_2d_009.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\data\labels\printed_2d_layout\printed_2d_017.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\expression\normalizer.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\handwritten_rule_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+已理清嵌套算式（平方、开根等）的当前分割逻辑与问题根源，正准备用中文组织完整回答。
+
+现有逻辑分两条路径并行运行。一是扁平化分割配合后处理布局识别；二是结构优先的二维布局解析，用于打印版自动路由或专用评估，通过递归解析区域、线检测处理分数和开根，并以列分割加脚本检测处理纯文本区域。针对平方这类上标，layout_analysis.detect_superscripts 会先按 x 坐标对 token 排序。
+
+detect_superscripts 的判定条件是：下一个 token 高度不超过 median 的 75%，且底部高于基线减去 25% 的 median。它只处理相邻的一对，无法识别多个或嵌套的上标。
+
+structure_2d._tokens_to_script_nodes 则更灵活，会结合基底之后的候选节点，依据垂直中心判断上下标关系，支持 a_1^2 这类组合，并跳过 +、-、=、( 等运算符。
+
+但现有逻辑仍存在明显缺陷：列分割可能将 x 与 2 合并到同一列；若被路由到 printed_basic，analyze_layout 可能正常工作，但前置的分割已经失败；detect_superscripts 只检查 i+1，不处理多层嵌套。</details></think>
+
+_**Agent (composer-2.5)**_
+
+目前项目里，平方、开根、分数这类**嵌套/二维排版**的处理分成两条路径，逻辑并不统一，这也是嵌套算式容易出问题的根本原因。
+
+## 总体流程
+
+```text
+图像 → 预处理/归一化 → 分割 → 符号识别 → 结构解析(layout) → 序列化 → 求解
+```
+
+嵌套算式是否识别正确，关键取决于：**走哪条识别路径**，以及**结构解析是在分割前还是分割后**。
+
+---
+
+## 路径 A：先分割，再靠 token 几何关系猜结构
+
+适用：`printed`、`handwritten` 识别器（以及 auto 误路由到这两类时）。
+
+### 1. 分割：`segmentation.py`
+
+使用**按列投影**的一维切分：从左到右找竖直空隙，把每一列前景包成一个 segment。
+
+```20:59:src/vision/segmentation.py
+def segment_characters(
+    binary_image: np.ndarray,
+    ...
+) -> list[Segment]:
+    ...
+    for x1, x2 in runs:
+        ...
+        roi = binary_image[y1 : y2 + 1, x1p : x2p + 1]
+        segments.append(Segment(bbox=(x1p, y1, w, h), image=roi))
+```
+
+**局限**：上下标、根号横线、分数线都会落在同一列里，`x` 和 `²` 可能被合成一个 segment，后续结构判断无从谈起。
+
+### 2. 结构推断：`layout_analysis.py`
+
+在已有 token 列表上，按 bbox 做简单规则：
+
+| 结构 | 函数 | 逻辑 |
+|------|------|------|
+| 上标（平方） | `detect_superscripts` | 按 x 排序，若**下一个** token 高度 ≤ 中位高度 75%，且底部高于基线 → 组成 `superscript` |
+| 分数 | `detect_simple_fraction` | 找宽长的 `-` 或 `/` token，其上下方各有 token → 组成 `fraction` |
+| 开根 | `detect_sqrt` | **仅当第一个 token 已是 `sqrt` 或 `√`**，其余 token 作为被开方内容 |
+
+```36:89:src/vision/layout_analysis.py
+def detect_superscripts(tokens: list[SymbolToken]) -> LayoutNode:
+    ...
+    if nxt.bbox[3] <= median_height * 0.75 and nxt_bottom < baseline - median_height * 0.25:
+        children.append(LayoutNode(node_type="superscript", ...))
+
+def detect_sqrt(tokens: list[SymbolToken]) -> LayoutNode | None:
+    if not tokens or tokens[0].text not in {"sqrt", "√"}:
+        return None
+```
+
+**局限**：
+- 上标只看**相邻** token，不支持 `a_1^2` 这类组合，也不支持嵌套。
+- 开根**不识别视觉结构**（根号符号 + 横线 + 下方内容），必须先单独认出 `√` 且排在最左。
+- 没有递归，无法处理 `sqrt(x^2+1)` 这类多层嵌套。
+
+### 3. 输出文本
+
+`printed` / `handwritten` 的 `expression_text` 主要是 token **线性拼接**（`normalize_tokens`），不是从 layout 序列化出来的：
+
+```97:115:src/vision/recognizers/printed_template.py
+        expression = normalize_tokens(tokens)
+        layout = analyze_layout(tokens)
+        ...
+        return RecognitionResult(
+            expression_text=expression.text,   # 例如 x2+1，不是 x^2+1
+            layout=layout,
+            sympy_text=serialize_layout(layout, target="sympy"),
+        )
+```
+
+所以即使 layout 猜对了，界面上显示的表达式仍可能是 `x2+1`。
+
+---
+
+## 路径 B：先解析二维结构，再递归分割（专门处理嵌套）
+
+适用：`printed_2d_layout`（`recognize_2d_layout`，auto 路由命中时）。
+
+入口：`src/vision/structure_2d.py`
+
+### 1. 递归区域解析 `_parse_region`
+
+```67:97:src/vision/structure_2d.py
+def _parse_region(binary, templates, tokens, offset) -> LayoutNode:
+    full_fraction = _detect_full_fraction(binary)
+    if full_fraction is not None:
+        return _fraction_node(...)
+
+    atoms = _detect_structure_atoms(...)   # 扫描分数线、根号线
+    ...
+    children.extend(_plain_children(...))  # 普通行内符号
+```
+
+优先级：**整图分数 → 局部结构原子（分数/根号）→ 普通字符行**。
+
+### 2. 分数
+
+- 检测长水平线（连通域或行投影，宽 ≥ 28~35px）。
+- `_is_fraction_line`：线上方、下方都有足够像素。
+- 分子/分母区域分别**递归**调用 `_parse_region`。
+
+### 3. 开根
+
+- `_as_sqrt_line`：投影得到的横线，上方几乎无内容，下方有内容，左侧 8~70px 有根号笔画。
+- `_sqrt_node`：取横线下方区域作为被开方数，**递归** `_parse_region`。
+- 理论上可处理 `sqrt(x^2+1)`：根号内再走上标逻辑。
+
+```397:407:src/vision/structure_2d.py
+def _as_sqrt_line(binary, line):
+    ...
+    if above <= 8 and below > 12 and radical_pixels > 14 and 8 <= radical_width <= 70:
+        return line
+```
+
+**局限**：依赖横线/根号的几何启发式，参数写死（如 `inner_x0 = x + 10`），手写或缩放后容易漏检；根号符号本身没有单独模板匹配步骤。
+
+### 4. 上标 / 下标（平方等）
+
+在普通区域 `_plain_children` 里：
+1. 仍用列投影 `segment_characters` 切分；
+2. 高 segment 用连通域再拆（`_split_tall_disconnected_segment`）；
+3. `_tokens_to_script_nodes` 根据 bbox 判断上下标：
+
+```230:301:src/vision/structure_2d.py
+def _tokens_to_script_nodes(tokens):
+    ...
+    if relation == "sup" and sup is None: ...
+    if relation == "sub" and sub is None: ...
+    # 可组合 subscript + superscript → a_1^2
+
+def _script_relation(base, candidate):
+    if cand_center < base_center - bh * 0.10: return "sup"
+    if cand_center > base_center + bh * 0.12: return "sub"
+```
+
+比 `layout_analysis` 更强：支持 `a_1^2`、同一 base 上同时有 sub/sup，但仍受列分割质量影响。
+
+### 5. 序列化
+
+```24:35:src/expression/serializer.py
+if node.node_type == "superscript":
+    return f"{base}^{exponent}"      # plain
+if node.node_type == "sqrt":
+    return f"sqrt({inner})"
+```
+
+`structure_2d` 的 `expression_text` 来自 `serialize_layout`，格式正确（如 `x^2`、`sqrt(x^2+1)`）。
+
+---
+
+## Auto 路由：决定走哪条路
+
+`auto` 模式先算图像结构特征（水平线、堆叠组件等），再选识别器：
+
+```294:295:src/vision/auto_router.py
+    if category == "printed_2d_layout":
+        return recognize_2d_layout(...)
+```
+
+`printed_2d_layout` 得分依赖 `fraction_like_lines`、`stacked_component_pairs` 等；**纯上标**（如 `x^2`）看起来较“平”，容易被判成 `printed_basic` 或 `handwritten_basic`，从而走路径 A，丢失结构。
+
+历史评估里典型失败：
+- `x^2+1` → `x2+1`（路由到 handwritten）
+- `sqrt(9)` → `4`（路由到 handwritten，根号根本没进 structure_2d）
+- `sqrt(4)+2` → `=+2`（路由到 printed_basic，列分割 + 模板误识）
+
+---
+
+## 嵌套算式当前逻辑的归纳
+
+```mermaid
+flowchart TD
+    A[输入图像] --> B{auto 路由}
+    B -->|printed_2d_layout| C[structure_2d 递归解析]
+    B -->|printed / handwritten| D[列投影分割 + 模板匹配]
+    C --> C1[检测分数线 → 分数]
+    C --> C2[检测根号横线 → sqrt]
+    C --> C3[普通区 → 列分割 + 上下标 bbox 规则]
+    D --> E[layout_analysis token 级规则]
+    C --> F[serialize_layout → x^2, sqrt(...)]
+    E --> G[线性拼接 expression_text → x2+1]
+```
+
+| 算式类型 | 理想路径 | 当前逻辑 | 主要风险 |
+|---------|---------|---------|---------|
+| `x^2` | structure_2d | 路由 A 时：列合并 + 相邻 token 上标规则 | 路由错误、列分割 |
+| `a_1^2` | structure_2d | 仅 B 有 sub+sup 组合逻辑 | A 路径不支持 |
+| `sqrt(x)` | structure_2d | B：横线+左侧根号几何；A：需先认出 `√` | 根号检测 fragile、误路由 |
+| `sqrt(x^2+1)` | structure_2d 递归 | B 内层再走 `_tokens_to_script_nodes` | 根号区域裁剪不准、嵌套层失败 |
+| `(x+1)/2` | structure_2d | B：分数线 + 递归分子分母 | 分数线与等号混淆 |
+
+---
+
+## 结论
+
+1. **嵌套结构（平方、开根、分数套分数）的“正统”实现**在 `structure_2d.py`：先结构、后分割、可递归。
+2. **printed/handwritten 路径**只有 `layout_analysis.py` 的轻量 token 规则，**不支持真正的视觉开根**，上标也较弱。
+3. **分割层**两条路普通区域都用列投影，对上下标/根号横线不友好，是嵌套失败的常见前置原因。
+4. **auto 路由**决定走哪条路；嵌套算式若没进 `printed_2d_layout`，后面的结构逻辑基本用不上。
+
+如果你希望，我可以针对某一类失败样例（比如 `sqrt(x^2+1)` 或 `x^2+1`）逐步 trace 分割框和路由决策，定位具体是哪一环出错。
+
+---
+
+_**User**_
+
+printed_2d_layout也是路由的一个路径吗？为什么我在前端只能看到printed、auto、handwriting这几类
+
+---
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\ui\app.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\run.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\pipeline.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\auto_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+已明确用户在前端界面中看到的选项为 printed、auto、handwriting，以及可能存在的其他选项。</details></think>
+
+_**Agent (composer-2.5)**_
+
+是的，`printed_2d_layout` **是路由路径之一**，但它是 **auto 模式内部的子类别**，不是前端单独暴露给用户选的识别模式。
+
+## 两层结构
+
+前端和 CLI 暴露的是**用户模式**（4 种）：
+
+```348:352:ui/app.py
+            mode_radio = gr.Radio(
+                choices=["printed", "handwritten", "calculus", "auto"],
+                value="auto",
+                label="识别模式",
+```
+
+`pipeline.py` 也只认识这 4 种：
+
+| 用户选项 | 实际调用的识别器 |
+|---------|----------------|
+| `printed` | `PrintedTemplateRecognizer`（列分割 + 模板 + `layout_analysis`） |
+| `handwritten` | `HandwrittenRuleTemplateRecognizer` |
+| `calculus` | `recognize_calculus_layout` |
+| `auto` | `recognize_unknown`（内部再选具体类别） |
+
+而 **auto 内部** 会根据图像结构特征，在 5 个子类别里打分、选路：
+
+```14:20:src/vision/structure_router.py
+AUTO_ROUTE_CATEGORIES = (
+    "printed_basic",
+    "printed_decimal_negative",
+    "printed_2d_layout",
+    "handwritten_basic",
+    "calculus",
+)
+```
+
+其中 `printed_2d_layout` 才会走 `recognize_2d_layout`（`structure_2d.py`，处理分数/上下标/根号）：
+
+```294:295:src/vision/auto_router.py
+    if category == "printed_2d_layout":
+        return recognize_2d_layout(image_path=image_path, debug_dir=debug_dir)
+```
+
+## 为什么前端看不到 `printed_2d_layout`
+
+这是**有意设计**的，不是漏了：
+
+1. **对用户简化**：只给「印刷体 / 手写 / 微积分 / 自动」四个入口，避免用户自己判断该用哪种二维解析器。
+2. **它是 auto 的子决策**：只有选 `auto` 时，系统才可能根据水平线、堆叠组件等特征，自动选中 `printed_2d_layout`。
+3. **架构文档也写了**：`printed_2d_layout` 没有作为 `run.py --recognizer` 的独立选项；批量评估用 `--category printed_2d_layout`，单张图建议 `--recognizer auto`。
+
+## 实际影响
+
+- 选 **`printed`**：永远走基础印刷体管线，**不会**进 `structure_2d`，平方/开根等嵌套结构容易错。
+- 选 **`auto`**：才有可能被路由到 `printed_2d_layout`；选完后可在 UI「处理过程 → 结构分析」里看到类似 `printed_2d_layout` 的路由结果。
+- 若 auto 误判成 `printed_basic` 或 `handwritten_basic`，即使用户上传的是 `printed_2d_layout` 样例图，也不会走二维结构识别。
+
+## 小结
+
+```text
+前端选项          auto 内部子类别（用户不可见）
+────────          ─────────────────────────────
+printed      →    （不经过 auto，固定 PrintedTemplateRecognizer）
+handwritten  →    （固定 HandwrittenRuleTemplateRecognizer）
+calculus     →    （固定 recognize_calculus_layout）
+auto         →    printed_basic / printed_decimal_negative
+                  printed_2d_layout  ← 平方、开根、分数在这里
+                  handwritten_basic
+                  calculus
+```
+
+所以：`printed_2d_layout` 是路由路径，但**嵌在 auto 里**；前端只看到 4 个模式是正常现象。若要强制走二维结构识别，目前需要选 **`auto`**，或改代码/CLI 增加一个显式的 `2d` / `printed_2d_layout` 选项。需要的话我可以帮你把这个选项加到前端和 `pipeline.py` 里。
+
+---
+
+_**User**_
+
+printed_2d_layout对上下标、分数等的识别准确率比较高，但是目前这个没有接入handwriting，导致如果我使用手写板选择handwriting的话不能有效识别平方、分数等等，针对这样的问题，有什么比较好的解决方案
+
+---
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+用户希望将 printed_2d_layout 的结构识别能力接入手写模式。目前手写板无法有效识别平方、分数等数学符号。</details></think>
+
+_**Agent (composer-2.5)**_
+
+分析手写与二维结构识别的差异，以便提出可行方案。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\handwritten_rule_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\calculus_layout.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.py",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\src",
+  "pattern": "handwritten|structure_2d|2d_layout|analyze_layout"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\src",
+  "pattern": "handwritten|structure_2d|2d_layout|analyze_layout",
+  "topFiles": [
+    {
+      "matchCount": 10,
+      "uri": "src/vision/structure_router.py"
+    },
+    {
+      "matchCount": 15,
+      "uri": "src/vision/recognizers/handwritten_rule_template.py"
+    },
+    {
+      "matchCount": 15,
+      "uri": "src\\vision\\recognizers\\handwritten_rule_template.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/vision/structure_2d.py"
+    },
+    {
+      "matchCount": 14,
+      "uri": "src/vision/calculus_layout.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/layout_analysis.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/vision/pipeline.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/template_matcher.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/vision/recognizers/printed_template.py"
+    },
+    {
+      "matchCount": 11,
+      "uri": "src/vision/auto_router.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/recognizers/__init__.py"
+    }
+  ],
+  "totalFiles": 11,
+  "totalMatches": 74
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\calculus_layout.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+已明确问题根源：printed_2d_layout 采用结构化模板匹配与递归布局解析，无法识别手写板中的平方、分数等特殊符号。正在按实用程度整理可行方案。
+
+已定位到核心机制缺陷：手写模式下自动路由会惩罚 printed_2d_layout，且用户显式选择手写时会完全绕过自动路由。最可行的方案是参考 calculus_layout 的混合架构，将 structure_2d 重构为可注入匹配回调的结构，并新增手写符号识别模块，使几何解析与手写匹配并行工作。</details></think>
+
+_**Agent (composer-2.5)**_
+
+这是个典型的**「结构解析」和「符号匹配」绑定了不同模态」**的问题。下面按投入产出比，从推荐到备选说明可行方案。
+
+## 问题本质
+
+当前两条管线是割裂的：
+
+| 能力 | `printed_2d_layout` (`structure_2d.py`) | `handwritten` |
+|------|----------------------------------------|---------------|
+| 结构解析（分数/上下标/根号） | 强：递归 `_parse_region` | 弱：仅 `layout_analysis` 的 token 规则 |
+| 符号识别 | 印刷体模板 `match_symbol` | 手写模板 `match_handwritten_symbol` |
+| 分割 | 结构优先 + 列投影 | 纯列投影 |
+
+手写板选 `handwritten` 时，整条链路都走 `HandwrittenRuleTemplateRecognizer`：列分割 → 手写匹配 → `analyze_layout`。**结构能力几乎用不上 `structure_2d`**。
+
+另外，auto 路由里 `printed_2d_layout` 对手写纹理还有惩罚（`is_handwritten_texture` 时 -0.25），手写板即使用 `auto`，也容易被判成 `handwritten_basic`。
+
+---
+
+## 推荐方案：复用 `calculus_layout` 的混合模式
+
+项目里已有先例：`calculus_layout.py` 就是
+
+- **结构检测**来自 `structure_2d`（分数线、区域裁剪等）
+- **符号匹配**用手写模板 `match_handwritten_symbol`
+
+```201:211:src/vision/calculus_layout.py
+def _match_segment(segment, templates, offset):
+    label, score, candidates, _ = match_handwritten_symbol(segment.image, templates, context="calculus")
+    ...
+    source="calculus_2d_handwritten",
+```
+
+**建议**：抽一层 `handwritten_2d_layout`（或重构 `structure_2d` 支持注入 matcher）：
+
+```text
+structure_2d 的 _parse_region / _fraction_node / _sqrt_node / _tokens_to_script_nodes
+        +
+match_handwritten_symbol + prepare_equation_segments（现有笔画预处理）
+        =
+手写二维识别器
+```
+
+**优点**：
+- 改动集中，复用已验证的 2d 逻辑
+- 与 `calculus_layout` 架构一致，维护成本低
+- 可单独作为 pipeline 选项，也可作为 auto 新子类
+
+**需要补的工作**：
+- 把 `_match_segment`、`_plain_children` 从硬编码印刷模板改为可配置
+- 手写分数线/根号横线可能比印刷体更粗，需微调 `_line_candidates`、`_is_fraction_line` 阈值
+- 补充少量手写 2d 样例（`x^2`、`1/2`、`sqrt(x)`）做回归
+
+这是**最平衡**的方案：不动前端交互，只扩展后端能力。
+
+---
+
+## 方案 B：手写模式内做「结构分流」（两阶段）
+
+在 `HandwrittenRuleTemplateRecognizer.recognize` 开头加结构检测：
+
+```text
+if 检测到 fraction_like_lines / stacked_component_pairs:
+    → 走 handwritten_2d（上面混合管线）
+else:
+    → 现有 flat handwritten 流程
+```
+
+**优点**：用户仍选 `handwritten`，系统自动选路径，体验简单。  
+**缺点**：结构检测误判时会走错分支；实现上仍需要方案 A 的混合识别器。
+
+---
+
+## 方案 C：前端/路由层调整（短期权宜）
+
+### C1. 手写板默认用 `auto`，并改路由打分
+
+- 有分数线/堆叠结构时，即使 `is_handwritten_texture=True`，也不要大幅压低 `printed_2d_layout` 分数
+- 新增 `handwritten_2d_layout` 子类，专门服务手写板
+
+**局限**：在混合识别器完成前，auto 若选中 `printed_2d_layout`，仍会用**印刷体模板**匹配手写笔画，准确率有限。  
+**适合**：作为混合识别器上线前的过渡，或配合 C2。
+
+### C2. 前端增加「手写二维」选项
+
+在 `mode_radio` 增加 `handwritten_2d`，对应新 pipeline backend。
+
+**优点**：行为明确，便于调试和演示。  
+**缺点**：用户要多选一个模式；长期更理想的是 B 的自动分流。
+
+---
+
+## 方案 D：只加强 `layout_analysis`（不推荐单独做）
+
+把 `structure_2d._tokens_to_script_nodes` 迁到公共模块，让 handwritten 在 token 级做上下标。
+
+**局限**：分割仍是列投影，上标常和底字合成一列，**结构规则再强也救不了**。  
+可作为混合方案的辅助，不能替代 2d 结构解析。
+
+---
+
+## 方案 E：数据与模板扩展（中长期）
+
+- 建立 `handwritten_2d_layout` 样例集（分数、平方、根号、嵌套）
+- 为手写 `/`、`-`（分数线）、小写指数等补充模板
+- 评估脚本增加 `--category handwritten_2d_layout`
+
+**适合**：与方案 A 并行，保证迭代有指标。
+
+---
+
+## 建议落地顺序
+
+```text
+Phase 1（核心）
+  重构 structure_2d → 可注入 SymbolMatcher
+  实现 recognize_handwritten_2d_layout（calculus_layout 为参考）
+
+Phase 2（体验）
+  handwritten 模式内结构分流，或 auto 新增 handwritten_2d_layout
+  前端手写 Tab 默认 auto / 或隐藏「必须选手写」的误导
+
+Phase 3（质量）
+  手写 2d 样例 + 阈值调参 + 评估集
+```
+
+---
+
+## 和现有代码的关系（一句话）
+
+- **`structure_2d`**：负责「怎么切区域、怎么组 AST」  
+- **`handwritten_rule_template`**：负责「每个笔画块是什么字」  
+- **缺的是把两者接在一起**，`calculus_layout` 已经证明这条路走得通；`handwritten_basic` 还没接。
+
+如果你希望开始改代码，我建议从 **Phase 1：抽 matcher + 实现 `recognize_handwritten_2d_layout`** 入手，改动面可控，对平方/分数/根号的提升最直接。需要的话我可以直接按这个方案改一版。
+
+---
+
+_**User**_
+
+现在有点混乱，到底有多少2d layout检测？你描述的有printed_2d_layout, handwritten_2d_layout, structure_2d，哪个是准确率更高应该复用到手写检测中的
+
+---
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在梳理代码库中各2D布局检测模块的定义与差异。需要确认printed_2d_layout、handwritten_2d_layout和structure_2d各自的功能定位，并评估它们的准确率表现，以便判断哪个更适合复用到手写检测流程中。</details></think>
+
+_**Agent (composer-2.5)**_
+
+正在核对代码库中实际存在的 2D 相关模块与命名。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.py",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\src",
+  "pattern": "def recognize_"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver\\src",
+  "pattern": "def recognize_",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "src/vision/auto_router.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/pipeline.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/calculus_layout.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/structure_2d.py"
+    }
+  ],
+  "totalFiles": 4,
+  "totalMatches": 4
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.py",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver",
+  "pattern": "handwritten_2d|printed_2d|recognize_2d|structure_2d"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "d:\\作业提交\\大四 下\\数字图像处理\\proj\\cv-equation-solver",
+  "pattern": "handwritten_2d|printed_2d|recognize_2d|structure_2d",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "ui\\app.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "tests/test_display_normalizer.py"
+    },
+    {
+      "matchCount": 10,
+      "uri": "tests/test_structure_2d.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "tools/evaluate_samples.py"
+    },
+    {
+      "matchCount": 3,
+      "uri": "tests/test_auto_router.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "src/vision/structure_router.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "src/vision/structure_2d.py"
+    },
+    {
+      "matchCount": 20,
+      "uri": "tools/generate_sample_images.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "ui/app.py"
+    },
+    {
+      "matchCount": 3,
+      "uri": "tests/test_cross_validation.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "src/vision/calculus_layout.py"
+    },
+    {
+      "matchCount": 7,
+      "uri": "tests/test_structure_router_scoring.py"
+    },
+    {
+      "matchCount": 7,
+      "uri": "src/vision/auto_router.py"
+    }
+  ],
+  "totalFiles": 13,
+  "totalMatches": 66
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+已确认 `handwritten_2d_layout` 并不存在于代码库中，此前仅为个人设想。正在重新梳理实际存在的 2D 相关模块，以便厘清各检测方案的准确率与复用关系。
+
+实际存在四个相关模块：
+
+- `structure_2d.py` 是核心实现，包含完整的 `recognize_2d_layout()` 流水线，使用打印模板匹配与递归逻辑，对打印样本准确率较高。
+- `printed_2d_layout` 仅是路由/评估标签，并非独立代码；auto_router 在该类别命中时调用 `structure_2d` 的识别函数。
+- `layout_analysis.py` 提供弱 token 级别的布局检测，用于打印和手写扁平路径，与 `structure_2d` 不同。
+- `calculus_layout.py` 是独立的微积分 2D 检测流水线。
+
+因此，准确率更高的 `structure_2d` 应当作为核心复用基础，而 `printed_2d_layout` 只是路由标签，`layout_analysis.py` 与 `calculus_layout.py` 属于不同场景</details></think>
+
+_**Agent (composer-2.5)**_
+
+先把命名关系说清楚：**真正做二维结构解析的代码只有一套**，其余大多是「路由标签」或「弱版后处理」，`handwritten_2d_layout` 目前还不存在。
+
+## 一张对照表（现在仓库里实际有什么）
+
+| 名字 | 是什么 | 是否存在 | 二维结构能力 |
+|------|--------|----------|--------------|
+| **`structure_2d.py`** | **实现代码**（模块 + `recognize_2d_layout()`） | ✅ 有 | **最强**：递归分数/根号/上下标 |
+| **`printed_2d_layout`** | **auto 路由 / 评估用的类别名** | ✅ 有（只是标签） | 选中后会调用上面的 `recognize_2d_layout()` |
+| **`handwritten_2d_layout`** | 之前讨论里**提议**的新类别 | ❌ **没有** | 尚未实现 |
+| **`layout_analysis.py`** | 印刷/手写 flat 管线里的 **token 后处理** | ✅ 有 | **弱**：相邻 token 猜上标/分数 |
+| **`calculus_layout.py`** | 微积分专用 2D 管线 | ✅ 有 | **中等**：借用了 `structure_2d` 部分工具函数 + 手写匹配 |
+
+所以：**不是三套 2D 检测器并存**，而是 **1 套主引擎 + 几个不同用途的包装/弱化版本**。
+
+---
+
+## 关系图
+
+```text
+                    ┌─────────────────────────────────────┐
+                    │   structure_2d.py（核心引擎）          │
+                    │   recognize_2d_layout()             │
+                    │   · _parse_region 递归               │
+                    │   · 分数线 / 根号 / 上下标             │
+                    │   · 符号匹配：印刷体 match_symbol      │
+                    └──────────────┬──────────────────────┘
+                                   │
+         printed_2d_layout ────────┤  （auto 路由命中时调用，同一函数）
+         evaluate --category ──────┤
+         test_structure_2d.py ─────┘
+
+handwritten 模式 ──→ HandwrittenRuleTemplateRecognizer
+                     · 列分割 + match_handwritten_symbol
+                     · layout_analysis（弱规则）  ← 没走 structure_2d
+
+calculus 模式 ──→ calculus_layout.py
+                     · 从 structure_2d 借 _line_candidates 等
+                     · 符号用手写 match_handwritten_symbol
+                     · 自己的积分/极限逻辑（不是完整 recognize_2d_layout）
+```
+
+---
+
+## 三个名字分别指什么
+
+### 1. `structure_2d` = **应该复用的那一套**
+
+这是**唯一完整**的二维布局识别实现：
+
+- 入口：`recognize_2d_layout()`
+- 文件：`src/vision/structure_2d.py`
+- 在 `printed_2d_layout` 样例上准确率高（测试里分数、上标、根号、嵌套 `sqrt(x^2+1)` 都测过）
+
+它做两件事：
+
+1. **结构**（该复用的）：怎么找分数线、根号横线、怎么切分子/分母/被开方数、怎么组上下标 AST  
+2. **符号**（手写时要换）：每个小块用 `match_symbol`（印刷体模板）
+
+### 2. `printed_2d_layout` = **路由标签，不是另一套算法**
+
+只是 auto 路由器里的一个类别名：
+
+```294:295:src/vision/auto_router.py
+    if category == "printed_2d_layout":
+        return recognize_2d_layout(image_path=image_path, debug_dir=debug_dir)
+```
+
+评估脚本 `--category printed_2d_layout` 也是调同一个 `recognize_2d_layout()`。  
+**没有**单独的 `printed_2d_layout.py`。
+
+### 3. `handwritten_2d_layout` = **尚未实现**
+
+代码里搜不到这个名字，是之前建议的**未来方案名**：  
+`structure_2d` 的结构解析 + `match_handwritten_symbol` 的手写匹配。
+
+---
+
+## 哪个准确率更高、该复用到手写？
+
+| 对比 | 结构解析 | 符号匹配 | 适用 |
+|------|----------|----------|------|
+| **`structure_2d`** | ⭐⭐⭐ 强 | 印刷体 | 印刷二维样例 |
+| **`layout_analysis`**（handwritten 在用） | ⭐ 弱 | 手写 | 仅简单相邻上标 |
+| **`calculus_layout`** | ⭐⭐ 专用于微积分 | 手写 | 积分/极限，不是通用 x²、1/2 |
+
+**结论：**
+
+- **要复用的是 `structure_2d` 的结构部分**（`_parse_region`、分数线/根号/上下标逻辑），不是 `layout_analysis`。  
+- **不要**再写一套新的 2D 检测器；也**不要**指望 `printed_2d_layout` 这个标签本身有什么额外能力。  
+- 手写接入的正确做法是：**结构沿用 `structure_2d`，只把 `_match_segment` 从印刷模板换成手写模板**（`calculus_layout` 已经这么做过一部分）。
+
+---
+
+## 和 `calculus_layout` 的区别（避免再混）
+
+`calculus_layout` **不是** `recognize_2d_layout` 的手写版，而是：
+
+- 只处理积分、极限等微积分结构  
+- 从 `structure_2d` **import 了部分辅助函数**（如 `_line_candidates`）  
+- 普通 `x^2`、`1/2` 仍应走完整 `structure_2d` 管线，而不是 calculus
+
+---
+
+## 一句话总结
+
+```text
+printed_2d_layout  =  「什么时候用」的标签
+structure_2d       =  「怎么识别二维结构」的唯一完整实现  ← 手写应复用这个
+handwritten_2d_layout = 还不存在，理想形态 = structure_2d 结构 + 手写符号匹配
+layout_analysis    =  flat 管线的弱替补，不要当作 2D 主引擎
+```
+
+如果接下来要做手写平方/分数，目标应是：**重构 `structure_2d` 支持可注入 matcher，然后做「手写版 recognize_2d_layout」**，而不是扩 `layout_analysis` 或新建第三套 2D 系统。需要的话我可以按这个思路直接改一版代码结构（先抽 matcher 接口，再接手写板）。
+
+---
+
+_**User**_
+
+为什么需要复用的是structure_2d？我的理解不应该是将目前准确率很高的printed_2d_layout中对手写的惩罚去掉然后加入handwritten的结构检测中吗
+
+---
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+用户对架构设计有不同理解。他认为应当从 printed_2d_layout 的路由中移除对手写稿的惩罚，再将其加入手写结构检测。
+
+printed_2d_layout 并非独立算法，而是调用 structure_2d.py 的标签。若仅移除对手写稿的惩罚，该路由仍会使用打印模板（match_symbol），无法自动切换到手写模板。因此必须让 handwriten 路径直接复用 structure_2d，才能真正引入手写结构检测。</details></think>
+
+_**Agent (composer-2.5)**_
+
+你的直觉方向是对的：**让手写也能走「二维结构那条路」**。容易混的地方在于：`printed_2d_layout` 并不是和 `structure_2d` 并列的另一套算法。
+
+## 核心澄清：`printed_2d_layout` = 调用 `structure_2d`
+
+代码里只有这一条完整二维管线：
+
+```294:295:src/vision/auto_router.py
+    if category == "printed_2d_layout":
+        return recognize_2d_layout(image_path=image_path, debug_dir=debug_dir)
+```
+
+`recognize_2d_layout()` 定义在 `structure_2d.py`。  
+所以：
+
+- **`printed_2d_layout`**：auto 里的**类别名**（什么时候走这条路）
+- **`structure_2d`**：**实现代码**（怎么走：分数线、根号、上下标、递归解析）
+
+评估脚本 `--category printed_2d_layout`、测试 `test_structure_2d.py` 调的是**同一个函数**。  
+说「复用 structure_2d」和说「把手写接到 printed_2d_layout 那条路」在工程上是**同一件事**，只是前者指代码模块，后者指路由标签。
+
+---
+
+## 你提的方案：去惩罚 + 并进 handwritten —— 分两步看
+
+### 第一步：去掉 auto 里对手写的惩罚 ✅ 有用，但不够
+
+`structure_router.py` 里，`printed_2d_layout` 在 `is_handwritten_texture=True` 时会 **-0.25**，手写板容易被判成 `handwritten_basic`。
+
+去掉或减弱这个惩罚 → 手写画分数/上标时，**更容易**被 auto 选到 `printed_2d_layout`。
+
+但选中之后仍然执行：
+
+```text
+recognize_2d_layout()  →  match_symbol（印刷体模板）
+```
+
+笔画和印刷体模板对不上，**结构切对了，字仍可能认错**（例如根号、数字误识）。  
+所以：**改路由是必要条件，不是充分条件**。
+
+### 第二步：「加入 handwritten 的结构检测」—— 关键在「加什么」
+
+当前 `handwritten` 里的「结构检测」是 `layout_analysis.py`：
+
+```78:89:src/vision/layout_analysis.py
+def analyze_layout(tokens):
+    ...
+    return detect_superscripts(tokens)  # 弱：只看相邻 token 的 bbox
+```
+
+而 `printed_2d_layout` 用的是 `structure_2d` 的 `_parse_region`（先找分数线/根号，再递归切区域）。
+
+| | handwritten 现在 | printed_2d_layout（= structure_2d） |
+|--|------------------|-------------------------------------|
+| 结构 | `layout_analysis`（token 级、无递归） | `_parse_region`（图像级、可嵌套） |
+| 符号 | `match_handwritten_symbol` ✅ | `match_symbol`（印刷体） |
+
+若只把「路由惩罚去掉」，等于让手写图走 **structure_2d 的结构 + 印刷体匹配**，结构可能对，符号仍差。
+
+若只把 `layout_analysis` 加强，**不**接 `_parse_region`，列分割把 `x` 和 `²` 合成一块时，后面规则再强也救不了。
+
+所以更准确的说法是：
+
+```text
+不是把 printed_2d_layout「标签」塞进 handwritten，
+而是把 structure_2d 的「结构解析」接进 handwritten，
+并保留 match_handwritten_symbol 做符号识别。
+```
+
+这就是之前说的「structure_2d + 手写 matcher」，和 `calculus_layout` 对微积分的做法一致。
+
+---
+
+## 两种做法对比
+
+```text
+方案 A（你理解的： mainly 改路由）
+  手写板 → auto → 去掉惩罚 → printed_2d_layout → recognize_2d_layout
+  结构：structure_2d ✅
+  符号：印刷体模板 ❌（手写笔画）
+
+方案 B（完整：结构 + 符号都对手写）
+  手写板 → handwritten（或 auto 新类 handwritten_2d）
+       → structure_2d 的 _parse_region（结构）
+       → match_handwritten_symbol（符号）
+  结构：structure_2d ✅
+  符号：手写模板 ✅
+```
+
+**准确率高的是 structure_2d 的结构部分**；`printed_2d_layout` 在印刷样例上表现好，是因为 **结构 + 印刷模板** 配套。手写要复制的是**结构那一半**，不能原样复制整条 `recognize_2d_layout()`（除非接受印刷体匹配）。
+
+---
+
+## 和你理解的对应关系
+
+| 你的说法 | 实际含义 |
+|----------|----------|
+| 去掉 printed_2d_layout 对手写的惩罚 | ✅ 对，改 `structure_router` 打分即可 |
+| 加入 handwritten 的结构检测 | ⚠️ 应理解为：**用 structure_2d 替换/补充 layout_analysis**，不是只改路由名 |
+| 为什么要提 structure_2d | 因为那就是 printed_2d_layout 背后唯一的那套结构代码 |
+
+---
+
+## 建议的最小落地路径
+
+1. **路由层（快）**：减弱 `printed_2d_layout` 对手写纹理的惩罚；或 handwritten 模式内检测到分数线/堆叠时，**分支**到二维路径（不必等 auto）。
+2. **识别层（关键）**：重构 `structure_2d`，让 `_match_segment` 可注入 → 手写走同一套 `_parse_region`，符号用 `match_handwritten_symbol` + `prepare_equation_segments`。
+3. **不要**指望只改路由、仍用完整 `recognize_2d_layout()` 就能把手写平方/分数做好。
+
+一句话：**去惩罚是对的；但 printed_2d_layout 没有独立算法可「搬」——它本身就是 structure_2d 的入口。手写要接的是 structure_2d 的结构解析，同时换掉里面的印刷体匹配。**
+
+---
+
+_**User**_
+
+明白了，如果不改惩罚，路由的时候直接选择handwritten，但是把structure_2d的结构解析接入handwritten，是不是可以达到同样的效果
+
+---
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+用户在确认：若不修改自动路由惩罚，而是将structure_2d的结构解析直接接入handwritten模式，是否能达到相同效果。
+
+确认可行。显式选择handwritten会绕过自动路由，因此无需改动惩罚。将structure_2d解析与handwritten匹配结合，能完整解决handwritten 2D表达式的问题。这比单纯移除惩罚更优，因为handwriting场景下该方案效果更好。</details></think>
+
+_**Agent (composer-2.5)**_
+
+**可以。** 在用户**直接选 `handwritten`** 的场景下，不改 auto 惩罚也能达到你要的效果，而且比「只去惩罚、让 auto 走 `printed_2d_layout`」**更适合手写板**。
+
+## 为什么可行
+
+选 `handwritten` 时根本不会走 auto 路由，`printed_2d_layout` 对手写纹理的惩罚**不参与决策**：
+
+```text
+前端选 handwritten
+  → pipeline.recognize_image(backend="handwritten")
+  → HandwrittenRuleTemplateRecognizer
+  （与 auto / printed_2d_layout 无关）
+```
+
+在这里把管线改成：
+
+```text
+HandwrittenRuleTemplateRecognizer
+  ├─ 若检测到二维结构（分数线、上下标堆叠、根号横线等）
+  │     → structure_2d 的 _parse_region（结构）
+  │     → match_handwritten_symbol（符号）
+  └─ 否则
+        → 现有 flat 流程（列分割 + 手写匹配）
+```
+
+对用户来说：**选手写模式 + 画 x²、1/2、√x**，就能同时得到  
+- 二维结构解析（来自 `structure_2d`）  
+- 手写符号识别（现有 handwritten 模板）
+
+这比「auto 误/选对 `printed_2d_layout` + 印刷体模板」更合理。
+
+## 和「改惩罚 + auto 走 printed_2d_layout」的对比
+
+| 方案 | 结构 | 符号 | 选手写模式时 |
+|------|------|------|--------------|
+| 只改惩罚，auto → `printed_2d_layout` | ✅ structure_2d | ❌ 印刷体模板 | 仍无效（若用户选手写） |
+| **handwritten 内接 structure_2d** | ✅ structure_2d | ✅ 手写模板 | ✅ **有效** |
+
+所以：**同样甚至更好的效果**，前提是结构用 `structure_2d`，符号仍用手写 matcher，而不是整条 `recognize_2d_layout()` 原样搬过来。
+
+## 需要注意的两点
+
+**1. 建议在 handwritten 内部做「结构分流」**
+
+不是每次手写都走 `_parse_region`，否则简单 `1+2` 可能反而变慢、易误判。可先根据图像特征（与 `structure_router` 类似的分数线、堆叠对等）决定走 2D 还是 flat。
+
+**2. 只改 handwritten，不改 auto 时**
+
+- 手写板 + **handwritten**：✅ 按你的方案即可  
+- 手写板 + **auto**：仍可能进 `handwritten_basic` + 弱版 `layout_analysis`，二维效果不一定好  
+
+若希望 auto 也一致，可以之后再：在 `handwritten_basic` 里用同一套 2D 分支，或单独加 `handwritten_2d_layout` 路由类——那是增强项，不是 handwritten 方案的前提。
+
+## 一句话
+
+**是的：路由固定选手写、在 `HandwrittenRuleTemplateRecognizer` 里接入 `structure_2d` 的结构解析并保留 `match_handwritten_symbol`，就能在「手写模式」下达到（并超过）仅改惩罚的效果。**  
+实现上本质是 refactor `structure_2d` 支持可注入 matcher，再在手写识别器里调用，与 `calculus_layout` 的模式一致。
+
+---
+
+_**User**_
+
+好的，我在手写的时候会固定handwritten路由，不需改原先的惩罚。现在新的结构检测进行接入
+
+---
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在规划将 structure_2d 的结构解析接入手写识别流程。手写路由保持固定，无需改动自动路由的惩罚逻辑。</details></think>
+
+_**Agent (composer-2.5)**_
+
+正在把 `structure_2d` 的结构解析接入 `handwritten` 识别器，先阅读相关代码结构。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_2d.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\recognizers\handwritten_rule_template.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\calculus_layout.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+计划重构 structure_2d.py，将硬编码的模板和匹配逻辑替换为可插拔的匹配器上下文。
+
+考虑新增 Structure2DContext 数据类来封装匹配器回调，并重构解析与匹配函数以使用该上下文。同时计划在手写识别器中加入结构检测门控：通过特征判断是否启用二维布局识别，再决定调用 2D 还是扁平解析路径。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\tests\test_handwritten_leave_one_out.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+开始重构 structure_2d.py。将添加 Structure2DMatcher 协议和 PrintedTemplateMatcher 上下文。
+
+还将添加 HandwrittenTemplateMatcher 上下文，并把 _parse_region、_match_segment 等函数改为接收 matcher 而非模板字典。新增 looks_like_2d_structure 作为门控函数，以及 recognize_2d_layout_from_binary 主函数。handwritten_rule_template.py 会在预处理后裁剪二值图，若检测到二维结构则调用 handwritten 分支，否则保持原有扁平路径。
+
+二维路径将使用 serialize_layout 生成 expression_text，而非扁平拼接。
+
+为避免循环导入，structure_2d 不会在模块顶层直接导入 handwritten_rule_template。考虑两种方案：由 handwritten 定义 matcher 并传入 structure_2d；或在 structure_2d 内通过延迟导入获取 HandwrittenStructureMatcher。
+
+确定了更清晰的架构设计。structure_2d 将定义 Protocol 或 Callable 类型的匹配接口，以及 `parse_2d_layout` 主函数，负责解析布局并返回 token 列表。structure_2d 还会包含 `Structure2DEngine` 数据类来管理 token 来源等上下文信息。handwritten_rule_template.py 会提供闭包形式的匹配器实现，并通过该接口接入二维结构识别。
+
+Structure2DEngine 的匹配接口将包含 `match_segment_fn` 和可选的 `prepare_segment_fn`。已草拟打印版与手写版的具体匹配器实现：打印版直接调用 `match_symbol`；手写版先对单个 segment 裁剪 ROI，再调用 `match_handwritten_symbol`。注意到逐段处理效率较低，计划在 `_plain_children` 中改为批量准备 segment。
+
+决定将 Structure2DEngine 的匹配接口从单段改为批量。`match_segments` 接收 Segment 列表与偏移量，返回 SymbolToken 列表。这样手写版可以一次性批量准备整个区域的 segment，避免逐段处理的低效问题。
+
+打印版批量匹配器将遍历扩展后的 segment 列表，逐个调用 `_match_segment_printed` 生成 token。手写版批量匹配器会先对 segment 执行 `_split_tall_disconnected_segment` 拆分，再统一调用 `prepare_equation_segments` 准备 ROI，最后逐段匹配并返回 SymbolToken 列表。
+
+确认 `_plain_children` 保持现有结构不变。该函数负责对 segment 执行 `_split_tall_disconnected_segment` 拆分，并将偏移量累加后传给 `engine.match_segments` 进行批量匹配。最终结果仍通过 `_tokens_to_script_nodes` 转换为脚本节点返回。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_router.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+考虑在 structure_2d 中新增 `_count_stacked_pairs` 和 `_component_boxes`，或导出 `looks_like_2d_structure` 以复用最小化逻辑。
+
+正在重写 structure_2d.py 的完整重构。核心设计是定义 `Structure2DEngine` 数据类，通过 `match_segments` 回调匹配符号片段，并新增 `create_printed_engine` 工厂函数来封装模板匹配逻辑。
+
+`create_printed_engine` 已完成，返回基于模板匹配的 `Structure2DEngine` 实例。`create_handwritten_engine` 正在实现，它将调用手写识别模块的 `prepare_equation_segments` 与 `match_handwritten_symbol` 来生成手写符号 token。
+
+`create_handwritten_engine` 已完成，返回基于手写识别的 `Structure2DEngine` 实例。接下来将内部函数中的 `templates` 参数替换为 `engine`，并开始添加 `recognize_2d_layout_with_engine` 入口函数。
+
+`recognize_2d_layout_with_engine` 将接收 `engine` 参数并支持可选的预处理选项与调试目录。手写识别流程中，若图像满足二维结构特征，会创建手写引擎并调用核心函数处理裁剪后的二值图。手写二维路径的表达式文本将使用 `serialize_layout` 生成。
+
+扁平路径保持不变。计划新增 `test_handwritten_2d_structure.py`，测试打印样本上的二维结构检测、手写扁平路径的交叉验证，以及现有结构测试的回归。同时考虑更新 UI 应用中 `handwritten_2d_structure` 源的 token 覆盖显示。</details></think>
+
+_**Agent (composer-2.5)**_
+
+正在重构 `structure_2d` 以支持可注入 matcher，并将其接入手写识别器。
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write">
+<details>
+<summary>Tool use: **todo_write**</summary>
+
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Refactor structure_2d with Structure2DEngine + looks_like_2d_structure",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Integrate 2D path into HandwrittenRuleTemplateRecognizer",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Add tests and run verification",
+      "id": "3",
+      "status": "pending"
+    }
+  ],
+  "success": true
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\vision\structure_2d.py</summary>
+
+Status: **loading**
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
 
 </details></tool-use>

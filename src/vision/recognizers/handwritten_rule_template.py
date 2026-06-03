@@ -15,6 +15,12 @@ from src.vision.normalization import normalize_formula_image
 from src.vision.preprocess import PreprocessOptions, preprocess_image, read_image, save_debug_image
 from src.vision.recognizers.printed_template import kind_for_label, safe_label
 from src.vision.segmentation import segment_characters
+from src.vision.structure_2d import (
+    _crop_binary,
+    create_handwritten_engine,
+    looks_like_handwritten_2d_structure,
+    recognize_2d_from_binary,
+)
 from src.vision.template_matcher import (
     _trim_foreground,
     extract_geometry_features,
@@ -50,12 +56,13 @@ class HandwrittenRuleTemplateRecognizer:
         templates = load_handwritten_templates(self.sample_dir, self.label_dir)
         image = read_image(image_path)
         normalized = normalize_formula_image(image)
-        preprocessed = preprocess_image(
-            normalized.image,
-            options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3, morph_close=2),
+        preprocess_options = PreprocessOptions(
+            threshold_method="fixed",
+            threshold=128,
+            median_kernel=3,
+            morph_close=2,
         )
-        segments = segment_characters(preprocessed.binary)
-        prepared_rois = prepare_equation_segments(segments)
+        preprocessed = preprocess_image(normalized.image, options=preprocess_options)
 
         debug_base = Path(debug_dir) if debug_dir is not None else None
         debug_artifacts: dict[str, Path] = {}
@@ -63,6 +70,47 @@ class HandwrittenRuleTemplateRecognizer:
             debug_base.mkdir(parents=True, exist_ok=True)
             debug_artifacts["normalized"] = save_debug_image(debug_base / "normalized.png", normalized.image)
             debug_artifacts["binary"] = save_debug_image(debug_base / "binary.png", preprocessed.binary)
+
+        cropped_binary = _crop_binary(preprocessed.binary)
+        if looks_like_handwritten_2d_structure(cropped_binary):
+            engine = create_handwritten_engine(templates)
+            result = recognize_2d_from_binary(
+                cropped_binary,
+                engine,
+                debug_dir=debug_base,
+                debug_key="binary_2d_handwritten",
+            )
+            warnings = list(result.warnings)
+            warnings.append("used handwritten 2d structure parser")
+            if debug_base is not None:
+                _write_token_table(debug_base, result.tokens, debug_artifacts)
+            return RecognitionResult(
+                tokens=result.tokens,
+                expression_text=result.expression_text,
+                debug_artifacts={**debug_artifacts, **result.debug_artifacts},
+                warnings=warnings,
+                layout=result.layout,
+                sympy_text=result.sympy_text,
+            )
+
+        return self._recognize_flat(
+            preprocessed.binary,
+            templates,
+            debug_base=debug_base,
+            debug_artifacts=debug_artifacts,
+        )
+
+    def _recognize_flat(
+        self,
+        binary: np.ndarray,
+        templates: TemplateLibrary,
+        debug_base: Path | None,
+        debug_artifacts: dict[str, Path],
+    ) -> RecognitionResult:
+        segments = segment_characters(binary)
+        prepared_rois = prepare_equation_segments(segments)
+
+        if debug_base is not None:
             (debug_base / "segments").mkdir(exist_ok=True)
 
         tokens: list[SymbolToken] = []
@@ -89,16 +137,10 @@ class HandwrittenRuleTemplateRecognizer:
                 )
 
         expression = normalize_tokens(tokens)
-        display_text = "".join(token.text for token in tokens)
         layout = analyze_layout(tokens)
+        display_text = serialize_layout(layout, target="plain")
         if debug_base is not None:
-            table_path = debug_base / "tokens.csv"
-            with table_path.open("w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(["index", "text", "kind", "bbox", "confidence", "source"])
-                for index, token in enumerate(tokens):
-                    writer.writerow([index, token.text, token.kind, token.bbox, f"{token.confidence:.6f}", token.source])
-            debug_artifacts["tokens"] = table_path
+            _write_token_table(debug_base, tokens, debug_artifacts)
 
         return RecognitionResult(
             tokens=tokens,
@@ -108,6 +150,16 @@ class HandwrittenRuleTemplateRecognizer:
             layout=layout,
             sympy_text=serialize_layout(layout, target="sympy"),
         )
+
+
+def _write_token_table(debug_base: Path, tokens: list[SymbolToken], debug_artifacts: dict[str, Path]) -> None:
+    table_path = debug_base / "tokens.csv"
+    with table_path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["index", "text", "kind", "bbox", "confidence", "source"])
+        for index, token in enumerate(tokens):
+            writer.writerow([index, token.text, token.kind, token.bbox, f"{token.confidence:.6f}", token.source])
+    debug_artifacts["tokens"] = table_path
 
 
 def _foreground_fill_ratio(binary: np.ndarray) -> float:
