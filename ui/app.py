@@ -296,6 +296,11 @@ def process(
         )
 
 
+_SKETCHPAD_JS_PATH = Path(__file__).resolve().parent / "sketchpad_tools.js"
+# Thinner than Gradio "auto" (~height/50). Backend unify_stroke_fill_ratio can thicken thin strokes.
+SKETCH_BRUSH_SIZE = 7
+SKETCH_ERASER_SIZE = 12
+
 HEADER = """
 #  CV Equation Solver — 算式识别与求解
 
@@ -312,10 +317,33 @@ with gr.Blocks(title="CV Equation Solver") as app:
                 with gr.Tab("上传图片", id="upload_tab") as tab_upload:
                     upload = gr.Image(label="上传算式图片", type="numpy", sources=["upload", "clipboard"], height=500)
                 with gr.Tab("手写输入", id="sketch_tab") as tab_sketch:
-                    sketch = gr.Sketchpad(label="手写算式区域", type="numpy", height=500)
-            
+                    gr.Markdown(
+                        "默认画笔模式；清除或橡皮擦后会自动回到画笔。"
+                        " 笔画较细时识别管线会自动加粗笔画以贴近模板。"
+                    )
+                    sketch = gr.Sketchpad(
+                        label="手写算式区域",
+                        type="numpy",
+                        height=500,
+                        elem_id="cv-equation-sketchpad",
+                        transforms=(),
+                        layers=False,
+                        brush=gr.Brush(
+                            default_size=SKETCH_BRUSH_SIZE,
+                            colors=["#000000"],
+                            default_color="#000000",
+                            color_mode="fixed",
+                        ),
+                        eraser=gr.Eraser(default_size=SKETCH_ERASER_SIZE),
+                    )
+
             tab_upload.select(fn=lambda: "upload_tab", inputs=None, outputs=active_tab)
-            tab_sketch.select(fn=lambda: "sketch_tab", inputs=None, outputs=active_tab)
+            tab_sketch.select(
+                fn=lambda: "sketch_tab",
+                inputs=None,
+                outputs=active_tab,
+                js="() => { if (typeof cvInitSketchpad === 'function') cvInitSketchpad(); }",
+            )
 
             mode_radio = gr.Radio(
                 choices=["printed", "handwritten", "calculus", "auto"],
@@ -374,9 +402,11 @@ if __name__ == "__main__":
     _ensure_localhost_bypasses_proxy()
     default_port = 7861
     port = int(os.environ.get("GRADIO_SERVER_PORT", default_port))
+    sketch_js = _SKETCHPAD_JS_PATH.read_text(encoding="utf-8")
     app.launch(
         server_name="127.0.0.1",
         server_port=port,
         share=False,
         show_error=True,
+        js=sketch_js,
     )

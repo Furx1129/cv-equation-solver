@@ -1503,3 +1503,219 @@ Status: **completed**
 <summary>Tool use: **ripgrep_raw_search**</summary>
 
 </details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\reports\evaluation\_summarize.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\src\solver\symbolic.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location "d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\reports\evaluation"; python _summarize.py</summary>
+
+```bash
+Set-Location "d:\作业提交\大四 下\数字图像处理\proj\cv-equation-solver\reports\evaluation"; python _summarize.py
+```
+
+```
+AUTO FAILURES: 9
+  printed_2d_layout/printed_2d_006.png: label='x^2+1' pred='x2+1' route=handwritten_basic
+  printed_2d_layout/printed_2d_008.png: label='x_1+x_2' pred='x1+x2' route=printed_basic
+  printed_2d_layout/printed_2d_010.png: label='sqrt(9)' pred='4' route=handwritten_basic
+  printed_2d_layout/printed_2d_011.png: label='sqrt(x)' pred='5' route=handwritten_basic
+  printed_2d_layout/printed_2d_013.png: label='sqrt(4)+2' pred='=+2' route=printed_basic
+  printed_2d_layout/printed_2d_019.png: label='x_1=2' pred='x1=2' route=printed_basic
+  handwritten_basic/handwritten_8_004.png: label='8' pred='a/' route=printed_2d_layout
+  handwritten_basic/handwritten_equal_001.png: label='=' pred='-' route=printed_decimal_negative
+  handwritten_basic/handwritten_minus_002.png: label='-' pred='��' route=printed_basic
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<think><details><summary>Thought Process</summary>
+正在删除临时文件，准备用中文撰写完整的回答。</details></think>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="delete_file">
+<details><summary>Tool use: **delete_file**</summary>
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="delete_file"><details>
+<summary>Tool use: **delete_file**</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+以下基于刚在本机跑完的评估结果（`data/samples` 共 **235** 张，2026-06-02）。
+
+---
+
+## 一、目前能识别的算式类型
+
+项目按 **5 类** 组织，对应不同识别链路：
+
+### 1. 印刷体基础四则 `printed_basic`（40 张）
+
+- **内容**：整数 `+ - × ÷`、括号、等号
+- **示例**：`1+2=3`、`(4+5)x7=63`、`96÷12=8`
+- **识别器**：`printed`（模板匹配）
+- **计算**：四则运算（`ArithmeticSolver`）
+
+### 2. 印刷体负数/小数 `printed_decimal_negative`（40 张）
+
+- **内容**：负数、小数、括号内负号、乘除显示规范
+- **示例**：`-12+5=-7`、`4.5+1.5=6`、`(-3)x(-4)=12`、`18÷(-3)=-6`
+- **识别器**：`printed`
+- **计算**：四则运算
+
+### 3. 印刷体二维结构 `printed_2d_layout`（40 张）
+
+- **内容**：
+  - 分数：`1/2`、`(x+1)/2`、`1/(x+1)`
+  - 上下标：`x^2`、`x_1+x_2`、`a_1^2`、`y_2=3`
+  - 根号：`sqrt(x)`、`sqrt(9)`、`sqrt(x^2+1)`
+  - 组合：`x^2+y^2`、`1/2+1/3`、`y=x^2`
+- **识别器**：`auto` 或内部 `recognize_2d_layout`
+- **计算**：符号化简（`SymbolicSolver` / SymPy）
+
+### 4. 手写基础符号 `handwritten_basic`（105 张）
+
+- **内容**：**21 类单符号**（每类 5 张），不是完整长算式评测
+- **符号集**：`0-9`、`+`、`-`、`×`、`÷`、`/`、`.`、`(`、`)`、`=`、`x`、`y`
+- **识别器**：`handwritten`（以样例库为模板的规则匹配）
+- **计算**：单符号本身不求值；多字符手写式（如 `3+5`）在 `data/test/1.jpg` 有额外测试
+
+### 5. 微积分 `calculus`（10 张）
+
+- **内容**：
+  - 积分：`integrate(x, x)`、`integrate(x^2, x)`、`integrate(sin(x), x)`、`integrate(1/x, x)`
+  - 求导：`diff(x^2, x)`、`diff(sin(x), x)`、`diff(exp(x), x)`
+  - 极限：`limit(sin(x)/x, x, 0)`、`limit((x^2-1)/(x-1), x, 1)`、`limit(1/x, x, oo)`
+- **识别器**：`calculus`
+- **计算**：SymPy 符号计算
+
+### 6. 模板库支持的符号（印刷/结构）
+
+`data/templates/printed_basic/` 中还有微积分相关字符模板：`√`、`∫`、`∂`、`→`、`∞`、`lim`、`dx`、`d/dx` 及字母 `a c d e g i l m n o p q r s t` 等，但**完整可用的主要是上面 5 类评测集覆盖的范围**。
+
+---
+
+## 二、准确率（本机刚跑的结果）
+
+评估命令：
+- 指定识别器：`python tools/evaluate_samples.py --category all`
+- 自动路由：`python tools/evaluate_samples.py --category auto --confusion-matrix`
+
+### 模式 A：指定识别器（各类用对应后端）
+
+| 类别 | 正确/总数 | 准确率 |
+|------|-----------|--------|
+| `printed_basic` | 40/40 | **100%** |
+| `printed_decimal_negative` | 40/40 | **100%** |
+| `printed_2d_layout` | 40/40 | **100%** |
+| `handwritten_basic` | 105/105 | **100%** |
+| `calculus` | 10/10 | **100%** |
+| **合计** | **235/235** | **100%** |
+
+> 这是「已知类别 + 选对识别器」的上限表现。
+
+### 模式 B：Auto 自动路由（UI 默认 `auto` 更接近这个）
+
+| 类别 | 正确/总数 | 准确率 | 主要问题 |
+|------|-----------|--------|----------|
+| `printed_basic` | 40/40 | **100%** | — |
+| `printed_decimal_negative` | 40/40 | **100%** | — |
+| `calculus` | 10/10 | **100%** | 样例少 |
+| `handwritten_basic` | 102/105 | **97.1%** | 误路由到印刷体/2D |
+| `printed_2d_layout` | 34/40 | **85%** | 根号、上下标被当线性式 |
+| **合计** | **226/235** | **96.2%** | |
+
+**Auto 模式 9 个失败样例：**
+
+| 图片 | 标签 | 预测 | 误路由到 |
+|------|------|------|----------|
+| `printed_2d_006` | `x^2+1` | `x2+1` | handwritten |
+| `printed_2d_008` | `x_1+x_2` | `x1+x2` | printed_basic |
+| `printed_2d_010` | `sqrt(9)` | `4` | handwritten |
+| `printed_2d_011` | `sqrt(x)` | `5` | handwritten |
+| `printed_2d_013` | `sqrt(4)+2` | `=+2` | printed_basic |
+| `printed_2d_019` | `x_1=2` | `x1=2` | printed_basic |
+| `handwritten_8_004` | `8` | `a/` | printed_2d_layout |
+| `handwritten_equal_001` | `=` | `-` | printed_decimal_negative |
+| `handwritten_minus_002` | `-` | `÷` | printed_basic |
+
+---
+
+## 三、计算能力小结
+
+| 后端 | 适用 | 能力 |
+|------|------|------|
+| `arithmetic` | 印刷体四则、负数小数 | 数值求值 |
+| `symbolic` | 分数/上下标/根号/微积分 | SymPy 化简、积分、求导、极限 |
+
+识别成功后，`run.py` / UI 会根据表达式自动选后端（含 `=` 的式子通常输出右侧结果）。
+
+---
+
+## 四、重要说明（读准确率时必看）
+
+1. **准确率是在项目内置样例集上测的**（白底黑字、固定字体/风格），**不代表真实拍照、任意字体、复杂排版**的泛化能力。
+2. **Auto 模式比指定识别器低约 4%**，失败集中在 **2D 结构（根号、上下标）** 和 **少量手写单符号**。
+3. **手写模式**评测的是 21 类单符号；完整手写算式识别能力有限，且依赖 `handwritten_basic` 样例风格。
+4. **微积分只有 10 张样例**，100% 只说明在这 10 张上稳定，不能外推。
+5. **不支持**：方程组、矩阵、三角函数一般式、对数复杂式、多行公式、非模板字体等。
+
+---
+
+## 五、使用建议
+
+- 已知是印刷四则 → `--recognizer printed`
+- 分数/根号/上下标 → 尽量 `--recognizer auto`，但根号类仍可能失败
+- 微积分 → `--recognizer calculus`
+- 不确定类别 → `auto`（整体约 **96.2%**）
+
+若要复现评估：
+
+```bash
+python tools/evaluate_samples.py --category all
+python tools/evaluate_samples.py --category auto --confusion-matrix
+```
+
+需要的话，我可以把 Auto 模式下 9 个失败样例逐张分析是「路由错了」还是「识别器本身识别错了」。
