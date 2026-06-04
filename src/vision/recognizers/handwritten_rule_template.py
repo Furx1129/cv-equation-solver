@@ -15,12 +15,28 @@ from src.vision.normalization import normalize_formula_image
 from src.vision.preprocess import PreprocessOptions, preprocess_image, read_image, save_debug_image
 from src.vision.recognizers.printed_template import kind_for_label, safe_label
 from src.vision.segmentation import segment_characters
-from src.vision.template_matcher import extract_geometry_features, normalize_symbol_image, precompute_template_features
+from src.vision.structure_2d import (
+    _crop_binary,
+    create_handwritten_engine,
+    looks_like_handwritten_2d_structure,
+    recognize_2d_from_binary,
+)
+from src.vision.template_matcher import (
+    _trim_foreground,
+    extract_geometry_features,
+    normalize_symbol_image,
+    precompute_template_features,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_HANDWRITTEN_SAMPLE_DIR = PROJECT_ROOT / "data" / "samples" / "handwritten_basic"
 DEFAULT_HANDWRITTEN_LABEL_DIR = PROJECT_ROOT / "data" / "labels" / "handwritten_basic"
+
+# Typical foreground pixel count on trimmed templates (rough median).
+TARGET_STROKE_PIXELS = 360
+LOW_CONFIDENCE_RETRY_THRESHOLD = 0.45
+MATCH_WEIGHTS = (0.52, 0.36, 0.12)  # pixel, descriptor, geometry
 
 
 @dataclass
@@ -40,11 +56,13 @@ class HandwrittenRuleTemplateRecognizer:
         templates = load_handwritten_templates(self.sample_dir, self.label_dir)
         image = read_image(image_path)
         normalized = normalize_formula_image(image)
-        preprocessed = preprocess_image(
-            normalized.image,
-            options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3, morph_close=2),
+        preprocess_options = PreprocessOptions(
+            threshold_method="fixed",
+            threshold=128,
+            median_kernel=3,
+            morph_close=2,
         )
-        segments = segment_characters(preprocessed.binary)
+        preprocessed = preprocess_image(normalized.image, options=preprocess_options)
 
         debug_base = Path(debug_dir) if debug_dir is not None else None
         debug_artifacts: dict[str, Path] = {}
@@ -52,12 +70,53 @@ class HandwrittenRuleTemplateRecognizer:
             debug_base.mkdir(parents=True, exist_ok=True)
             debug_artifacts["normalized"] = save_debug_image(debug_base / "normalized.png", normalized.image)
             debug_artifacts["binary"] = save_debug_image(debug_base / "binary.png", preprocessed.binary)
+
+        cropped_binary = _crop_binary(preprocessed.binary)
+        if looks_like_handwritten_2d_structure(cropped_binary):
+            engine = create_handwritten_engine(templates)
+            result = recognize_2d_from_binary(
+                cropped_binary,
+                engine,
+                debug_dir=debug_base,
+                debug_key="binary_2d_handwritten",
+            )
+            warnings = list(result.warnings)
+            warnings.append("used handwritten 2d structure parser")
+            if debug_base is not None:
+                _write_token_table(debug_base, result.tokens, debug_artifacts)
+            return RecognitionResult(
+                tokens=result.tokens,
+                expression_text=result.expression_text,
+                debug_artifacts={**debug_artifacts, **result.debug_artifacts},
+                warnings=warnings,
+                layout=result.layout,
+                sympy_text=result.sympy_text,
+            )
+
+        return self._recognize_flat(
+            preprocessed.binary,
+            templates,
+            debug_base=debug_base,
+            debug_artifacts=debug_artifacts,
+        )
+
+    def _recognize_flat(
+        self,
+        binary: np.ndarray,
+        templates: TemplateLibrary,
+        debug_base: Path | None,
+        debug_artifacts: dict[str, Path],
+    ) -> RecognitionResult:
+        segments = segment_characters(binary)
+        prepared_rois = prepare_equation_segments(segments)
+
+        if debug_base is not None:
             (debug_base / "segments").mkdir(exist_ok=True)
 
         tokens: list[SymbolToken] = []
         warnings: list[str] = []
-        for index, segment in enumerate(segments):
-            label, score, candidates, decision_type = match_handwritten_symbol(segment.image, templates)
+        for index, (segment, prepared_roi) in enumerate(zip(segments, prepared_rois)):
+            label, score, candidates, decision_type = match_handwritten_symbol(prepared_roi, templates)
             token = SymbolToken(
                 text=label,
                 kind=kind_for_label(label),
@@ -74,20 +133,14 @@ class HandwrittenRuleTemplateRecognizer:
             if debug_base is not None:
                 save_debug_image(
                     debug_base / "segments" / f"segment_{index:02d}_{safe_label(label)}.png",
-                    segment.image,
+                    prepared_roi,
                 )
 
         expression = normalize_tokens(tokens)
-        display_text = "".join(token.text for token in tokens)
         layout = analyze_layout(tokens)
+        display_text = serialize_layout(layout, target="plain")
         if debug_base is not None:
-            table_path = debug_base / "tokens.csv"
-            with table_path.open("w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(["index", "text", "kind", "bbox", "confidence", "source"])
-                for index, token in enumerate(tokens):
-                    writer.writerow([index, token.text, token.kind, token.bbox, f"{token.confidence:.6f}", token.source])
-            debug_artifacts["tokens"] = table_path
+            _write_token_table(debug_base, tokens, debug_artifacts)
 
         return RecognitionResult(
             tokens=tokens,
@@ -97,6 +150,136 @@ class HandwrittenRuleTemplateRecognizer:
             layout=layout,
             sympy_text=serialize_layout(layout, target="sympy"),
         )
+
+
+def _write_token_table(debug_base: Path, tokens: list[SymbolToken], debug_artifacts: dict[str, Path]) -> None:
+    table_path = debug_base / "tokens.csv"
+    with table_path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["index", "text", "kind", "bbox", "confidence", "source"])
+        for index, token in enumerate(tokens):
+            writer.writerow([index, token.text, token.kind, token.bbox, f"{token.confidence:.6f}", token.source])
+    debug_artifacts["tokens"] = table_path
+
+
+def _foreground_fill_ratio(binary: np.ndarray) -> float:
+    mask = binary < 128
+    return float(mask.sum()) / max(1, mask.size)
+
+
+def refine_segment_binary(roi: np.ndarray) -> np.ndarray:
+    """Per-segment binarization aligned with template loading."""
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+
+    if roi.ndim == 2 and float(np.mean(roi > 200)) > 0.60:
+        binary = roi.copy()
+        if float(np.mean(binary < 128)) > 0.5:
+            binary = 255 - binary
+        trimmed = _trim_foreground(binary)
+        if trimmed.size == 0:
+            return binary
+        closed = cv2.morphologyEx(trimmed, cv2.MORPH_CLOSE, kernel, iterations=1)
+        return _pad_binary_trimmed(closed, pad=2)
+
+    if roi.ndim == 3:
+        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = roi.copy()
+
+    if float(np.mean(gray < 128)) > 0.5:
+        gray = 255 - gray
+
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    closed = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel, iterations=1)
+    return _pad_binary_trimmed(_trim_foreground(closed), pad=2)
+
+
+def unify_stroke_fill_ratio(
+    binary: np.ndarray,
+    target_pixels: int = TARGET_STROKE_PIXELS,
+) -> np.ndarray:
+    """Adjust stroke thickness so pixel count is closer to single-char templates."""
+    trimmed = _trim_foreground(binary)
+    if trimmed.size == 0 or trimmed.shape[0] == 0 or trimmed.shape[1] == 0:
+        return binary
+
+    area = int((trimmed < 128).sum())
+    if int(target_pixels * 0.75) <= area <= int(target_pixels * 1.35):
+        return _pad_binary_trimmed(trimmed, pad=2)
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+    if area < int(target_pixels * 0.75):
+        if area < int(target_pixels * 0.35):
+            scale = min(2.0, float(np.sqrt(target_pixels / max(1, area))))
+            new_h = max(1, int(round(trimmed.shape[0] * scale)))
+            new_w = max(1, int(round(trimmed.shape[1] * scale)))
+            trimmed = cv2.resize(trimmed, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
+        else:
+            iterations = 2 if area < int(target_pixels * 0.5) else 1
+            trimmed = cv2.dilate(trimmed, kernel, iterations=iterations)
+    else:
+        trimmed = cv2.erode(trimmed, kernel, iterations=1)
+    return _pad_binary_trimmed(trimmed, pad=2)
+
+
+def _pad_binary_trimmed(trimmed: np.ndarray, pad: int = 2) -> np.ndarray:
+    h, w = trimmed.shape[:2]
+    canvas = np.full((h + 2 * pad, w + 2 * pad), 255, dtype=np.uint8)
+    canvas[pad : pad + h, pad : pad + w] = trimmed
+    return canvas
+
+
+def align_segment_heights(binaries: list[np.ndarray], pad: int = 2) -> list[np.ndarray]:
+    """Second trim + uniform stroke height across all segments in one expression."""
+    trimmed = [_trim_foreground(binary) for binary in binaries]
+    heights = [image.shape[0] for image in trimmed if image.shape[0] > 0]
+    if not heights:
+        return binaries
+
+    target_height = max(4, int(np.median(heights)))
+    aligned: list[np.ndarray] = []
+    for image in trimmed:
+        if image.shape[0] == 0 or image.shape[1] == 0:
+            aligned.append(image)
+            continue
+        scale = target_height / image.shape[0]
+        new_w = max(1, int(round(image.shape[1] * scale)))
+        resized = cv2.resize(
+            image,
+            (new_w, target_height),
+            interpolation=cv2.INTER_AREA if scale < 1.0 else cv2.INTER_LINEAR,
+        )
+        aligned.append(_pad_binary_trimmed(resized, pad=pad))
+    return aligned
+
+
+def prepare_equation_segments(segments) -> list[np.ndarray]:
+    """Local template-style binarization, stroke fill, and batch height alignment."""
+    refined = [refine_segment_binary(segment.image) for segment in segments]
+    unified = [unify_stroke_fill_ratio(binary) for binary in refined]
+    return align_segment_heights(unified)
+
+
+def _segment_match_variants(binary: np.ndarray) -> list[np.ndarray]:
+    variants = [binary]
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+    dilated = cv2.dilate(binary, kernel, iterations=1)
+    if not np.array_equal(dilated, binary):
+        variants.append(dilated)
+    scaled = _scale_binary(binary, 1.2)
+    if scaled is not None:
+        variants.append(scaled)
+    return variants
+
+
+def _scale_binary(binary: np.ndarray, factor: float) -> np.ndarray | None:
+    trimmed = _trim_foreground(binary)
+    if trimmed.shape[0] == 0 or trimmed.shape[1] == 0:
+        return None
+    new_h = max(1, int(round(trimmed.shape[0] * factor)))
+    new_w = max(1, int(round(trimmed.shape[1] * factor)))
+    resized = cv2.resize(trimmed, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
+    return _pad_binary_trimmed(resized, pad=2)
 
 
 def load_handwritten_templates(
@@ -134,10 +317,11 @@ def load_handwritten_templates(
 
 def _extract_features_at_native_resolution(roi: np.ndarray) -> dict[str, float]:
     if roi.ndim == 3:
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+        binary = refine_segment_binary(roi)
+    elif roi.ndim == 2 and roi.max() <= 1:
+        binary = (roi * 255).astype(np.uint8)
     else:
-        gray = roi
-    _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY)
+        binary = refine_segment_binary(roi) if float(np.mean(roi < 128)) < 0.5 else roi
     return extract_geometry_features(binary)
 
 
@@ -414,6 +598,35 @@ def _cosine_similarity(left: np.ndarray, right: np.ndarray) -> float:
     return max(0.0, min(1.0, float(np.dot(left, right) / denom)))
 
 
+def _score_variant_against_templates(
+    binary: np.ndarray,
+    templates: TemplateLibrary,
+    size: int,
+    pixel_w: float,
+    desc_w: float,
+    geom_w: float,
+) -> dict[str, float]:
+    normalized = normalize_symbol_image(binary, size=size)
+    query_features = extract_geometry_features(binary)
+    query_descriptor = _symbol_descriptor(normalized)
+
+    candidates: dict[str, float] = {}
+    for label, images in templates.images.items():
+        scores: list[float] = []
+        for index, template in enumerate(images):
+            result = cv2.matchTemplate(normalized, template, cv2.TM_CCOEFF_NORMED)
+            pixel_score = max(0.0, float(np.max(result)))
+            descriptor_score = _descriptor_similarity(query_descriptor, templates.descriptors[label][index])
+            geometry_score = _geometry_similarity(query_features, templates.features[label][index])
+            scores.append(pixel_w * pixel_score + desc_w * descriptor_score + geom_w * geometry_score)
+        candidates[label] = max(scores)
+    return candidates
+
+
+def _is_prepared_segment_binary(roi: np.ndarray) -> bool:
+    return roi.ndim == 2 and float(np.mean(roi > 200)) > 0.70
+
+
 def match_handwritten_symbol(
     roi: np.ndarray,
     templates: TemplateLibrary,
@@ -426,35 +639,56 @@ def match_handwritten_symbol(
     decision_type is one of "template_only", "geometry_adjusted", or
     "geometry_filtered".
     """
-    normalized = normalize_symbol_image(roi, size=size)
-    query_features = _extract_features_at_native_resolution(roi)
-    query_descriptor = _symbol_descriptor(normalized)
+    if _is_prepared_segment_binary(roi):
+        binary = roi.copy()
+    else:
+        binary = refine_segment_binary(roi)
 
-    candidates: dict[str, float] = {}
-    for label, images in templates.images.items():
-        scores: list[float] = []
-        for index, template in enumerate(images):
-            result = cv2.matchTemplate(normalized, template, cv2.TM_CCOEFF_NORMED)
-            pixel_score = max(0.0, float(np.max(result)))
-            descriptor_score = _descriptor_similarity(query_descriptor, templates.descriptors[label][index])
-            geometry_score = _geometry_similarity(query_features, templates.features[label][index])
-            scores.append(0.58 * pixel_score + 0.34 * descriptor_score + 0.08 * geometry_score)
-        candidates[label] = max(scores)
+    pixel_w, desc_w, geom_w = MATCH_WEIGHTS
+    merged: dict[str, float] = {}
+    query_features = extract_geometry_features(binary)
 
+    primary = _score_variant_against_templates(binary, templates, size, pixel_w, desc_w, geom_w)
+    merged = dict(primary)
+    primary_best = max(primary.values()) if primary else 0.0
+
+    if primary_best < 0.58:
+        for variant in _segment_match_variants(binary)[1:]:
+            for label, score in _score_variant_against_templates(
+                variant, templates, size, pixel_w, desc_w, geom_w
+            ).items():
+                merged[label] = max(merged.get(label, 0.0), score)
+
+    candidates = merged
     original_candidates = dict(candidates)
     adjusted, decision_type = _disambiguate(query_features, candidates, context=context)
 
-    original_best = max(original_candidates, key=lambda k: original_candidates[k])
-    adjusted_best = max(adjusted, key=lambda k: adjusted[k])
+    label, score = max(adjusted.items(), key=lambda item: item[1])
+    if score < LOW_CONFIDENCE_RETRY_THRESHOLD:
+        retry_binary = _scale_binary(binary, 1.25)
+        if retry_binary is not None:
+            retry_merged: dict[str, float] = {}
+            for variant in _segment_match_variants(retry_binary):
+                for retry_label, retry_score in _score_variant_against_templates(
+                    variant, templates, size, pixel_w, desc_w, geom_w
+                ).items():
+                    retry_merged[retry_label] = max(retry_merged.get(retry_label, 0.0), retry_score)
+            retry_adjusted, retry_reason = _disambiguate(query_features, retry_merged, context=context)
+            retry_label, retry_score = max(retry_adjusted.items(), key=lambda item: item[1])
+            if retry_score > score:
+                label, score = retry_label, retry_score
+                adjusted = retry_adjusted
+                original_candidates = retry_merged
+                decision_type = retry_reason
 
+    original_best = max(original_candidates, key=lambda k: original_candidates[k])
     if decision_type.startswith("geometry:"):
         decision_type = "geometry_filtered"
-    elif original_best != adjusted_best:
+    elif original_best != label:
         decision_type = "geometry_filtered"
     elif any(abs(original_candidates[k] - adjusted[k]) > 0.001 for k in adjusted):
         decision_type = "geometry_adjusted"
     else:
         decision_type = "template_only"
 
-    label, score = max(adjusted.items(), key=lambda item: item[1])
     return label, score, dict(sorted(adjusted.items(), key=lambda item: item[1], reverse=True)[:5]), decision_type

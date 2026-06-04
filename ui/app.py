@@ -18,6 +18,17 @@ import cv2
 import gradio as gr
 import numpy as np
 
+def _ensure_localhost_bypasses_proxy() -> None:
+    """Gradio pings /gradio_api/startup-events on 127.0.0.1; system/VPN proxies cause 502."""
+    bypass_hosts = ("localhost", "127.0.0.1", "::1")
+    for key in ("NO_PROXY", "no_proxy"):
+        current = os.environ.get(key, "")
+        parts = [part.strip() for part in current.replace(";", ",").split(",") if part.strip()]
+        for host in bypass_hosts:
+            if host not in parts:
+                parts.append(host)
+        os.environ[key] = ",".join(parts)
+
 from src.expression.display_normalizer import normalize_for_display
 from src.expression.normalizer import normalize_tokens
 from src.expression.types import ExpressionResult
@@ -44,9 +55,14 @@ def _pil_to_cv2(pil_image) -> np.ndarray:
     return arr
 
 
-def _draw_segment_boxes(image: np.ndarray, binary: np.ndarray) -> np.ndarray:
-    segments = segment_characters(binary)
+def _draw_segment_boxes(image: np.ndarray, binary: np.ndarray, tokens=None) -> np.ndarray:
     vis = image.copy()
+    if tokens:
+        for token in tokens:
+            x, y, w, h = token.bbox
+            cv2.rectangle(vis, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        return vis
+    segments = segment_characters(binary)
     for seg in segments:
         x, y, w, h = seg.bbox
         cv2.rectangle(vis, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -93,7 +109,7 @@ def _token_overlay_base_image(image_path: Path, recognition) -> np.ndarray:
         )
         return preprocessed.binary
 
-    if sources & {"structure_2d_template", "calculus_2d_handwritten", "calculus_2d_layout"}:
+    if sources & {"structure_2d_template", "handwritten_2d_structure", "calculus_2d_handwritten", "calculus_2d_layout"}:
         preprocessed = preprocess_image(
             normalized.image,
             options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
@@ -112,13 +128,55 @@ def _needs_symbolic(expression: str) -> bool:
     )
 
 
+def process_sketch_input(sketch_data) -> np.ndarray | None:
+    if sketch_data is None:
+        return None
+    
+    if isinstance(sketch_data, dict):
+        if "composite" in sketch_data:
+            img = sketch_data["composite"]
+        else:
+            return None
+    else:
+        img = sketch_data
+
+    if not isinstance(img, np.ndarray) or img.size == 0:
+        return None
+
+    # Gradio Sketchpad composite is RGBA. 
+    # Strokes are usually drawn in a color (default black) on a transparent background.
+    if img.ndim == 3 and img.shape[2] == 4:
+        alpha = img[:, :, 3]
+        # If the alpha channel is entirely 0, the sketch is empty.
+        if np.all(alpha == 0):
+            return None
+        
+        # Convert to RGB with white background
+        alpha_norm = alpha.astype(float) / 255.0
+        rgb = img[:, :, :3].astype(float)
+        white_bg = np.ones_like(rgb) * 255.0
+        
+        blended = rgb * alpha_norm[..., np.newaxis] + white_bg * (1.0 - alpha_norm[..., np.newaxis])
+        return blended.astype(np.uint8)
+    
+    return img
+
+
 def process(
-    image: np.ndarray | None,
+    upload_img: np.ndarray | None,
+    sketch_img: dict | np.ndarray | None,
+    active_tab: str,
     mode: str,
     solver_mode: str,
 ) -> tuple:
-    if image is None:
-        return "", "", "", [], None, None, None, "", [], None, "请上传一张算式图片"
+    if active_tab == "sketch_tab":
+        image = process_sketch_input(sketch_img)
+        if image is None:
+            return "", "", "", [], None, None, None, "", [], None, "请在手写板上输入算式"
+    else:
+        image = upload_img
+        if image is None:
+            return "", "", "", [], None, None, None, "", [], None, "请上传一张算式图片"
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp) / "input.png"
@@ -135,8 +193,15 @@ def process(
         except Exception as exc:
             return "", "", "", [], None, None, None, "", [], None, f"识别异常：{exc}"
 
-        expression = normalize_tokens(recognition.tokens)
         expression_text = recognition.expression_text
+        if recognition.layout is not None:
+            expression = ExpressionResult(
+                text=recognition.expression_text,
+                tokens=recognition.tokens,
+                layout=recognition.layout,
+            )
+        else:
+            expression = normalize_tokens(recognition.tokens)
 
         if solver_mode == "auto":
             if mode == "calculus" or _needs_symbolic(expression_text):
@@ -149,7 +214,13 @@ def process(
             solve_result = solver.solve(expression)
         elif solver_mode == "symbolic" and recognition.sympy_text:
             solver = SymbolicSolver()
-            solve_result = solver.solve(ExpressionResult(text=recognition.sympy_text, tokens=recognition.tokens, layout=recognition.layout))
+            solve_result = solver.solve(
+                ExpressionResult(
+                    text=recognition.sympy_text,
+                    tokens=recognition.tokens,
+                    layout=recognition.layout,
+                )
+            )
         elif solver_mode == "symbolic":
             solver = SymbolicSolver()
             solve_result = solver.solve(expression)
@@ -175,12 +246,18 @@ def process(
         try:
             raw = read_image(tmp_path)
             normalized = normalize_formula_image(raw)
-            preprocessed = preprocess_image(
-                normalized.image,
-                options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
-            )
+            if mode == "handwritten":
+                preprocessed = preprocess_image(
+                    normalized.image,
+                    options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3, morph_close=2),
+                )
+            else:
+                preprocessed = preprocess_image(
+                    normalized.image,
+                    options=PreprocessOptions(threshold_method="fixed", threshold=128, median_kernel=3),
+                )
             binary_display = cv2.cvtColor(preprocessed.binary, cv2.COLOR_GRAY2BGR)
-            segments_vis = _draw_segment_boxes(normalized.image, preprocessed.binary)
+            segments_vis = _draw_segment_boxes(normalized.image, preprocessed.binary, tokens=recognition.tokens)
             overlay_base = _token_overlay_base_image(tmp_path, recognition)
             token_overlay = _draw_token_overlay(overlay_base, recognition.tokens)
         except Exception:
@@ -243,10 +320,15 @@ def process(
         )
 
 
+_SKETCHPAD_JS_PATH = Path(__file__).resolve().parent / "sketchpad_tools.js"
+# Thinner than Gradio "auto" (~height/50). Backend unify_stroke_fill_ratio can thicken thin strokes.
+SKETCH_BRUSH_SIZE = 7
+SKETCH_ERASER_SIZE = 12
+
 HEADER = """
 #  CV Equation Solver — 算式识别与求解
 
-上传算式图片，自动识别表达式并计算结果。支持印刷体四则运算、二维排版、手写符号和微积分。
+上传算式图片或直接手写，自动识别表达式并计算结果。支持印刷体四则运算、二维排版、手写符号和微积分。
 """
 
 with gr.Blocks(title="CV Equation Solver") as app:
@@ -254,7 +336,39 @@ with gr.Blocks(title="CV Equation Solver") as app:
 
     with gr.Row():
         with gr.Column(scale=1):
-            upload = gr.Image(label="上传算式图片", type="numpy", sources=["upload", "clipboard"])
+            active_tab = gr.State("upload_tab")
+            with gr.Tabs():
+                with gr.Tab("上传图片", id="upload_tab") as tab_upload:
+                    upload = gr.Image(label="上传算式图片", type="numpy", sources=["upload", "clipboard"], height=500)
+                with gr.Tab("手写输入", id="sketch_tab") as tab_sketch:
+                    gr.Markdown(
+                        "默认画笔模式；清除或橡皮擦后会自动回到画笔。"
+                        " 笔画较细时识别管线会自动加粗笔画以贴近模板。"
+                    )
+                    sketch = gr.Sketchpad(
+                        label="手写算式区域",
+                        type="numpy",
+                        height=500,
+                        elem_id="cv-equation-sketchpad",
+                        transforms=(),
+                        layers=False,
+                        brush=gr.Brush(
+                            default_size=SKETCH_BRUSH_SIZE,
+                            colors=["#000000"],
+                            default_color="#000000",
+                            color_mode="fixed",
+                        ),
+                        eraser=gr.Eraser(default_size=SKETCH_ERASER_SIZE),
+                    )
+
+            tab_upload.select(fn=lambda: "upload_tab", inputs=None, outputs=active_tab)
+            tab_sketch.select(
+                fn=lambda: "sketch_tab",
+                inputs=None,
+                outputs=active_tab,
+                js="() => { if (typeof cvInitSketchpad === 'function') cvInitSketchpad(); }",
+            )
+
             mode_radio = gr.Radio(
                 choices=["printed", "handwritten", "calculus", "auto"],
                 value="auto",
@@ -299,7 +413,7 @@ with gr.Blocks(title="CV Equation Solver") as app:
 
     run_btn.click(
         fn=process,
-        inputs=[upload, mode_radio, solver_radio],
+        inputs=[upload, sketch, active_tab, mode_radio, solver_radio],
         outputs=[
             expression_out, answer_out, error_out, tokens_table,
             binary_img, segments_img, token_overlay_img,
@@ -309,7 +423,14 @@ with gr.Blocks(title="CV Equation Solver") as app:
 
 
 if __name__ == "__main__":
-    launch_kwargs = {"server_name": "127.0.0.1", "share": False}
-    if "GRADIO_SERVER_PORT" in os.environ:
-        launch_kwargs["server_port"] = int(os.environ["GRADIO_SERVER_PORT"])
-    app.launch(**launch_kwargs)
+    _ensure_localhost_bypasses_proxy()
+    default_port = 7861
+    port = int(os.environ.get("GRADIO_SERVER_PORT", default_port))
+    sketch_js = _SKETCHPAD_JS_PATH.read_text(encoding="utf-8")
+    app.launch(
+        server_name="127.0.0.1",
+        server_port=port,
+        share=False,
+        show_error=True,
+        js=sketch_js,
+    )
